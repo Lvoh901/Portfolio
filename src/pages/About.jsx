@@ -65,7 +65,6 @@ const About = () => {
           <img src="/photos/image7.jpg" alt="Image 7" className="object-cover w-full h-full row-span-2 rounded-lg" />
           <img src="/photos/image16.jpg" alt="Image 16" className="object-cover w-full h-full rounded-lg" />
           <img src="/photos/image10.jpg" alt="Image 10" className="object-cover w-full h-full col-span-2 rounded-lg" />
-          {/* <img src="/photos/image14.jpg" alt="Image 14" className="object-cover w-full h-full rounded-lg" /> */}
           <img src="/photos/image13.jpg" alt="Image 13" className="object-cover w-full h-full rounded-lg" />
         </div>
       </div>
@@ -75,7 +74,7 @@ const About = () => {
         <div className='mx-auto max-w-4xl py-12 grid grid-cols-1 lg:grid-cols-2 gap-3'>
           <div className='font-bold uppercase leading-tight text-white text-center' style={{fontSize:'calc(5em + 2vw)'}}>Shall We?</div>
 
-          <div>
+          <div className='flex flex-col justify-start items-start'>
             <p className='font-light pb-1.5'>
               I'm a flexible freelance developer—adaptable across locations and open to diverse project scopes.
               Whether you're launching a new product, need technical consultation, or want hands-on development support, I'm here to help.
@@ -85,7 +84,7 @@ const About = () => {
 
             <p className='font-light pb-1.5'>Got an upcoming project? Let's talk and explore how I can contribute to your success.</p>
 
-            <button className='flex items-center gap-2 bg-black px-5 py-3 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2'>Contact <FiSend /></button>
+            <a href='/contact' className='flex items-center gap-2 bg-black px-5 py-3 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2'>Contact <FiSend /></a>
           </div>
         </div>
       </section>

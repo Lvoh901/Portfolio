@@ -45,7 +45,7 @@ const Services = () => {
       <div className='pt-9 space-y-5 mx-auto max-w-4xl flex flex-col justify-center items-center text-center'>
         <h3 className='font-light'>I would love to learn more about your project and for me to walk you through my build process in more detail. Reach out today and we'll talk soon.</h3>
 
-        <button className='flex items-center gap-2 bg-black px-5 py-3 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2 border-[#fcba04]'>Contact <FiSend /></button>
+        <a href='/contact' className='flex items-center gap-2 bg-black px-5 py-3 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2 border border-[#fcba04]'>Contact <FiSend /></a>
       </div>
     </div>
   )

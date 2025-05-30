@@ -2,8 +2,8 @@ import React from 'react'
 
 const Contact = () => {
   return (
-    <div className='min-h-screen p-4 mx-auto max-w-7xl' id='body'>
-      <div className='font-black uppercase text-4xl md:text-5xl lg:text-6xl pb-2 animate-fade-up'>contact</div>
+    <div className='min-h-screen mx-auto max-w-7xl flex flex-col justify-center items-center' id='body'>
+      <h1>Get in Touch</h1>
 
     </div>
   )

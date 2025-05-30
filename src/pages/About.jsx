@@ -52,7 +52,7 @@ const About = () => {
       <div className='mx-auto max-w-7xl py-6 px-4 lg:px-0'>
         <small className='uppercase underline underline-offset-4 decoration-2 decoration-[#FCBA04] font-medium' id='heading'>on the otherside</small>
 
-        <div className='font-extralight text-2xl lg:text-3xl pb-2'>Outside of coding, I looove hiking, gaming, photography, and travel.</div>
+        <div className='font-extralight text-xl lg:text-2xl py-3'>Outside of coding, I looove hiking, gaming, photography, and travel.</div>
 
         {/* photo gallery */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 auto-rows-[150px]">

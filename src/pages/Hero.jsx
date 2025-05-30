@@ -6,7 +6,7 @@ const Hero = () => {
   const getYear = new Date().getFullYear();
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-white dark:bg-black lg:px-4 px-8 py-16">
+    <div className="relative flex items-center justify-center min-h-screen overflow-hidden dark:bg-black lg:px-4 px-8 py-16">
       <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto gap-4">
         {/* Main Heading Section */}
         <motion.section
@@ -21,14 +21,14 @@ const Hero = () => {
           <div>
             <span>Hi, am</span>
 
-            <motion.h4
-              className="font-bold"
+            <motion.div
+              className="font-black text-2xl md:text-3xl lg:text-5xl"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
               Elvis <span className="text-[#FCBA04] uppercase">Odhiambo</span>
-            </motion.h4>
+            </motion.div>
           </div>
 
           {/* highlight text */}
@@ -43,14 +43,14 @@ const Hero = () => {
           </motion.p>
 
           {/* main */}
-          <motion.h1
-            className="text-gray-800 dark:text-gray-200 max-w-xl leading-tight"
+          <motion.h2
+            className="text-gray-800 dark:text-gray-200 max-w-xl leading-tight font-black"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
             id='heading'>
-            <span className='uppercase underline underline-offset-4 decoration-[#fcba04]'>Building</span> Exceptional User Experiences & Brands
-          </motion.h1>
+            <span className='underline underline-offset-4 decoration-[#fcba04]'>Building</span> Exceptional User Experiences & Brands
+          </motion.h2>
 
           <a href='/contact' className='flex items-center gap-2 bg-black px-5 py-3 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2'>Contact <FiSend /></a>
 

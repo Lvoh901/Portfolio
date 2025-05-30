@@ -14,7 +14,7 @@ import Footer from './pages/Footer';
 
 const App = () => {
   return (
-    <div>
+    <div className='bg-gray-50'>
       <Navigation />
 
       <Routes>

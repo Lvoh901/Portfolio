@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import './navigation.css';
-import { FaTwitter, FaEnvelope } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { IoLogoGithub } from 'react-icons/io';
+import { FaLinkedinIn } from 'react-icons/fa';
 
 const Navigation = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const links = ['Home', 'About', 'Gallery', 'Projects', 'Services', 'Contact'];
     const socials = [
-        { icon: <FaTwitter />, label: 'Twitter', href: '#' },
-        { icon: <FaEnvelope />, label: 'Subscribe', href: '#' },
+        { icon: <IoLogoGithub />, label: 'Github', href: 'https://github.com/Lvoh901' },
+        { icon: <FaLinkedinIn />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/odhiamboelvis/' },
+        { icon: <FaXTwitter />, label: 'Twitter', href: 'https://x.com/LvohOdhis' }
     ];
 
     const toggleMenu = () => setIsMenuOpen(prev => !prev);
@@ -43,6 +46,8 @@ const Navigation = () => {
                             <a
                                 key={idx}
                                 href={social.href}
+                                target='_blank'
+                                rel='noreferrer'
                                 className="social-link"
                                 onClick={toggleMenu}
                             >

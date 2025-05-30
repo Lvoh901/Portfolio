@@ -1,0 +1,34 @@
+import React from 'react';
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+
+// pages
+import Navigation from './assets/Navigation';
+import Hero from './pages/Hero';
+import About from './pages/About';
+import Gallery from './pages/Gallery';
+import Projects from './pages/Projects';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
+import Footer from './pages/Footer';
+
+const App = () => {
+  return (
+    <div>
+      <Navigation />
+
+      <Routes>
+        <Route path="/" exact element={<Hero />} />;
+        <Route path="/about" exact element={<About />} />;
+        <Route path="/services" exact element={<Services />} />;
+        <Route path="/gallery" exact element={<Gallery />} />;
+        <Route path="/projects" exact element={<Projects />} />;
+        <Route path="/contact" exact element={<Contact />} />;
+      </Routes>
+
+      <Footer/>
+    </div>
+  )
+}
+
+export default App;

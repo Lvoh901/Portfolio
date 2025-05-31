@@ -10,6 +10,7 @@ import Gallery from './pages/Gallery';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Footer from './pages/Footer';
+import NotFound from './pages/404';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/gallery" exact element={<Gallery />} />;
         <Route path="/projects" exact element={<Projects />} />;
         <Route path="/contact" exact element={<Contact />} />;
+        <Route path="*" exact element={<NotFound />} />;
       </Routes>
 
       <Footer/>

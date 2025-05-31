@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleCarousel from '../assets/SimpleCarousel';
 
 // photos
 
@@ -50,18 +51,7 @@ const About = () => {
         <p className='font-extralight py-3'>Outside of coding, I looove hiking, gaming, photography, and travel.</p>
 
         {/* photo gallery */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 auto-rows-[150px]">
-          <img src="/photos/image1.jpg" alt="Image 1" className="object-cover w-full h-full row-span-2 col-span-2 rounded-lg" />
-          <img src="/photos/image2.jpg" alt="Image 2" className="object-cover w-full h-full rounded-lg" />
-          <img src="/photos/image19.jpg" alt="Image 19" className="object-cover w-full h-full rounded-lg" />
-          <img src="/photos/image6.jpg" alt="Image 6" className="object-cover w-full h-full rounded-lg" />
-          <img src="/photos/image12.jpg" alt="Image 12" className="object-cover w-full h-full rounded-lg" />
-          <img src="/photos/image5.jpg" alt="Image 5" className="object-cover w-full h-full col-span-2 rounded-lg" />
-          <img src="/photos/image7.jpg" alt="Image 7" className="object-cover w-full h-full row-span-2 rounded-lg" />
-          <img src="/photos/image16.jpg" alt="Image 16" className="object-cover w-full h-full rounded-lg" />
-          <img src="/photos/image10.jpg" alt="Image 10" className="object-cover w-full h-full col-span-2 rounded-lg" />
-          <img src="/photos/image13.jpg" alt="Image 13" className="object-cover w-full h-full rounded-lg" />
-        </div>
+        <SimpleCarousel/>
       </div>
     </section>
   );

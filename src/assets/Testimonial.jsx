@@ -46,13 +46,11 @@ const Testimonial = () => {
                         transition={{ duration: 0.7 }}
                         className="px-6"
                     >
-                        <h3 className="font-light text-lg sm:text-xl md:text-2xl text-gray-800 dark:text-gray-100 italic">
+                        <h3 className="text-gray-800 dark:text-gray-100 italic" id='body'>
                             “{testimonials[current].quote}”
                         </h3>
 
-                        <p className="mt-4 text-sm font-bold uppercase tracking-widest text-[#FCBA04]">
-                            — {testimonials[current].author}
-                        </p>
+                        <h4 className="mt-4 font-bold uppercase text-[#FCBA04]">— {testimonials[current].author}</h4>
                     </motion.div>
                 </AnimatePresence>
             </div>

@@ -48,13 +48,11 @@ const projectDetails = [
 
 const Projects = () => {
   return (
-    <div className='min-h-screen p-4 mx-auto max-w-7xl' id='heading'>
+    <div className='min-h-screen py-4 px-8 mx-auto max-w-7xl' id='heading'>
       <section className='border-b'>
         <div className='font-black uppercase text-4xl md:text-5xl lg:text-6xl pb-2'>Projects</div>
 
         <p className='w-full lg:w-[700px] py-2 font-light'>I have had the privilege of collaborating with both private and public organizations to transform their ideas into impactful digital solutions.</p>
-
-        <p className='w-full lg:w-[700px] py-2 font-light'>Below are some project highlights—each thoughtfully crafted with a clear design vision, purposeful mission, and measurable outcomes.</p>
       </section>
 
       {/* projects grid */}

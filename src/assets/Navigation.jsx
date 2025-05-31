@@ -7,11 +7,11 @@ import { FaLinkedinIn } from 'react-icons/fa';
 const Navigation = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const links = ['Home', 'About', 'Gallery', 'Projects', 'Services', 'Contact'];
+    const links = ['Home', 'About', 'Gallery', 'Projects', 'Contact'];
     const socials = [
-        { icon: <IoLogoGithub />, label: 'Github', href: 'https://github.com/Lvoh901' },
-        { icon: <FaLinkedinIn />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/odhiamboelvis/' },
-        { icon: <FaXTwitter />, label: 'Twitter', href: 'https://x.com/LvohOdhis' }
+        { icon: <IoLogoGithub />, href: 'https://github.com/Lvoh901' },
+        { icon: <FaLinkedinIn />, href: 'https://www.linkedin.com/in/odhiamboelvis/' },
+        { icon: <FaXTwitter />, href: 'https://x.com/LvohOdhis' }
     ];
 
     const toggleMenu = () => setIsMenuOpen(prev => !prev);
@@ -52,7 +52,6 @@ const Navigation = () => {
                                 onClick={toggleMenu}
                             >
                                 {social.icon}
-                                <span>{social.label}</span>
                             </a>
                         ))}
                     </footer>

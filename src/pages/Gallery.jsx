@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 const Gallery = () => {
-  // Get the list of image filenames from the public/gallery directory
-  const imagePaths = Object.keys(import.meta.glob('/public/gallery/*.{jpg,jpeg,png,webp}', { eager: true })).map(
+  // Get the list of image filenames from the public/designs directory
+  const imagePaths = Object.keys(import.meta.glob('/public/designs/*.{jpg,jpeg,png,webp}', { eager: true })).map(
     (path) => path.replace('/public', '')
   );
 

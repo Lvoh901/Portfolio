@@ -62,9 +62,9 @@ const Testimonial = () => {
                             “{testimonials[current].quote}”
                         </h4>
 
-                        <h5 className="mt-4 font-medium uppercase text-[#FCBA04] text-sm tracking-wide">
+                        <p className="mt-4 font-medium uppercase text-[#FCBA04] tracking-wide">
                             — {testimonials[current].author}
-                        </h5>
+                        </p>
                     </motion.div>
                 </AnimatePresence>
 

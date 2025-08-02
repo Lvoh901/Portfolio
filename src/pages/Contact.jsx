@@ -19,7 +19,7 @@ const Contact = () => {
 
       <h4 className='flex items-center gap-1.5 font-light uppercase text-center'><MdOutlineLocalPhone />: (254) 718-505-642</h4>
 
-      <span className='uppercase pt-3'>(mon - fri: 8am - 5pm eat)</span>
+      <h5 className='uppercase pt-3'>(mon - fri: 8am - 5pm eat)</h5>
 
       <div className='pt-6 flex gap-3'>
         <Tooltip title="Lvoh901" position="top">

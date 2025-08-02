@@ -11,8 +11,8 @@ const Footer = () => {
             <div className='mx-auto max-w-6xl px-4 lg:px-0'>
                 <section className='flex flex-col lg:flex-row justify-between items-center gap-4 border-b py-8'>
                     <div className='font-light flex flex-col text-center'>
-                        <small>odhistech.mail</small>
-                        <small>(254) 704-700-452</small>
+                        <span>odhistech.mail</span>
+                        <span>(254) 704-700-452</span>
                     </div>
 
                     <img src='/footer.png' className='w-20 h-20'/>

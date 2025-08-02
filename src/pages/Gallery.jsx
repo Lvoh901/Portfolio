@@ -25,14 +25,14 @@ const Gallery = () => {
 
   // Navigate to next image
   const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => 
+    setCurrentImageIndex((prevIndex) =>
       prevIndex === imagePaths.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   // Navigate to previous image
   const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => 
+    setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? imagePaths.length - 1 : prevIndex - 1
     );
   };
@@ -45,67 +45,84 @@ const Gallery = () => {
   };
 
   return (
-    <div className='min-h-screen p-4 mx-auto max-w-7xl' id='heading'>
-      <div className="font-black uppercase text-4xl md:text-5xl lg:text-6xl text-center">design gallery</div>
+    <div className="min-h-screen py-20 mx-auto max-w-7xl px-4" id="heading">
+      <div className="flex flex-col items-center mb-10">
+        <h1 className="font-black tracking-tight text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white uppercase mb-2 text-center">
+          Design Gallery
+        </h1>
+        <p className="font-light text-lg text-center max-w-2xl">
+          A curated collection of personal and professional design work, including projects for the Land Surveyor's Board.
+        </p>
+      </div>
 
-      <p className='font-light py-2'>Some curated designs from personal work and from Land Surveyor's Board</p>
-
-      <div className="p-1 sm:p-5">
-        <div className="columns-1 gap-2 sm:columns-2 sm:gap-3 md:columns-3 lg:columns-4 [&>img:not(:first-child)]:mt-4">
-          {imagePaths.map((path, index) => (
+      {/* Redesigned grid gallery */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {imagePaths.map((path, index) => (
+          <div
+            key={index}
+            className="relative group rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-800 hover:shadow-2xl transition-shadow duration-300"
+          >
             <img
-              key={index}
               src={path}
               alt={`Gallery image ${index + 1}`}
-              className="w-full h-auto mb-3 rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+              className="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-105 cursor-pointer"
               loading="lazy"
               onClick={() => openModal(index)}
             />
-          ))}
-        </div>
+            <div
+              className="absolute inset-0 bg-black/20 group-hover:bg-opacity-40 flex items-center justify-center transition-all duration-300 cursor-pointer"
+              onClick={() => openModal(index)}
+            >
+              <span className="opacity-0 group-hover:opacity-100 text-white text-lg font-semibold tracking-wide transition-opacity duration-300">
+                View
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
           onClick={handleBackdropClick}
         >
-          <div className="relative max-w-6xl max-h-[90vh]">
+          <div className="relative w-full max-w-3xl max-h-[90vh] flex flex-col items-center">
             {/* Close button */}
-            <button 
+            <button
               onClick={closeModal}
-              className="absolute -top-12 right-0 text-white text-3xl hover:text-gray-300 transition-colors"
+              className="absolute -top-10 right-0 text-white text-4xl hover:text-[#fcba04] transition-colors z-10 cursor-pointer"
               aria-label="Close"
             >
               &times;
             </button>
-            
+
             {/* Main image */}
             <img
               src={imagePaths[currentImageIndex]}
               alt={`Gallery image ${currentImageIndex + 1}`}
-              className="max-w-full max-h-[80vh] object-contain"
+              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-lg"
             />
 
             {/* Navigation buttons */}
-            <button 
+            <button
               onClick={(e) => { e.stopPropagation(); prevImage(); }}
-              className="absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 hover:bg-opacity-70 transition-all"
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-[#fcba04] hover:text-black transition-all z-10 cursor-pointer"
               aria-label="Previous image"
             >
-              &larr;
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button 
+
+            <button
               onClick={(e) => { e.stopPropagation(); nextImage(); }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 hover:bg-opacity-70 transition-all"
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-[#fcba04] hover:text-black transition-all z-10 cursor-pointer"
               aria-label="Next image"
             >
-              &rarr;
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
 
             {/* Image counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-[#fcba04] px-4 py-1 rounded-full text-base font-medium tracking-wide italic">
               {currentImageIndex + 1} / {imagePaths.length}
             </div>
           </div>

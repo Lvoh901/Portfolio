@@ -1,59 +1,102 @@
 import React from 'react';
-import SimpleCarousel from '../assets/SimpleCarousel';
+import { motion } from 'framer-motion';
+import { FiDownload } from 'react-icons/fi';
 
-// photos
+// images
+import AboutImg from '/about1.jpg'
+
+const skills = [
+  { name: 'JavaScript (ES6+)', level: '95%' },
+  { name: 'React & Next.js', level: '90%' },
+  { name: 'Node.js & Express', level: '85%' },
+  { name: 'HTML5 & CSS3', level: '98%' },
+  { name: 'Tailwind CSS', level: '95%' },
+  { name: 'SQL & NoSQL Dbs', level: '80%' },
+  { name: 'UI/UX Design', level: '85%' },
+  { name: 'RESTful APIs', level: '90%' },
+];
 
 const About = () => {
   return (
-    <section className="min-h-screen" id='heading'>
-      {/* upper content */}
-      <div className="flex flex-col items-center justify-center pt-4 text-center">
-        <div className="font-black uppercase text-4xl md:text-5xl lg:text-6xl pb-2">In-Depth</div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+      <div className="container mx-auto py-20 px-8 lg:px-0">
+        <motion.div
+          className=""
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        >
+          <h1 className="font-extrabold tracking-tight text-gray-900 dark:text-white uppercase">
+            About <span className="text-[#FCBA04]">Me</span>
+          </h1>
 
-        <img src='/about.jpg' />
-      </div>
-
-      <section className='mx-auto max-w-7xl px-8 lg:px-0'>
-        <div className='py-6 flex flex-col lg:flex-row items-center gap-5'>
-          <img src='/about1.jpg' />
-
-          <div className=''>
-            <small className='uppercase underline underline-offset-4 decoration-2 decoration-[#FCBA04] font-medium' id='heading'>me in a nut-shell</small>
-
-            <p className='font-extralight'>Coding for clarity, fueled by perfectionism and a quirky love for <span className='font-black underline underline-offset-4 text-[#FCBA04]'>13</span>. I cherish personal space, and unwind with good food, eclectic tunes, random walks/hikes, and gaming escapades.</p>
-          </div>
-        </div>
-      </section>
-
-      <div>
-        <video src='/about.mp4' autoPlay muted loop controls className='w-full' />
-      </div>
-
-      {/* my strory */}
-      <section className='mx-auto max-w-6xl px-8 lg:px-0 py-5 flex flex-col lg:flex-row gap-5'>
-        <h1 className='uppercase font-black text-center'>my story<span className='text-[#FCBA04]'>.</span></h1>
-
-        <div className='mx-auto max-w-4xl space-y-4'>
-          <p className='font-extralight'>
-            My journey into tech began with curiosity — taking apart desktops, exploring software, and diving deep into how things worked. What started as fascination quickly turned into a lifelong passion. After years of self-discovery, I formally trained as a developer and never looked back.
+          <p className="mt-4 text-gray-900 dark:text-gray-400">
+            A passionate developer who loves building amazing things.
           </p>
+        </motion.div>
 
-          <p className='font-extralight'>
-            Today, I'm a <span className='underline underline-offset-2 decoration-2 decoration-[#fcba04] font-medium'>Fullstack developer</span> with a strong grasp of <span className='underline underline-offset-2 decoration-2 decoration-[#fcba04] font-medium'>React, Node.js, Express</span>, and <span className='underline underline-offset-2 decoration-2 decoration-[#fcba04] font-medium'>Laravel</span>. I also bring self-taught skills in <span className='underline underline-offset-2 decoration-2 decoration-[#fcba04] font-medium'>Photoshop</span> and <span className='underline underline-offset-2 decoration-2 decoration-[#fcba04] font-medium'>Illustrator</span>, enabling me to build digital experiences that are both functional and visually refined. In 2023, I took on a leadership role guiding a GIS and software team — a reflection of my commitment to solving modern challenges through code, design, and innovation.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center pt-2">
+          <motion.div
+            className=""
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <h2 className="font-bold text-gray-900 dark:text-white">Who I Am</h2>
+
+            <p className="text-gray-800 dark:text-gray-300 py-3">
+              I'm a Full-Stack Developer with a passion for creating beautiful, functional, and user-centered digital experiences. I have a strong background in both front-end and back-end development, and I'm always eager to learn new technologies and take on new challenges.
+            </p>
+
+            <p className="text-gray-800 dark:text-gray-300 pb-2">
+              When I'm not coding, you can find me exploring the latest design trends, working on personal projects, or enjoying a good cup of coffee.
+            </p>
+
+            <motion.a
+              href="/Elvis Odhiambo_Fullstac Developer.pdf"
+              target="_blank"
+              className="inline-flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full font-semibold uppercase border-2 c hover:bg-[#FCBA04] hover:text-black transition-all duration-300 mb-3"
+              whileHover={{ scale: 1.05 }}
+            >
+              <FiDownload />
+              Resume
+            </motion.a>
+
+            <img src={AboutImg} className='rounded-lg border border-[#fcba04]'/>
+          </motion.div>
+
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+          >
+            <h2 className="font-bold text-gray-900 dark:text-white">My Tech Skills</h2>
+            
+            <div className="space-y-4">
+              {skills.map((skill, index) => (
+                <div key={index}>
+                  <div className="flex justify-between mb-1">
+                    <p className="font-medium text-gray-800 dark:text-gray-300">{skill.name}</p>
+                    <p className="font-medium text-gray-800 italic dark:text-gray-400">{skill.level}</p>
+                  </div>
+
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 h-5">
+                    <motion.div
+                      className="bg-[#FCBA04] h-5"
+                      style={{ width: skill.level }}
+                      initial={{ width: 0 }}
+                      animate={{ width: skill.level }}
+                      transition={{ duration: 1, delay: 0.5 + index * 0.1, ease: 'easeOut' }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
-      </section>
-
-      {/* additional */}
-      <div className='mx-auto max-w-7xl py-6 px-8 lg:px-0'>
-        <small className='uppercase underline underline-offset-4 decoration-2 decoration-[#FCBA04] font-medium' id='heading'>on the otherside</small>
-
-        <p className='font-extralight py-3'>Outside of coding, I looove hiking, gaming, photography, and travel.</p>
-
-        {/* photo gallery */}
-        <SimpleCarousel/>
       </div>
-    </section>
+    </div>
   );
 };
 

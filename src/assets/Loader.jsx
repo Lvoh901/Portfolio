@@ -1,13 +1,27 @@
 import React from 'react';
+import { BlinkBlur } from 'react-loading-indicators';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Loader = () => {
+const Loader = ({ isLoading = true }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="flex flex-col items-center">
-        <div className="w-24 h-24 border-8 border-dashed rounded-full animate-spin border-black"></div>
-        <p className="mt-4 text-lg font-semibold text-gray-700">Loading...</p>
-      </div>
-    </div>
+    <AnimatePresence>
+      {isLoading && (
+        <motion.div
+          className="fixed inset-0 flex items-center justify-center bg-white z-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+        >
+          <BlinkBlur
+            color={["#FCBA04", "#327fcd", "#cd32cd", "#cd8032"]}
+            size="large"
+            speed="fast"
+            text=""
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

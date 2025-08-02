@@ -16,42 +16,44 @@ const Contact = lazy(() => import('./pages/Contact'));
 
 const AppContent = () => {
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
   const showFooter = location.pathname !== '/';
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 3000); // simulate loading
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className='bg-gray-50'>
       <Navigation />
 
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" exact element={<Hero />} />;
-          <Route path="/about" exact element={<About />} />;
-          <Route path="/gallery" exact element={<Gallery />} />;
-          <Route path="/projects" exact element={<Projects />} />;
-          <Route path="/contact" exact element={<Contact />} />;
-          <Route path="*" exact element={<NotFound />} />;
-        </Routes>
-      </Suspense>
+      <Loader isLoading={loading} />
 
-      {showFooter && <Footer/>}
+      {!loading && (
+        <React.Fragment>
+          <Suspense fallback={<Loader isLoading={true} />}>
+            <Routes>
+              <Route path="/" element={<Hero />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          {showFooter && <Footer />}
+        </React.Fragment>
+      )}
     </div>
-  )
-}
+  );
+};
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+  // Remove duplicate loading logic from App, only use AppContent's loading
   return (
     <Router>
-      {loading ? <Loader /> : <AppContent />}
+      <AppContent />
     </Router>
   );
 };

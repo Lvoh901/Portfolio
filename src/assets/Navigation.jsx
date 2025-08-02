@@ -41,7 +41,7 @@ const Navigation = () => {
 
                     <div className="hidden md:flex items-center space-x-8">
                         {links.map(link => (
-                            <a key={link} href={link === 'Home' ? '/' : `/${link.toLowerCase()}`} className="font-medium hover:text-[#FCBA04] transition-colors duration-300 uppercase">
+                            <a key={link} href={link === 'Home' ? '/' : `/${link.toLowerCase()}`} className="font-medium hover:text-[#FCBA04] transition-colors duration-300 uppercase text-xs">
                                 {link}
                             </a>
                         ))}

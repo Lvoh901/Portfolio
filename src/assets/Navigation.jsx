@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const links = ['Home', 'About', 'Projects', 'Gallery', 'Contact'];
+const links = ['About', 'Projects', 'Gallery', 'Contact'];
 
 const Navigation = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

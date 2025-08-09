@@ -8,18 +8,18 @@ import 'react-tippy/dist/tippy.css';
 
 const Contact = () => {
   return (
-    <section className='min-h-screen mx-auto max-w-4xl flex flex-col justify-center items-center px-8' id='heading'>
+    <section className='min-h-screen mx-auto  py-20 px-8 lg:px-0 flex flex-col justify-center items-center'>
       <div className='font-black uppercase text-4xl md:text-5xl lg:text-6xl pb-2 animate-fade-up text-center'>get in touch</div>
 
-      <p className='w-full lg:w-[600px] font-light text-center'>I am excited to hear from you and get to create something amazing together. Reach out for any inquiry.</p>
+      <p className='w-full lg:w-[600px] text-center'>I am excited to hear from you and get to create something amazing together. Reach out for any inquiry.</p>
 
       <p className='pt-7 underline underline-offset-4 decoration-[#fcba04] uppercase font-black text-center'>Reach out directly:</p>
 
-      <h4 className='flex items-center gap-1.5 font-light text-center'><MdOutlineAlternateEmail />: info@odhiambolvis.tech</h4>
+      <p className='flex items-center gap-1.5 font-light text-center'>info@odhiambolvis.tech</p>
 
-      <h4 className='flex items-center gap-1.5 font-light uppercase text-center'><MdOutlineLocalPhone />: (254) 718-505-642</h4>
+      <p className='flex items-center gap-1.5 font-light uppercase text-center'><MdOutlineLocalPhone />: (254) 718-505-642</p>
 
-      <h5 className='uppercase pt-3'>(mon - fri: 8am - 5pm eat)</h5>
+      <p className='uppercase pt-3 text-center'>(mon - fri: 8am - 5pm eat)</p>
 
       <div className='pt-6 flex gap-3'>
         <Tooltip title="Lvoh901" position="top">

@@ -45,7 +45,7 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen py-20 mx-auto max-w-7xl px-4" id="heading">
+    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0">
       <div className="flex flex-col items-center mb-10">
         <h1 className="font-black tracking-tight text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white uppercase mb-2 text-center">
           Design Gallery

@@ -69,7 +69,7 @@ const fadeUpVariant = {
 
 const Projects = () => {
   return (
-    <div className="min-h-screen py-20 mx-auto container" id="heading">
+    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0">
       <motion.section
         className="border-b"
         initial="hidden"

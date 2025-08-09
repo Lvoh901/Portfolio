@@ -15,7 +15,7 @@ const Footer = () => {
                         <span>(254) 704-700-452</span>
                     </div>
 
-                    <img src='/footer.png' className='w-20 h-20'/>
+                    <img src='/footer.webp' className='w-20 h-20'/>
 
                     <div className='flex gap-2'>
                         <FaGithub className='w-6 h-6' />

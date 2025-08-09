@@ -36,7 +36,7 @@ const Navigation = () => {
                         transition={{ duration: 0.5, ease: 'easeOut' }}
                     >
                         {/* <h3>Elvis<span className="text-[#FCBA04]">.</span></h3> */}
-                        <img src='/footer.png' className='w-10 h-10'/>
+                        <img src='/footer.webp' className='w-10 h-10'/>
                     </motion.a>
 
                     <div className="hidden md:flex items-center space-x-8">

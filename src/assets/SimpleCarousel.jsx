@@ -4,52 +4,52 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const slides = [
     {
-        image: '/photos/image1.jpg',
+        image: '/photos/image1.webp',
         title: 'Upperhill Skyline',
         description: 'A panoramic view of the Upperhill Skyline during a vibrant sunset.',
     },
     {
-        image: '/photos/image2.jpg',
+        image: '/photos/image2.webp',
         title: 'Upperhill Skyline',
         description: 'The Upperhill Skyline at dusk, showcasing the blend of old and new architecture.',
     },
     {
-        image: '/photos/image3.jpg',
+        image: '/photos/image3.webp',
         title: 'Countryside Views',
         description: 'A serene countryside scene at dawn, with the misty lake in the background.',
     },
     {
-        image: '/photos/image4.jpg',
+        image: '/photos/image4.webp',
         title: 'Thika Road Views',
         description: 'A scenic drive along the Thika Road, capturing the urban landscape.',
     },
     {
-        image: '/photos/image5.jpg',
+        image: '/photos/image5.webp',
         title: 'Random Walks - Rongai',
         description: 'Exploring the serene and peaceful surroundings of Rongai.',
     },
     {
-        image: '/photos/image6.jpg',
+        image: '/photos/image6.webp',
         title: 'Namanga',
         description: 'A glimpse into the vibrant town of Namanga, known for its rich history.',
     },
     {
-        image: '/photos/image7.jpg',
+        image: '/photos/image7.webp',
         title: 'Amboseli National Park',
         description: 'A majestic view of the Amboseli National Park, home to diverse wildlife.',
     },
     {
-        image: '/photos/image8.jpg',
+        image: '/photos/image8.webp',
         title: 'Elephant - Amboseli',
         description: 'A close encounter with an elephant in the Amboseli National Park.',
     },
     {
-        image: '/photos/image9.jpg',
+        image: '/photos/image9.webp',
         title: 'Lake Challa - Tanzania',
         description: 'The serene and tranquil atmosphere of Lake Challa in Tanzania.',
     },
     {
-        image: '/photos/image10.jpg',
+        image: '/photos/image10.webp',
         title: 'Mt. Ugweno - Tanzania',
         description: 'A breathtaking view of Mt. Ugweno in Tanzania, a haven for hikers.',
     },

@@ -20,7 +20,7 @@ const Hero = () => {
           className="flex flex-col items-center justify-center space-y-8"
         >
           <motion.img
-            src="/profile.png"
+            src="/profile.webp"
             className='rounded-full w-32 h-auto object-cover'
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}

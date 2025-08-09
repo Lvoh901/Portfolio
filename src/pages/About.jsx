@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FiDownload } from 'react-icons/fi';
 
 // images
-import AboutImg from '/about1.jpg'
+import AboutImg from '/about1.webp'
 
 const skills = [
   { name: 'JavaScript (ES6+)', level: '95%' },

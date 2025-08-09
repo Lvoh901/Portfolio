@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 
 // pages
 import Navigation from './assets/Navigation';
-import Footer from './pages/Footer';
+const Footer = lazy(() => import('./pages/Footer'));
 import NotFound from './pages/404';
 import Loader from './assets/Loader';
 

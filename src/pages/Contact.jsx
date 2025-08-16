@@ -8,12 +8,12 @@ import 'react-tippy/dist/tippy.css';
 
 const Contact = () => {
   return (
-    <section className='min-h-screen mx-auto  py-20 px-8 lg:px-0 flex flex-col justify-center items-center'>
-      <div className='font-black uppercase text-4xl md:text-5xl lg:text-6xl pb-2 animate-fade-up text-center'>get in touch</div>
+    <section className='min-h-screen mx-auto  py-20 px-8 lg:px-0 flex flex-col justify-center items-center dark:bg-gray-900 dark:text-white'>
+      <h1 className='font-black uppercase pb-2 animate-fade-up text-center'>get in touch</h1>
 
       <p className='w-full lg:w-[600px] text-center'>I am excited to hear from you and get to create something amazing together. Reach out for any inquiry.</p>
 
-      <p className='pt-7 underline underline-offset-4 decoration-[#fcba04] uppercase font-black text-center'>Reach out directly:</p>
+      <h4 className='pt-7 underline underline-offset-4 decoration-[#fcba04] uppercase font-black text-center'>Reach out directly:</h4>
 
       <p className='flex items-center gap-1.5 font-light text-center'>info@odhiambolvis.tech</p>
 
@@ -23,15 +23,15 @@ const Contact = () => {
 
       <div className='pt-6 flex gap-3'>
         <Tooltip title="Lvoh901" position="top">
-          <a href='https://github.com/Lvoh901' target='_blank' rel='noreferrer'><IoLogoGithub className='w-8 h-8 hover:text-[#fcba04]' /></a>
+          <a href='https://github.com/Lvoh901' target='_blank' rel='noreferrer'><IoLogoGithub className='w-8 h-8 hover:text-[#fcba04] dark:hover:text-[#fcba04]' /></a>
         </Tooltip>
 
         <Tooltip title="odhiambolvis" position="top">
-          <a href='https://www.linkedin.com/in/odhiamboelvis/' target='_blank' rel='noreferrer'><FaLinkedinIn className='w-8 h-8 hover:text-[#fcba04]' /></a>
+          <a href='https://www.linkedin.com/in/odhiamboelvis/' target='_blank' rel='noreferrer'><FaLinkedinIn className='w-8 h-8 hover:text-[#fcba04] dark:hover:text-[#fcba04]' /></a>
         </Tooltip>
 
         <Tooltip title="LvohOdhis" position="top">
-          <a href='https://x.com/LvohOdhis' target='_blank' rel='noreferrer'><FaXTwitter className='w-8 h-8 hover:text-[#fcba04]' /></a>
+          <a href='https://x.com/LvohOdhis' target='_blank' rel='noreferrer'><FaXTwitter className='w-8 h-8 hover:text-[#fcba04] dark:hover:text-[#fcba04]' /></a>
         </Tooltip>
       </div>
     </section>

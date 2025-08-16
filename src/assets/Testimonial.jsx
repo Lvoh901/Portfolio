@@ -37,13 +37,13 @@ const Testimonial = () => {
 
     return (
         <div
-            className="py-12 relative"
+            className="py-12 relative dark:bg-gray-900"
             onMouseEnter={() => clearInterval(containerRef.current)}
             onMouseLeave={() =>
                 (containerRef.current = setInterval(() => cycleTestimonials(1), 15000))
             }
         >
-            <h4 className="text-center font-semibold uppercase text-lg underline underline-offset-4 decoration-4 decoration-[#fcba04] mb-8">
+            <h4 className="text-center font-semibold uppercase text-lg underline underline-offset-4 decoration-4 decoration-[#fcba04] mb-8 dark:text-white">
                 What My Clients Say
             </h4>
 
@@ -58,13 +58,13 @@ const Testimonial = () => {
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                         className="px-4 lg:px-8"
                     >
-                        <h4 className="text-gray-800 dark:text-gray-100 italic font-light leading-relaxed">
+                        <p className="text-gray-800 dark:text-gray-100 italic font-light leading-relaxed pb-3">
                             “{testimonials[current].quote}”
-                        </h4>
-
-                        <p className="mt-4 font-medium uppercase text-[#FCBA04] tracking-wide">
-                            — {testimonials[current].author}
                         </p>
+
+                        <small className="mt-4 font-medium uppercase tracking-wide dark:text-gray-300">
+                            — {testimonials[current].author}
+                        </small>
                     </motion.div>
                 </AnimatePresence>
 

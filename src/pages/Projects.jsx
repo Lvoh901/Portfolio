@@ -69,9 +69,9 @@ const fadeUpVariant = {
 
 const Projects = () => {
   return (
-    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0">
+    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0 dark:bg-gray-900 dark:text-white">
       <motion.section
-        className="border-b"
+        className="border-b dark:border-gray-600"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -87,7 +87,7 @@ const Projects = () => {
         </motion.h1>
 
         <motion.p
-          className="w-full lg:w-[700px] py-2 font-light"
+          className="w-full lg:w-[700px] py-2 font-light dark:text-gray-300"
           variants={fadeUpVariant}
           custom={1}
         >
@@ -102,7 +102,7 @@ const Projects = () => {
             href={project.linkUrl || '#'}
             target={project.linkUrl ? '_blank' : '_self'}
             key={project.id}
-            className="cursor-pointer relative border border-gray-300 rounded-md overflow-hidden group"
+            className="cursor-pointer relative border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden group"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}

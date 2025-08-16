@@ -1,3 +1,27 @@
+:root {
+  --background-color-light: #f9fafb;
+  --text-color-light: #1f2937;
+  --primary-color-light: #3b82f6;
+  --secondary-color-light: #6b7280;
+}
+
+.dark {
+  --background-color-dark: #1f2937;
+  --text-color-dark: #f9fafb;
+  --primary-color-dark: #60a5fa;
+  --secondary-color-dark: #9ca3af;
+}
+
+body {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+.dark body {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
 @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
@@ -15,36 +39,36 @@ h6 {
   font-family: "DM Serif Display", sans-serif;
 }
 
+#name {
+  font-family: "DM Serif Display", sans-serif;
+}
+
 /* typography */
 h1 {
-  font-size: calc(1.5em + 0.5vw) !important;
+  font-size: clamp(2rem, 4vw, 3rem);
 }
 
 h2 {
-  font-size: calc(1.1em + 0.4vw) !important;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
 }
 
 h3 {
-  font-size: calc(1em + 0.3vw) !important;
+  font-size: clamp(1.5rem, 2vw, 1.875rem);
 }
 
 h4 {
-  font-size: calc(0.9em + 0.2vw) !important;
+  font-size: clamp(1.25rem, 1.5vw, 1.5rem);
 }
 
 h5 {
-  font-size: calc(0.8em + 0.2vw) !important;
-}
-
-h6 {
-  font-size: calc(0.7em + 0.2vw) !important;
+  font-size: clamp(1.1rem, 1.2vw, 1.25rem);
 }
 
 p {
-  font-size: 1.2rem !important;
+  font-size: clamp(1rem, 1vw, 1.1rem);
 }
 
 small {
-  font-size: calc(0.5em + 0.2vw) !important;
+  font-size: clamp(0.85rem, 1vw, 0.875rem);
 }
 /* typography */

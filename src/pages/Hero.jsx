@@ -10,7 +10,7 @@ const Hero = () => {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen overflow-hidden dark:bg-black lg:px-4 px-8">
-      <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-4">
+      <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-4 dark:text-white">
         {/* Main Heading Section */}
         <motion.section
           id="heading"
@@ -36,14 +36,14 @@ const Hero = () => {
               Hi, am
             </motion.span>
 
-            <motion.div
-              className="font-black text-2xl md:text-3xl lg:text-5xl"
+            <motion.h1
+              className="font-black"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.6, ease: 'easeOut' }}
             >
-              Elvis <span className="text-[#FCBA04] uppercase">Odhiambo</span>
-            </motion.div>
+              Elvis <span className="text-[#FCBA04] uppercase" id='name'>Odhiambo</span>
+            </motion.h1>
 
             {/* highlight text */}
             <motion.p
@@ -58,7 +58,7 @@ const Hero = () => {
 
             <motion.a
               href='/projects'
-              className='flex items-center gap-2 bg-black px-5 py-3 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2 border-[#FCBA04]'
+              className='flex items-center gap-2 bg-black px-6 py-2 text-white rounded-full cursor-pointer hover:font-bold uppercase border-2 border-[#FCBA04] dark:bg-white dark:text-black'
               whileHover={{ scale: 1.05, backgroundColor: '#FCBA04', color: '#000' }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >

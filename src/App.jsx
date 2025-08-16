@@ -1,6 +1,7 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
+import React, { Suspense, lazy, useState, useEffect, useContext } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { ThemeContext } from './contexts/ThemeContext';
 
 // pages
 import Navigation from './assets/Navigation';
@@ -19,41 +20,49 @@ const AppContent = () => {
   const [loading, setLoading] = useState(true);
   const showFooter = location.pathname !== '/';
 
+  const { theme } = useContext(ThemeContext);
+
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3000); // simulate loading
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className='bg-gray-50'>
-      <Navigation />
+    <div className={`${theme === 'dark' ? 'dark' : ''}`}>
+      <div className='bg-gray-50 dark:bg-gray-900'>
+        <Navigation />
 
-      <Loader isLoading={loading} />
+        <Loader isLoading={loading} />
 
-      {!loading && (
-        <React.Fragment>
-          <Suspense fallback={<Loader isLoading={true} />}>
-            <Routes>
-              <Route path="/" element={<Hero />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/gallery" element={<Gallery />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          {showFooter && <Footer />}
-        </React.Fragment>
-      )}
+        {!loading && (
+          <React.Fragment>
+            <Suspense fallback={<Loader isLoading={true} />}>
+              <Routes>
+                <Route path="/" element={<Hero />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/gallery" element={<Gallery />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            {showFooter && <Footer />}
+          </React.Fragment>
+        )}
+      </div>
     </div>
   );
 };
+
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const App = () => {
   // Remove duplicate loading logic from App, only use AppContent's loading
   return (
     <Router>
-      <AppContent />
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </Router>
   );
 };

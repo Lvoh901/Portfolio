@@ -45,12 +45,12 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0">
+    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0 dark:bg-gray-900">
       <div className="flex flex-col items-center mb-10">
         <h1 className="font-black tracking-tight text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white uppercase mb-2 text-center">
           Design Gallery
         </h1>
-        <p className="font-light text-lg text-center max-w-2xl">
+        <p className="font-light text-lg text-center max-w-2xl dark:text-gray-300">
           A curated collection of personal and professional design work, including projects for the Land Surveyor's Board.
         </p>
       </div>

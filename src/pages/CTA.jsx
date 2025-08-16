@@ -2,7 +2,7 @@ import React from 'react'
 
 const CTA = () => {
   return (
-    <div>CTA</div>
+    <div className="dark:bg-gray-900 dark:text-white">CTA</div>
   )
 }
 

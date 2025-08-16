@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeContext } from '../contexts/ThemeContext';
+import ThemeToggle from './ThemeToggle';
 
 const links = ['About', 'Projects', 'Gallery', 'Contact'];
 
 const Navigation = () => {
+    const { theme } = useContext(ThemeContext);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -22,10 +25,10 @@ const Navigation = () => {
     // - When menu is open: always black
     const hamburgerColor = isMenuOpen
         ? 'text-black'
-        : (isScrolled ? 'text-white' : 'text-gray-900');
+        : (isScrolled ? 'text-white' : (theme === 'dark' ? 'text-white' : 'text-gray-900'));
 
     return (
-        <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-gray-700 text-white shadow-md' : 'bg-transparent'}`}>
+        <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? (theme === 'dark' ? 'bg-gray-800' : 'bg-gray-700') : 'bg-transparent'} text-white shadow-md`}>
             <div className="container mx-auto py-2 px-4 lg:px-0">
                 <div className="flex items-center justify-between h-12">
                     <motion.a 
@@ -45,6 +48,7 @@ const Navigation = () => {
                                 {link}
                             </a>
                         ))}
+                        <ThemeToggle />
                     </div>
 
                     <div className="md:hidden">
@@ -83,6 +87,7 @@ const Navigation = () => {
                                     {link}
                                 </motion.a>
                             ))}
+                            <ThemeToggle />
                         </div>
                     </motion.div>
                 )}

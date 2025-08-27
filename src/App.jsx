@@ -28,28 +28,26 @@ const AppContent = () => {
   }, []);
 
   return (
-    <div className={`${theme === 'dark' ? 'dark' : ''}`}>
-      <div className='bg-gray-50 dark:bg-gray-900'>
-        <Navigation />
+    <div className='bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300'>
+      <Navigation />
 
-        <Loader isLoading={loading} />
+      <Loader isLoading={loading} />
 
-        {!loading && (
-          <React.Fragment>
-            <Suspense fallback={<Loader isLoading={true} />}>
-              <Routes>
-                <Route path="/" element={<Hero />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-            {showFooter && <Footer />}
-          </React.Fragment>
-        )}
-      </div>
+      {!loading && (
+        <React.Fragment>
+          <Suspense fallback={<Loader isLoading={true} />}>
+            <Routes>
+              <Route path="/" element={<Hero />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          {showFooter && <Footer />}
+        </React.Fragment>
+      )}
     </div>
   );
 };

@@ -34,7 +34,7 @@ const skills = [
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div className="min-h-screen">
       <div className="container mx-auto py-20 px-8 lg:px-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-2">
           <motion.div

@@ -69,7 +69,7 @@ const SimpleCarousel = () => {
     }, []);
 
     return (
-        <div className="relative max-w-4xl mx-auto overflow-hidden bg-white rounded-2xl shadow-xl" id='heading'>
+        <div className="relative max-w-4xl mx-auto overflow-hidden bg-white rounded-2xl shadow-xl dark:bg-gray-800" id='heading'>
             <AnimatePresence mode="wait">
                 <motion.div
                     key={current}
@@ -85,8 +85,8 @@ const SimpleCarousel = () => {
                         className="w-full h-80 object-cover rounded-t-2xl"
                     />
                     <div className="p-6 text-center">
-                        <h3 className="uppercase">{slides[current].title}</h3>
-                        <span className="text-gray-800 mt-2 font-light">{slides[current].description}</span>
+                        <h3 className="uppercase dark:text-white">{slides[current].title}</h3>
+                        <span className="dark:text-gray-300 mt-2 font-light">{slides[current].description}</span>
                     </div>
                 </motion.div>
             </AnimatePresence>

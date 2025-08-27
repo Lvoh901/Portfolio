@@ -18,35 +18,28 @@ const projectDetails = [
     linkUrl: 'https://citikom.co.ke/',
   },
   {
-    id:3,
+    id: 3,
     image: '/work/SoK.webp',
-    title:'Survey of Kenya (SoK)',
-    description:'State department of lands and Physical Planning mandated with the regulation and setting standards for all survey and mapping activities in Kenya.',
-    linkUrl:'https://survey-kenya.vercel.app/'
+    title: 'Survey of Kenya (SoK)',
+    description: 'State department of lands and Physical Planning mandated with the regulation and setting standards for all survey and mapping activities in Kenya.',
+    linkUrl: 'https://survey-kenya.vercel.app/'
   },
   {
     id: 4,
-    image: '/work/agency.webp',
-    title: 'Agency',
-    description: 'A creative agency revolutionizing software development, custom setups, and consultancy.',
-    linkUrl: '',
-  },
-  {
-    id: 5,
     image: '/work/thriftmall.webp',
     title: 'ThriftMall',
     description: 'A technology integration project for a research institution.',
     linkUrl: 'https://thrifmall.vercel.app/',
   },
   {
-    id: 6,
+    id: 5,
     image: '/work/intelliworks.webp',
     title: 'Intelliworks',
     description: 'An expert in GeoICT with a flare for modern technologies in software development and data-driven systems.',
     linkUrl: 'https://roy-nine.vercel.app/',
   },
   {
-    id: 7,
+    id: 6,
     image: '/work/curioshop.webp',
     title: 'LeGance',
     description: 'Discover unique curios and handcrafted treasures to elevate your home into an amazing living space.',
@@ -69,7 +62,7 @@ const fadeUpVariant = {
 
 const Projects = () => {
   return (
-    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0 dark:bg-gray-900 dark:text-white">
+    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0">
       <motion.section
         className="border-b dark:border-gray-600"
         initial="hidden"

@@ -45,6 +45,20 @@ const projectDetails = [
     description: 'Discover unique curios and handcrafted treasures to elevate your home into an amazing living space.',
     linkUrl: 'https://curioshop.vercel.app/',
   },
+  {
+    id: 7,
+    image: '/work/mindmaze.webp',
+    title: 'MindMaze',
+    description: 'A random knowledge quiz using opensource API for questions with a twist in playing the game.',
+    linkUrl: 'https://mindmaze-riskreward.vercel.app/'
+  },
+  {
+    id: 8,
+    image: '/work/opendata.webp',
+    title: 'OpenData Insights',
+    description: 'A dashboard using open source WorldBank data to depict trends and patterns in Kenya.',
+    linkUrl: 'https://open-lens-insights.vercel.app/?dataset=economy_inflation_kenya'
+  }
 ];
 
 const fadeUpVariant = {

@@ -6,7 +6,7 @@ const Hero = () => {
   const getYear = new Date().getFullYear();
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden lg:px-4 px-8 transition-colors duration-300">
+    <div className="relative flex items-center justify-center min-h-screen overflow-hidden p-8 transition-colors duration-300">
       <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-4 transition-colors duration-300">
         {/* Main Heading Section */}
         <motion.section
@@ -18,13 +18,14 @@ const Hero = () => {
         >
           <motion.img
             src="/profile.webp"
-            className="rounded-full w-32 h-auto object-cover border-4 border-[#FCBA04] shadow-lg transition-all duration-300"
+            className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300"
+            style={{width:"calc(12em + 2vw)"}}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
           />
 
-          <div className="flex flex-col justify-center items-center gap-3">
+          <div className="flex flex-col justify-center items-center gap-1">
             <motion.span
               className=""
               initial={{ opacity: 0, y: 20 }}
@@ -40,7 +41,7 @@ const Hero = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.6, ease: 'easeOut' }}
             >
-              Elvis <span className="uppercase text-[#FCBA04]" id="name">Odhiambo</span>
+              Elvis <span className="text-[#FCBA04]" id="name">Odhiambo</span>
             </motion.h1>
 
             {/* highlight text */}

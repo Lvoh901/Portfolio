@@ -76,9 +76,9 @@ const fadeUpVariant = {
 
 const Projects = () => {
   return (
-    <div className="min-h-screen mx-auto container py-20 px-8 lg:px-0">
+    <div className="min-h-screen mx-auto max-w-6xl py-20 p-8">
       <motion.section
-        className="border-b dark:border-gray-600"
+        className="border-b dark:border-gray-600 my-5"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -86,7 +86,7 @@ const Projects = () => {
         custom={0}
       >
         <motion.h1
-          className="font-extrabold tracking-tight text-gray-900 dark:text-white uppercase"
+          className="font-bold tracking-tight text-gray-900 dark:text-white"
           variants={fadeUpVariant}
           custom={0}
         >

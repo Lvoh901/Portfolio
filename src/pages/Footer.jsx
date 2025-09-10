@@ -8,7 +8,7 @@ const Footer = () => {
 
     return (
         <div className='bg-black text-white py-6 dark:bg-gray-800' id='body'>
-            <div className='mx-auto max-w-6xl px-4 lg:px-0'>
+            <div className='mx-auto max-w-6xl px-8 lg:px-4'>
                 <section className='flex flex-col lg:flex-row justify-between items-center gap-4 border-b py-8 dark:border-gray-600'>
                     <div className='font-light flex flex-col text-center'>
                         <span>odhistech.mail</span>

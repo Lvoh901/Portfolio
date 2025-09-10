@@ -8,12 +8,12 @@ import 'react-tippy/dist/tippy.css';
 
 const Contact = () => {
   return (
-    <section className='min-h-screen mx-auto  py-20 px-8 lg:px-0 flex flex-col justify-center items-center'>
-      <h1 className='font-black uppercase pb-2 animate-fade-up text-center'>get in touch</h1>
+    <section className='min-h-screen mx-auto max-w-6xl  py-20 px-8 lg:px-0 flex flex-col justify-center items-center'>
+      <h1 className='font-black capitalize animate-fade-up text-center'>get in touch</h1>
 
       <p className='w-full lg:w-[600px] text-center'>I am excited to hear from you and get to create something amazing together. Reach out for any inquiry.</p>
 
-      <h4 className='pt-7 underline underline-offset-4 decoration-[#fcba04] uppercase font-black text-center'>Reach out directly:</h4>
+      <h4 className='pt-5 underline underline-offset-4 decoration-[#fcba04] uppercase font-black text-center'>Reach out directly:</h4>
 
       <p className='flex items-center gap-1.5 font-light text-center'>info@odhiambolvis.tech</p>
 

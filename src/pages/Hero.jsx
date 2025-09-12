@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { FiSend } from 'react-icons/fi';
 
@@ -7,19 +6,20 @@ const Hero = () => {
 
   return (
     <div className="relative flex items-center justify-center min-h-screen overflow-hidden p-8 transition-colors duration-300">
-      <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-4 transition-colors duration-300">
+      <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-2 transition-colors duration-300">
         {/* Main Heading Section */}
         <motion.section
           id="heading"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, staggerChildren: 0.2 }}
-          className="flex flex-col items-center justify-center space-y-8"
+          className="flex flex-col items-center justify-center space-y-4"
         >
           <motion.img
             src="/profile.webp"
+            alt="Profile picture"
             className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300"
-            style={{width:"calc(12em + 2vw)"}}
+            style={{width:"calc(10em + 1.5vw)"}}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
@@ -32,7 +32,7 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
             >
-              Hi, am
+              Hi, I am
             </motion.span>
 
             <motion.h1
@@ -46,7 +46,7 @@ const Hero = () => {
 
             {/* highlight text */}
             <motion.p
-              className="font-light pb-3"
+              className="font-medium pb-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}

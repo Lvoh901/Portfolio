@@ -45,19 +45,19 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen mx-auto max-w-6xl py-20 p-8">
+    <div className="min-h-screen mx-auto max-w-7xl py-20 p-8">
       <div className="flex flex-col items-center my-5">
         <h1 className="font-bold tracking-tight text-gray-900 mb-2 text-center">
           Design <span className="text-[#FCBA04]">Gallery</span>
         </h1>
-        
+
         <p className="font-light text-center max-w-2xl dark:text-gray-300">
           A curated collection of personal and professional design work, including projects for the Land Surveyor's Board.
         </p>
       </div>
 
       {/* Redesigned grid gallery */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {imagePaths.map((path, index) => (
           <div
             key={index}
@@ -66,7 +66,7 @@ const Gallery = () => {
             <img
               src={path}
               alt={`Gallery image ${index + 1}`}
-              className="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+              className="w-full h-72 object-cover object-center transition-transform duration-300 group-hover:scale-105 cursor-pointer"
               loading="lazy"
               onClick={() => openModal(index)}
             />
@@ -74,7 +74,7 @@ const Gallery = () => {
               className="absolute inset-0 bg-black/20 group-hover:bg-opacity-40 flex items-center justify-center transition-all duration-300 cursor-pointer"
               onClick={() => openModal(index)}
             >
-              <span className="opacity-0 group-hover:opacity-100 text-white text-lg font-semibold tracking-wide transition-opacity duration-300">
+              <span className="opacity-0 group-hover:opacity-100 text-white text-lg font-semibold tracking-wide transition-opacity duration-300 bg-black px-4 py-1 rounded-md border border-white">
                 View
               </span>
             </div>
@@ -111,7 +111,7 @@ const Gallery = () => {
               className="absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-[#fcba04] hover:text-black transition-all z-10 cursor-pointer"
               aria-label="Previous image"
             >
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
             </button>
 
             <button
@@ -119,7 +119,7 @@ const Gallery = () => {
               className="absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-[#fcba04] hover:text-black transition-all z-10 cursor-pointer"
               aria-label="Next image"
             >
-              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             </button>
 
             {/* Image counter */}

@@ -76,7 +76,7 @@ const fadeUpVariant = {
 
 const Projects = () => {
   return (
-    <div className="min-h-screen mx-auto max-w-6xl py-20 p-8">
+    <div className="min-h-screen mx-auto max-w-7xl py-20 p-8">
       <motion.section
         className="border-b dark:border-gray-600 my-5"
         initial="hidden"
@@ -103,7 +103,7 @@ const Projects = () => {
       </motion.section>
 
       {/* projects grid */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-5 py-6">
+      <section className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-6">
         {projectDetails.map((project, index) => (
           <motion.a
             href={project.linkUrl || '#'}
@@ -119,10 +119,12 @@ const Projects = () => {
             <img src={project.image} alt={project.title} className="w-full object-cover" />
 
             <div className='absolute top-0 left-0 bg-black/80 w-full h-full flex flex-col justify-center items-center text-white opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-300'>
-              <h3 className='font-bold'>{project.title}</h3>
-              <p className='text-center px-12 font-light'>{project.description}</p>
+              <h4 className='font-bold'>{project.title}</h4>
+              <small className='text-center px-12 font-light'>{project.description}</small>
 
-              <button className='mt-4 px-4 py-2 bg-white text-black rounded-full font-bold cursor-pointer'>View Project</button>
+              <button className='mt-4 px-4 py-2 bg-white text-black rounded-full font-medium cursor-pointer'>
+                <small>View Project</small>
+              </button>
             </div>
           </motion.a>
         ))}

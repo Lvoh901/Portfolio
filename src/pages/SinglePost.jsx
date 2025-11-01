@@ -1,0 +1,59 @@
+
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
+
+const SinglePost = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (error) {
+        setError(error.message);
+        setLoading(false);
+      } else {
+        setPost(data);
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+  }, [id]);
+
+  if (loading) {
+    return <div className="min-h-screen flex justify-center items-center">Loading post...</div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen flex justify-center items-center text-red-500">Error: {error}</div>;
+  }
+
+  if (!post) {
+    return <div className="min-h-screen flex justify-center items-center">Post not found.</div>;
+  }
+
+  return (
+    <section className='min-h-screen mx-auto container py-20 px-8 lg:px-0'>
+      <img src={post.image_url} alt={post.title} className="w-full h-96 object-cover rounded-lg mb-8" />
+
+      <h3 className='font-black text-4xl mb-2'>{post.title}</h3>
+
+      <span className="text-gray-600 dark:text-gray-400 text-sm mb-4">By {post.author} on {new Date(post.created_at).toLocaleDateString()}</span>
+
+      <p className="prose dark:prose-invert max-w-none">
+        {post.content}
+      </p>
+    </section>
+  );
+};
+
+export default SinglePost;

@@ -54,7 +54,7 @@ const Blog = () => {
           <div key={post.id} className="bg-white dark:bg-gray-800 border border-gray-300 rounded-lg shadow-md cursor-pointer">
             <img src={post.image_url} alt={post.title} className="w-full h-56 object-cover rounded-t-lg" />
 
-            <div className='px-6 py-2'>
+            <div className='px-6 py-4'>
               <h4 className="font-bold mb-1 text-gray-900 dark:text-white">{post.title}</h4>
 
               <div className='flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2'>
@@ -64,7 +64,7 @@ const Blog = () => {
 
               <p className="text-gray-700 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: post.content.substring(0, 150) + '...' }} />
 
-              <a href={`/blog/${slugify(post.title)}`} className="text-[#fcba04] hover:underline mt-4 inline-block">Read More</a>
+              <a href={`/blog/${slugify(post.title)}`} className="text-[#fcba04] hover:underline hover:font-bold mt-4 inline-block">Read More</a>
             </div>
           </div>
         ))}

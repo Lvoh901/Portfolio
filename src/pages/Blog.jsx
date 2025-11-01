@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
+const slugify = (text) => {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+};
+
 const Blog = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,17 +51,21 @@ const Blog = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
-          <div key={post.id} className="bg-white dark:bg-gray-800 border border-gray-300 rounded-lg shadow-md p-6 cursor-pointer">
-            <h3 className="font-bold mb-1 text-gray-900 dark:text-white">{post.title}</h3>
+          <div key={post.id} className="bg-white dark:bg-gray-800 border border-gray-300 rounded-lg shadow-md cursor-pointer">
+            <img src={post.image_url} alt={post.title} className="w-full h-56 object-cover rounded-t-lg" />
 
-            <div className='flex items-center gap-2 text-gray-600 dark:text-gray-400'>
-              <small className="">{new Date(post.created_at).toLocaleDateString()}</small> ||
-              <small>{post.author}</small>
+            <div className='px-6 py-2'>
+              <h4 className="font-bold mb-1 text-gray-900 dark:text-white">{post.title}</h4>
+
+              <div className='flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-2'>
+                <small className="">{new Date(post.created_at).toLocaleDateString()}</small> ||
+                <small>{post.author}</small>
+              </div>
+
+              <p className="text-gray-700 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: post.content.substring(0, 150) + '...' }} />
+
+              <a href={`/blog/${slugify(post.title)}`} className="text-[#fcba04] hover:underline mt-4 inline-block">Read More</a>
             </div>
-
-            <p className="text-gray-7700 mt-2">{post.content.substring(0, 150)}...</p>
-
-            <a href={`/blog/${post.id}`} className="text-[#fcba04] hover:underline mt-4 inline-block">Read More</a>
           </div>
         ))}
       </div>

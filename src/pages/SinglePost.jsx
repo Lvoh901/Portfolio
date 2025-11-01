@@ -4,17 +4,21 @@ import { useParams } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 const SinglePost = () => {
-  const { id } = useParams();
+  const { title } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const unslugify = (slug) => {
+      return slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+    };
+
     const fetchPost = async () => {
       const { data, error } = await supabase
         .from('posts')
         .select('*')
-        .eq('id', id)
+        .eq('title', unslugify(title))
         .single();
 
       if (error) {
@@ -27,7 +31,7 @@ const SinglePost = () => {
     };
 
     fetchPost();
-  }, [id]);
+  }, [title]);
 
   if (loading) {
     return <div className="min-h-screen flex justify-center items-center">Loading post...</div>;
@@ -47,11 +51,9 @@ const SinglePost = () => {
 
       <h3 className='font-black text-4xl mb-2'>{post.title}</h3>
 
-      <span className="text-gray-600 dark:text-gray-400 text-sm mb-4">By {post.author} on {new Date(post.created_at).toLocaleDateString()}</span>
+      <span className="text-gray-600 dark:text-gray-400 text-sm mb-4">Post by {" "}<strong className='underline underline-offset-4 decoration-[#fcba04] decoration-2'>{post.author} on {new Date(post.created_at).toLocaleDateString()}</strong></span>
 
-      <p className="prose dark:prose-invert max-w-none">
-        {post.content}
-      </p>
+      <div className="prose dark:prose-invert max-w-none pt-3" dangerouslySetInnerHTML={{ __html: post.content }} />
     </section>
   );
 };

@@ -50,7 +50,7 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <img src="/profile.webp" className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300" style={{ width: "calc(10em + 1vw)" }} />
+              <img src="/profile0.png" className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300" style={{ width: "calc(10em + 1vw)", height: "auto" }} />
 
               <h1 className="font-bold tracking-tight text-gray-900 dark:text-white">
                 About <span className="text-[#FCBA04]" id='name'>Me</span>

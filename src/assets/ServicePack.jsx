@@ -7,7 +7,7 @@ const sections = [
         title: "My Offer",
         content: (
             <div>
-                <img src="/offer.png" style={{width:'calc(25em + 4vw)'}}/>
+                <img src="/offer.png" style={{ width: 'calc(25em + 4vw)' }} />
 
                 <p className="pt-4">
                     I provide a comprehensive suite of digital services, including web and mobile app development, UI/UX design, branding, and digital strategy. My solutions are tailored to help you stand out and grow your business and brand.
@@ -41,7 +41,7 @@ const sections = [
         title: "Key Features",
         content: (
             <div>
-                <img src="/features.png" style={{width:'calc(25em + 4vw)'}}/>
+                <img src="/features.png" style={{ width: 'calc(25em + 4vw)' }} />
 
                 <ul className="space-y-2 pt-4">
                     <li className="flex items-center gap-2">
@@ -73,7 +73,7 @@ const sections = [
             <div>
                 <h4 className="font-semibold text-lg mb-2">Flexible Pricing</h4>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-5 mb-4">
                     <div className="rounded-xl border border-[#FCBA04] bg-white p-4 shadow-md flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:border-2 hover:border-[#FCBA04] cursor-pointer">
                         <h5 className="font-bold text-[#FCBA04] mb-1">Starter</h5>
 
@@ -112,7 +112,10 @@ const sections = [
                     </div>
                 </div>
 
-                <p className="mt-7 text-center">* All packages are customizable. Let's discuss your needs!</p>
+                <span className="mt-7 text-center font-light">
+                    * Every service package can be fully customized to match your unique business goals. <br />
+                    Get in touch today to discuss your project requirements and receive a tailored website or digital solution quote!
+                </span>
             </div>
         ),
     },

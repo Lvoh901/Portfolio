@@ -16,6 +16,7 @@ const Projects = lazy(() => import('./pages/Projects'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Blog = lazy(() => import('./pages/Blog'));
 const SinglePost = lazy(() => import('./pages/SinglePost'));
+const CreatePost = lazy(() => import('./pages/CreatePost'));
 
 const AppContent = () => {
   const location = useLocation();
@@ -45,7 +46,8 @@ const AppContent = () => {
               <Route path="/projects" element={<Projects />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:id" element={<SinglePost />} />
+              <Route path="/blog/:title" element={<SinglePost />} />
+              <Route path="/createpost" element={<CreatePost />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

@@ -18,8 +18,8 @@ const SinglePost = () => {
       const { data, error } = await supabase
         .from('posts')
         .select('*')
-        .eq('title', unslugify(title))
-        .single();
+        .ilike('title', unslugify(title))
+        .maybeSingle();
 
       if (error) {
         setError(error.message);
@@ -51,9 +51,13 @@ const SinglePost = () => {
 
       <h3 className='font-black text-4xl mb-2'>{post.title}</h3>
 
-      <span className="text-gray-600 dark:text-gray-400 text-sm mb-4">Post by {" "}<strong className='underline underline-offset-4 decoration-[#fcba04] decoration-2'>{post.author} on {new Date(post.created_at).toLocaleDateString()}</strong></span>
+      <div className='flex flex-col'>
+        <span className="text-gray-600 dark:text-gray-400 text-sm mb-4">Post by {" "}<strong className='underline underline-offset-4 decoration-[#fcba04] decoration-2'>{post.author} on {new Date(post.created_at).toLocaleDateString()}</strong></span>
 
-      <div className="prose dark:prose-invert max-w-none pt-3" dangerouslySetInnerHTML={{ __html: post.content }} />
+        <span className='text-[#fcba04] font-bold'>#{post.category}</span>
+      </div>
+
+      <div className="prose dark:prose-invert max-w-none pt-3 space-y-3" dangerouslySetInnerHTML={{ __html: post.content }} />
     </section>
   );
 };

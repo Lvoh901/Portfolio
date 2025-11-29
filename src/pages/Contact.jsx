@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { FaLinkedinIn } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaEnvelope, FaXTwitter } from 'react-icons/fa6';
 import { IoLogoGithub } from 'react-icons/io';
 import { MdOutlineLocalPhone } from 'react-icons/md';
+import { motion } from 'framer-motion';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
 import { supabase } from '../supabaseClient';
@@ -97,17 +98,23 @@ const Contact = () => {
 
   return (
     <section className='min-h-screen mx-auto max-w-6xl  py-20 px-8 lg:px-0 flex flex-col justify-center items-center'>
-      <h1 className='font-black capitalize animate-fade-up text-center'>get in touch</h1>
+      <h3
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className='font-black capitalize animate-fade-up text-center underline underline-offset-4 decoration-[#FCBA04] decoration-wavy'>
+        get in touch
+      </h3>
 
       <p className='w-full lg:w-[600px] text-center'>I am excited to hear from you and get to create something amazing together. Reach out for any inquiry.</p>
 
-      <h4 className='pt-5 underline underline-offset-4 decoration-[#fcba04] uppercase font-black text-center'>Reach out directly:</h4>
+      <h4 className='pt-5 font-black text-center'>Reach out directly:</h4>
 
-      <p className='flex items-center gap-1.5 font-light text-center'>info@odhiambolvis.tech</p>
+      <p className='flex items-center gap-1.5 text-center'><FaEnvelope className='text-[#fcba04]' />: info@odhiambolvis.tech </p>
 
-      <p className='flex items-center gap-1.5 font-light uppercase text-center'><MdOutlineLocalPhone />: (254) 718-505-642</p>
+      <p className='flex items-center gap-1.5 text-center'><MdOutlineLocalPhone className='text-[#fcba04]' />: (254) 718-505-642</p>
 
-      <p className='uppercase pt-3 text-center'>(mon - fri: 8am - 5pm eat)</p>
+      <p className='uppercase pt-3 text-center text-[#fcba04] font-bold'>(mon - fri: 8am - 5pm eat)</p>
 
       <div className='pt-6 flex gap-3'>
         <Tooltip title="Lvoh901" position="top">
@@ -197,7 +204,7 @@ const Contact = () => {
 
           <button
             type="submit"
-            className="bg-[#fcba04] text-white font-bold py-3 px-6 rounded-md hover:bg-[#e0a800] transition duration-300"
+            className="bg-[#000000] text-white font-bold py-3 px-6 uppercase rounded-md hover:bg-[#e0a800] hover:text-[#000000] transition duration-300 cursor-pointer"
           >
             Send Message
           </button>

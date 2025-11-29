@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import TestimonialCarousel from '../assets/Testimonial';
 
 const projectDetails = [
   {
@@ -76,7 +75,7 @@ const fadeUpVariant = {
 
 const Projects = () => {
   return (
-    <div className="min-h-screen mx-auto max-w-7xl py-20 p-8">
+    <div className="min-h-screen mx-auto max-w-7xl pt-4 px-8">
       <motion.section
         className="border-b dark:border-gray-600 my-5"
         initial="hidden"
@@ -85,20 +84,23 @@ const Projects = () => {
         variants={fadeUpVariant}
         custom={0}
       >
-        <motion.h1
-          className="font-bold tracking-tight text-gray-900 dark:text-white"
-          variants={fadeUpVariant}
-          custom={0}
+        <motion.h3
+          className="font-bold tracking-tight text-gray-900 dark:text-white underline underline-offset-4 decoration-[#FCBA04] decoration-wavy"
+          // variants={fadeUpVariant}
+          // custom={0}
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
           Projects
-        </motion.h1>
+        </motion.h3>
 
         <motion.p
-          className="w-full lg:w-[700px] py-2 font-light dark:text-gray-300"
+          className="py-2 dark:text-gray-300"
           variants={fadeUpVariant}
           custom={1}
         >
-          I have had the privilege of collaborating with both private and public organizations to transform their ideas into impactful digital solutions.
+          I have had the privilege of collaborating with both private and public organizations to transform their ideas into impactful digital solutions. Some of the projects I have had the privilege of being involved in include:
         </motion.p>
       </motion.section>
 
@@ -129,8 +131,6 @@ const Projects = () => {
           </motion.a>
         ))}
       </section>
-
-      <TestimonialCarousel />
     </div>
   );
 };

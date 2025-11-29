@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { FiSend } from 'react-icons/fi';
+import { FiDownload } from 'react-icons/fi';
 
 const Hero = () => {
-  const getYear = new Date().getFullYear();
+  // const getYear = new Date().getFullYear();
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen overflow-hidden p-8 transition-colors duration-300">
-      <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto gap-2 transition-colors duration-300">
+    <div className="relative flex items-center justify-center overflow-hidden pt-24 transition-colors duration-300">
+      <div className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto transition-colors duration-300">
         {/* Main Heading Section */}
         <motion.section
           id="heading"
@@ -16,16 +16,16 @@ const Hero = () => {
           className="flex flex-col items-center justify-center space-y-4"
         >
           <motion.img
-            src="/profile.webp"
+            src="/profile0.png"
             alt="Profile picture"
-            className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300"
-            style={{width:"calc(10em + 1.5vw)"}}
+            className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300 hover:border-4 cursor-pointer"
+            style={{ width: "calc(8em + 1vw)", height: "auto" }}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
           />
 
-          <div className="flex flex-col justify-center items-center gap-1">
+          <div className="flex flex-col justify-center items-center">
             <motion.span
               className=""
               initial={{ opacity: 0, y: 20 }}
@@ -46,33 +46,34 @@ const Hero = () => {
 
             {/* highlight text */}
             <motion.p
-              className="font-medium pb-3"
+              className="pb-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
               id="body"
             >
-              a Software Developer and a Product/ Graphic Designer in Nairobi, Kenya. I specialize in Digital products, Responsive Applications, and Branding.
+              I'm a <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>Full-Stack Developer</b> with a passion for creating <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>beautiful, functional, and user-centered digital experiences</b>. I have a strong background in both <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>front-end</b> and <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>back-end</b> development, and I'm always eager to learn new technologies and take on new challenges. <br /> When I'm not coding, you can find me exploring the latest design trends, working on personal projects, or enjoying a good cup of coffee.
             </motion.p>
 
             <motion.a
-              href="/projects"
-              className="flex items-center gap-2 bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-full cursor-pointer hover:font-bold uppercase border border-[#FCBA04] transition-colors duration-300 hover:bg-[#FCBA04] hover:text-black dark:hover:bg-[#FCBA04] dark:hover:text-black"
+              href="/Elvis Odhiambo_Fullstac Developer.pdf"
+              target="_blank"
+              className="inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full font-semibold uppercase border hover:bg-[#FCBA04] hover:text-black transition-all duration-300 mb-3 text-sm"
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              Projects <FiSend />
+              <FiDownload />
+              Resume
             </motion.a>
           </div>
 
-          <motion.span
+          {/* <motion.span
             className="pt-2 font-medium"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.6, ease: 'easeOut' }}
           >
             @ {getYear}
-          </motion.span>
+          </motion.span> */}
         </motion.section>
       </div>
     </div>

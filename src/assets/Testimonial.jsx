@@ -37,7 +37,7 @@ const Testimonial = () => {
 
     return (
         <div
-            className="py-12 relative"
+            className="py-28 relative bg-gray-200"
             onMouseEnter={() => clearInterval(containerRef.current)}
             onMouseLeave={() =>
                 (containerRef.current = setInterval(() => cycleTestimonials(1), 15000))

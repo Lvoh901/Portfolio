@@ -8,6 +8,7 @@ import Navigation from './assets/Navigation';
 const Footer = lazy(() => import('./pages/Footer'));
 import NotFound from './pages/404';
 import Loader from './assets/Loader';
+import Testimonial from './assets/Testimonial';
 
 const Hero = lazy(() => import('./pages/Hero'));
 const About = lazy(() => import('./pages/About'));
@@ -30,20 +31,28 @@ const AppContent = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Layout component for the main page
+  const MainLayout = () => (
+    <>
+      <Hero />
+      <About />
+      <Projects />
+      <Testimonial />
+      <Contact />
+    </>
+  );
+
   return (
     <div className='bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300'>
       <Navigation />
-
       <Loader isLoading={loading} />
 
       {!loading && (
         <React.Fragment>
           <Suspense fallback={<Loader isLoading={true} />}>
             <Routes>
-              <Route path="/" element={<Hero />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/" element={<MainLayout />} />
               <Route path="/gallery" element={<Gallery />} />
-              <Route path="/projects" element={<Projects />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:title" element={<SinglePost />} />
@@ -61,7 +70,6 @@ const AppContent = () => {
 import { ThemeProvider } from './contexts/ThemeContext';
 
 const App = () => {
-  // Remove duplicate loading logic from App, only use AppContent's loading
   return (
     <Router>
       <ThemeProvider>

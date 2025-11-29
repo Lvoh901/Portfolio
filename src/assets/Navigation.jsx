@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeContext } from '../contexts/ThemeContext';
-import { Sun, Moon } from 'lucide-react';
 
-const links = ['About', 'Projects', 'Gallery', 'Blog', 'Contact'];
+const links = ['Gallery', 'Blog', 'Contact'];
 
 const Navigation = () => {
     const { theme } = useContext(ThemeContext);

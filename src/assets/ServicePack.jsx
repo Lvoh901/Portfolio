@@ -129,7 +129,7 @@ const ServicePack = () => {
     };
 
     return (
-        <div className="pt-12">
+        <div className="pt-4">
             <motion.h3
                 className="font-black text-2xl text-gray-900 mb-6 flex items-center gap-2"
                 initial={{ opacity: 0, x: -30 }}

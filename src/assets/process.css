@@ -1,0 +1,48 @@
+/* Ensures the full page can scroll */
+body {
+    height: 10vh;
+    background-color: #f0f0f0;
+}
+
+/* 1. The main container that will be pinned */
+.process {
+    overflow: hidden;
+    background-color: #2d3748;
+}
+
+/* 2. The element that will move horizontally */
+.process-track {
+    display: flex;
+    width: max-content;
+    height: 50vh;
+    align-items: center;
+    padding: 0 10vw;
+    gap: 1vw;
+}
+
+/* 3. The individual cards */
+.process-card {
+    width: 70vw;
+    height: 30vh;
+    /* Height of a single card */
+    background-color: royalblue;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+/* A section after the process component to demonstrate the scroll transition */
+.next-section {
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    color: white;
+}

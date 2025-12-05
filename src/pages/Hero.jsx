@@ -5,8 +5,8 @@ const Hero = () => {
   // const getYear = new Date().getFullYear();
 
   return (
-    <div className="relative flex items-center justify-center overflow-hidden pt-24 transition-colors duration-300">
-      <div className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto transition-colors duration-300">
+    <div className="relative flex items-center justify-center overflow-hidden py-24 transition-colors duration-300">
+      <div className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto px-8 transition-colors duration-300">
         {/* Main Heading Section */}
         <motion.section
           id="heading"
@@ -36,29 +36,29 @@ const Hero = () => {
             </motion.span>
 
             <motion.h1
-              className="font-black"
+              className="font-black leading-10"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.6, ease: 'easeOut' }}
             >
-              Elvis <span className="text-[#FCBA04]" id="name">Odhiambo</span>
+              Elvis Odhiambo
             </motion.h1>
 
             {/* highlight text */}
             <motion.p
-              className="pb-5"
+              className="px-5 mt-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
               id="body"
             >
-              I'm a <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>Full-Stack Developer</b> with a passion for creating <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>beautiful, functional, and user-centered digital experiences</b>. I have a strong background in both <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>front-end</b> and <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>back-end</b> development, and I'm always eager to learn new technologies and take on new challenges. <br /> When I'm not coding, you can find me exploring the latest design trends, working on personal projects, or enjoying a good cup of coffee.
+              a <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>Full-Stack Developer</b> with a passion for creating <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>beautiful, functional, and user-centered digital experiences</b>. I have a strong background in both <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>front-end</b> and <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>back-end</b> development, and I'm always eager to learn new technologies and take on new challenges. When I'm not coding, you can find me exploring the latest design trends, working on personal projects, or enjoying a good cup of coffee.
             </motion.p>
 
             <motion.a
               href="/Elvis Odhiambo_Fullstac Developer.pdf"
               target="_blank"
-              className="inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full font-semibold uppercase border hover:bg-[#FCBA04] hover:text-black transition-all duration-300 mb-3 text-sm"
+              className="inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full font-semibold uppercase border hover:bg-[#FCBA04] hover:text-black transition-all duration-300 my-3 text-sm"
               whileHover={{ scale: 1.05 }}
             >
               <FiDownload />

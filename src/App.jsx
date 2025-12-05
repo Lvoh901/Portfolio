@@ -18,6 +18,8 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Blog = lazy(() => import('./pages/Blog'));
 const SinglePost = lazy(() => import('./pages/SinglePost'));
 const CreatePost = lazy(() => import('./pages/CreatePost'));
+const ProcessJourney = lazy(() => import('./pages/ProcessJourney'));
+
 
 const AppContent = () => {
   const location = useLocation();
@@ -37,6 +39,7 @@ const AppContent = () => {
       <Hero />
       <About />
       <Projects />
+      <ProcessJourney />
       <Testimonial />
       <Contact />
     </>

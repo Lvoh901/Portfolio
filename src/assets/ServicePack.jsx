@@ -1,137 +1,33 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 
-const sections = [
+const servicesList = [
     {
-        title: "My Offer",
-        content: (
-            <div>
-                <img src="/offer.png" style={{ width: 'calc(25em + 4vw)' }} />
-
-                <p className="pt-4">
-                    I provide a comprehensive suite of digital services, including web and mobile app development, UI/UX design, branding, and digital strategy. My solutions are tailored to help you stand out and grow your business and brand.
-                </p>
-
-                <ul className="pl-5 mt-3">
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>Custom Web & Mobile Apps</span>
-                    </li>
-
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>Brand Identity & Logo Design</span>
-                    </li>
-
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>UI/UX Consulting</span>
-                    </li>
-
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>Digital Product Strategy</span>
-                    </li>
-                </ul>
-            </div>
-        ),
+        img: "./development.jpg",
+        name: "Custom Web/ Mobile Application",
+        description: "Get a fast, sleek website or app custom-built to power your ideas and business."
     },
     {
-        title: "Key Features",
-        content: (
-            <div>
-                <img src="/features.png" style={{ width: 'calc(25em + 4vw)' }} />
-
-                <ul className="space-y-2 pt-4">
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>Responsive, mobile-first design</span>
-                    </li>
-
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>Modern tech stack (React, Node.js, Tailwind, etc.)</span>
-                    </li>
-
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>SEO & performance optimization</span>
-                    </li>
-
-                    <li className="flex items-center gap-2">
-                        <span className="inline-block w-2 h-2 bg-[#FCBA04]" />
-                        <span>Ongoing support & maintenance</span>
-                    </li>
-                </ul>
-            </div>
-        ),
+        img: "./brand.jpg",
+        name: "Brand Identity/ Logo Design",
+        description: "Stand out with a memorable logo and a striking, tailor-made brand identity."
     },
     {
-        title: "Pricing",
-        content: (
-            <div>
-                <h4 className="font-semibold text-lg mb-2">Flexible Pricing</h4>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-5 mb-4">
-                    <div className="rounded-xl border border-[#FCBA04] bg-white p-4 shadow-md flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:border-2 hover:border-[#FCBA04] cursor-pointer">
-                        <h5 className="font-bold text-[#FCBA04] mb-1">Starter</h5>
-
-                        <h4 className="font-black mb-2">Ksh. 20,000 +</h4>
-
-                        <ul className="mb-2 list-disc">
-                            <li>1-2 page website</li>
-                            <li>Basic branding</li>
-                            <li>Basic SEO</li>
-                        </ul>
-                    </div>
-
-                    <div className="rounded-xl border-2 border-[#FCBA04] bg-[#FCBA04]/10 p-4 shadow-lg flex flex-col items-center scale-105 transition-transform duration-300 hover:scale-110 hover:shadow-2xl hover:border-4 hover:border-[#FCBA04] cursor-pointer">
-                        <h5 className="font-bold text-[#FCBA04] mb-1">Pro</h5>
-
-                        <h4 className="font-black mb-2">Ksh. 85,000 +</h4>
-
-                        <ul className="mb-2 list-disc">
-                            <li>Up to 6 pages</li>
-                            <li>Custom design</li>
-                            <li>Advanced SEO</li>
-                            <li>Priority support</li>
-                        </ul>
-                    </div>
-
-                    <div className="rounded-xl border border-[#FCBA04] bg-white p-4 shadow-md flex flex-col items-center transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:border-2 hover:border-[#FCBA04] cursor-pointer">
-                        <h5 className="font-bold text-[#FCBA04] text-xl mb-1">Enterprise</h5>
-
-                        <h4 className="font-black mb-2">Custom</h4>
-
-                        <ul className="mb-2 list-disc">
-                            <li>Full-stack solutions</li>
-                            <li>Integrations & APIs</li>
-                            <li>Dedicated support</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <span className="mt-7 text-center font-light">
-                    * Every service package can be fully customized to match your unique business goals. <br />
-                    Get in touch today to discuss your project requirements and receive a tailored website or digital solution quote!
-                </span>
-            </div>
-        ),
+        img: "./ui_ux.jpg",
+        name: "UI/UX Design/ Consulting",
+        description: "Delight your users with beautiful, intuitive designs that drive results."
     },
+    {
+        img: "./digital.jpg",
+        name: "Digital Product Strategy",
+        description: "Transform your vision into digital success with expert strategy and guidance."
+    }
 ];
 
-const ServicePack = () => {
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    const toggleSection = (index) => {
-        setActiveIndex(activeIndex === index ? null : index);
-    };
-
-    return (
-        <div className="pt-4">
+const ServicePack = () => (
+    <section>
+        <div className="max-w-5xl mx-auto p-8">
             <motion.h3
-                className="font-black text-2xl text-gray-900 mb-6 flex items-center gap-2"
+                className="font-black text-center mb-2 gap-2 underline underline-offset-4 decoration-wavy decoration-[#FCBA04]"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
@@ -139,74 +35,63 @@ const ServicePack = () => {
                 Services & Packages
             </motion.h3>
 
-            <section className="w-full flex flex-col md:flex-row overflow-hidden">
-                {/* Left side: Dropdowns */}
-                <div className="w-full md:w-1/3 bg-white p-4 border-b md:border-b-0 md:border-r border-gray-200">
-                    {sections.map((section, index) => (
-                        <motion.div
-                            key={index}
-                            className={`mb-2 transition-all duration-300 ${activeIndex === index
-                                ? "bg-[#FCBA04]/10 border-l-4 border-[#FCBA04] shadow"
-                                : ""
-                                } rounded-0`}
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <button
-                                onClick={() => toggleSection(index)}
-                                className={`flex justify-between items-center w-full px-4 py-3 text-left transition font-bold text-gray-900 cursor-pointer ${activeIndex === index
-                                    ? "bg-[#FCBA04]/20"
-                                    : "bg-gray-100 hover:bg-gray-200"
-                                    }`}
-                                aria-expanded={activeIndex === index}
-                                aria-controls={`service-section-${index}`}
-                            >
-                                <span className="">{section.title}</span>
-                                <motion.div
-                                    animate={{ rotate: activeIndex === index ? 180 : 0 }}
-                                    transition={{ duration: 0.3 }}
-                                    className="ml-2"
-                                >
-                                    <ChevronDown />
-                                </motion.div>
-                            </button>
+            <p className="pb-4 text-center">
+                I provide a comprehensive suite of digital services, including web and mobile app development, UI/UX design, branding, and digital strategy. My solutions are tailored to help you stand out and grow your business and brand.
+            </p>
 
-                            {/* Show dropdown content only on mobile */}
-                            <AnimatePresence>
-                                {activeIndex === index && (
-                                    <motion.div
-                                        id={`service-section-${index}`}
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        className="md:hidden overflow-hidden px-4 py-3 bg-white rounded-b-xl border-t border-gray-100"
-                                    >
-                                        {section.content}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    ))}
-                </div>
+            {/* Service Features Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 lg:gap-4 mb-10">
+                {servicesList.map((service, idx) => (
+                    <motion.div
+                        key={service.name}
+                        className="relative overflow-hidden rounded-lg shadow-md cursor-pointer"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.035, boxShadow: '0 16px 32px 0 rgba(252,186,4,0.11)' }}
+                        transition={{ duration: 0.5, delay: idx * 0.14, type: 'spring', stiffness: 200, damping: 16 }}
+                        viewport={{ once: true }}
+                    >
+                        {service.img && (
+                            <motion.img
+                                src={service.img}
+                                alt={service.name}
+                                className="absolute inset-0 h-full w-full object-cover transition-transform"
+                                whileHover={{ scale: 1.07 }}
+                                transition={{ duration: 0.48 }}
+                            />
+                        )}
 
-                {/* Right side: Content (desktop only) */}
-                <div className="hidden md:flex w-2/3 p-8 items-center justify-center transition-colors duration-300">
-                    {activeIndex !== null ? (
+                        {/* Overlay */}
                         <motion.div
-                            key={activeIndex}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="text-gray-800 w-full"
+                            className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-gray-700/30 pointer-events-none z-10"
+                            whileHover={{ background: "linear-gradient(to top, rgba(252,186,4,0.25), rgba(252,186,4,0.12) 70%)" }}
+                            transition={{ duration: 0.33 }}
+                        ></motion.div>
+
+                        <motion.div
+                            className="relative z-20 pt-32 sm:pt-48 lg:pt-64 p-5"
+                            whileHover={{ y: -4 }}
+                            transition={{ duration: 0.28 }}
                         >
-                            {sections[activeIndex].content}
+                            <h4 className="font-bold mt-0.5 text-lg text-white">{service.name}</h4>
+                            <span className="text-white/95 font-medium">{service.description}</span>
                         </motion.div>
-                    ) : (
-                        <p className="italic">Select a tab to see content</p>
-                    )}
-                </div>
-            </section>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* Pricing Section */}
+            <h4 className="font-bold text-center tracking-wide">Flexible Pricing</h4>
+
+            <p className="text-center text-base">
+                * Every service is fully customizable to match your unique business goals. Get in touch today to discuss your project requirements and receive a tailored website or digital solution quote!
+            </p>
+
+            <div className="flex justify-center items-center mt-4">
+                <button className="bg-black text-white font-bold px-4 py-2 rounded-md hover:bg-[#FCBA04] hover:text-black hover:border hover:border-black cursor-pointer">Get in Touch</button>
+            </div>
         </div>
-    );
-};
+    </section>
+);
 
 export default ServicePack;

@@ -47,7 +47,7 @@ const SinglePost = () => {
 
   return (
     <section className='min-h-screen mx-auto container py-20 px-8 lg:px-0'>
-      <img src={post.image_url} alt={post.title} className="w-full h-96 object-cover rounded-lg mb-8" />
+      <img src={post.image_url} alt={post.title} className="w-full h-96 object-cover rounded-t-[2em] mb-8" />
 
       <h3 className='font-black text-4xl mb-2'>{post.title}</h3>
 

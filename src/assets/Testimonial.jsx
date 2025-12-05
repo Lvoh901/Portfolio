@@ -36,55 +36,59 @@ const Testimonial = () => {
     }, []);
 
     return (
-        <div
-            className="py-28 relative bg-gray-200"
-            onMouseEnter={() => clearInterval(containerRef.current)}
-            onMouseLeave={() =>
-                (containerRef.current = setInterval(() => cycleTestimonials(1), 15000))
-            }
-        >
-            <h4 className="text-center font-semibold uppercase text-lg underline underline-offset-4 decoration-4 decoration-[#fcba04] mb-8 dark:text-white">
-                What My Clients Say
-            </h4>
+        <div>
+            <img src="./about.jpg" alt="value" className='w-full h-full object-cover' />
 
-            <div className="relative w-full max-w-3xl mx-auto px-4 text-center overflow-hidden">
-                <AnimatePresence mode="wait" custom={direction}>
-                    <motion.div
-                        key={current}
-                        custom={direction}
-                        initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
-                        className="px-4 lg:px-8"
-                    >
-                        <p className="text-gray-800 dark:text-gray-100 italic font-light leading-relaxed pb-3">
-                            “{testimonials[current].quote}”
-                        </p>
+            <div
+                className="py-28 relative bg-gray-200"
+                onMouseEnter={() => clearInterval(containerRef.current)}
+                onMouseLeave={() =>
+                    (containerRef.current = setInterval(() => cycleTestimonials(1), 15000))
+                }
+            >
+                <h4 className="text-center font-semibold uppercase text-lg underline underline-offset-4 decoration-4 decoration-[#fcba04] mb-8 dark:text-white">
+                    What My Clients Say
+                </h4>
 
-                        <small className="mt-4 font-medium uppercase tracking-wide dark:text-gray-300">
-                            — {testimonials[current].author}
-                        </small>
-                    </motion.div>
-                </AnimatePresence>
+                <div className="relative w-full max-w-3xl mx-auto px-4 text-center overflow-hidden">
+                    <AnimatePresence mode="wait" custom={direction}>
+                        <motion.div
+                            key={current}
+                            custom={direction}
+                            initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
+                            transition={{ duration: 0.6, ease: 'easeOut' }}
+                            className="px-4 lg:px-8"
+                        >
+                            <p className="text-gray-800 dark:text-gray-100 italic font-light leading-relaxed pb-3">
+                                “{testimonials[current].quote}”
+                            </p>
 
-                {/* Navigation Buttons */}
-                <div className='space-x-3 pt-5'>
-                    <button
-                        onClick={() => cycleTestimonials(-1)}
-                        className="bg-[#fcba04]/90 hover:bg-[#fcba04] p-2 rounded-full shadow text-black cursor-pointer"
-                        aria-label="Previous"
-                    >
-                        <ChevronLeft size={20} />
-                    </button>
+                            <small className="mt-4 font-medium uppercase tracking-wide dark:text-gray-300">
+                                — {testimonials[current].author}
+                            </small>
+                        </motion.div>
+                    </AnimatePresence>
 
-                    <button
-                        onClick={() => cycleTestimonials(1)}
-                        className="bg-[#fcba04]/90 hover:bg-[#fcba04] p-2 rounded-full shadow text-black cursor-pointer"
-                        aria-label="Next"
-                    >
-                        <ChevronRight size={20} />
-                    </button>
+                    {/* Navigation Buttons */}
+                    <div className='space-x-3 pt-5'>
+                        <button
+                            onClick={() => cycleTestimonials(-1)}
+                            className="bg-[#fcba04]/90 hover:bg-[#fcba04] p-2 rounded-full shadow text-black cursor-pointer"
+                            aria-label="Previous"
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+
+                        <button
+                            onClick={() => cycleTestimonials(1)}
+                            className="bg-[#fcba04]/90 hover:bg-[#fcba04] p-2 rounded-full shadow text-black cursor-pointer"
+                            aria-label="Next"
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

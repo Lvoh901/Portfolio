@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 // Skill images (now using local /icons/ directory)
 const skillImages = {
@@ -32,45 +31,32 @@ const About = () => {
   return (
     <div className="py-4">
       <div className="mx-auto max-w-7xl px-8">
-        <motion.div
+        <div
           className="space-y-6"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           <div className='flex gap-1'>
-            <motion.h3
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+            <h3
               className="font-bold text-gray-900 dark:text-white underline underline-offset-4 decoration-[#FCBA04] decoration-wavy">
               Tech
-            </motion.h3>
+            </h3>
 
-            <motion.h3
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+            <h3
               className='font-bold text-[#FCBA04]'>
               Stack
-            </motion.h3>
+            </h3>
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-1">
             {skills.map((skill, index) => (
-              <motion.div
+              <div
                 key={index}
                 className="inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-md font-semibold uppercase border hover:bg-[#FCBA04] hover:text-black transition-all duration-300 mb-3 text-sm cursor-pointer"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 {skill.name}
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

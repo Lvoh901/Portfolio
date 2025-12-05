@@ -18,6 +18,7 @@
     "autoprefixer": "^10.4.21",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.12.1",
+    "gsap": "^3.13.0",
     "lexical": "^0.38.2",
     "lucide-react": "^0.518.0",
     "postcss": "^8.5.4",
@@ -28,6 +29,7 @@
     "react-router-dom": "^7.6.1",
     "react-simple-typewriter": "^5.0.1",
     "react-tippy": "^1.4.0",
+    "resize-observer-polyfill": "^1.5.1",
     "sweetalert2": "^11.26.3",
     "tailwindcss": "^4.1.8",
     "tailwindcss-animated": "^2.0.0"

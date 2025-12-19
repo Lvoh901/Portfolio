@@ -1,21 +1,8 @@
 import React from 'react';
 
-// Skill images (now using local /icons/ directory)
-const skillImages = {
-  'JavaScript': '/icons/js.png',
-  'React & Next.js': '/icons/reactjs.png',
-  'Node.js & Express': '/icons/nodejs.png',
-  'HTML5 & CSS3': '/icons/html5.png',
-  'Tailwind CSS': '/icons/tailwind.png',
-  'SQL & NoSQL': '/icons/mysql.png',
-  'VueJs': '/icons/vuejs.png',
-  'RESTful APIs': '/icons/api.png',
-  'Laravel': '/icons/laravel.png',
-  'Flutter': '/icons/flutter.png',
-};
-
 const skills = [
   { name: 'JavaScript' },
+  { name: 'Typescript' },
   { name: 'React & Next.js' },
   { name: 'Node.js & Express' },
   { name: 'HTML5 & CSS3' },

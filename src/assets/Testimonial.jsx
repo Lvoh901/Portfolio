@@ -4,19 +4,20 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const testimonials = [
     {
-        quote:
-            "Elvis transformed our outdated platform into a stunning and responsive digital product. His attention to design and functionality is unmatched.",
-        author: "Cynthia W., Creative Director – Nova Brands",
+        quote: "With Elvis's expertise in web development and automation, our organization now operates on a highly efficient and automated digital platform. His commitment drove us to achieve operational excellence in record time.",
+        author: "Land Surveyors' Board Secretariat",
     },
     {
-        quote:
-            "From strategy to execution, Elvis delivered beyond expectations. We saw measurable engagement growth within weeks.",
-        author: "David M., CEO – UrbanTech Solutions",
+        quote: "Elvis transformed our outdated legacy system into a powerful, modern, and user-friendly digital platform. His web development skills made our business far more visible and accessible online.",
+        author: "Citikom CEO",
     },
     {
-        quote:
-            "He doesn't just write code, he solves problems with precision. Highly recommended for complex and modern applications.",
-        author: "Angela R., Product Lead – CivicData Kenya",
+        quote: "While my platform is still under development, the updated website already provides my clients with a fresh, professional interface that strengthens our brand and builds trust in our business.",
+        author: "LeGance CEO",
+    },
+    {
+        quote: "Elvis's web development services enabled me to operate with an advanced, efficient platform that gives my company a competitive edge and aligns us with industry standards.",
+        author: "LeGance CEO",
     },
 ];
 
@@ -61,13 +62,13 @@ const Testimonial = () => {
                             transition={{ duration: 0.6, ease: 'easeOut' }}
                             className="px-4 lg:px-8"
                         >
-                            <p className="text-gray-800 dark:text-gray-100 italic font-light leading-relaxed pb-3">
+                            <p className="text-gray-800 dark:text-gray-100 italic leading-relaxed pb-3">
                                 “{testimonials[current].quote}”
                             </p>
 
-                            <small className="mt-4 font-medium uppercase tracking-wide dark:text-gray-300">
+                            <b className="mt-4 font-medium uppercase tracking-wide dark:text-gray-300 italic">
                                 — {testimonials[current].author}
-                            </small>
+                            </b>
                         </motion.div>
                     </AnimatePresence>
 
@@ -75,18 +76,18 @@ const Testimonial = () => {
                     <div className='space-x-3 pt-5'>
                         <button
                             onClick={() => cycleTestimonials(-1)}
-                            className="bg-[#fcba04]/90 hover:bg-[#fcba04] p-2 rounded-full shadow text-black cursor-pointer"
+                            className="bg-[#fcba04]/60 hover:bg-[#fcba04] p-5 rounded-full shadow text-black cursor-pointer"
                             aria-label="Previous"
                         >
-                            <ChevronLeft size={20} />
+                            <ChevronLeft size={24} />
                         </button>
 
                         <button
                             onClick={() => cycleTestimonials(1)}
-                            className="bg-[#fcba04]/90 hover:bg-[#fcba04] p-2 rounded-full shadow text-black cursor-pointer"
+                            className="bg-[#fcba04]/60 hover:bg-[#fcba04] p-5 rounded-full shadow text-black cursor-pointer"
                             aria-label="Next"
                         >
-                            <ChevronRight size={20} />
+                            <ChevronRight size={24} />
                         </button>
                     </div>
                 </div>

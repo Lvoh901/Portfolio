@@ -14,11 +14,7 @@ const testimonials = [
     {
         quote: "While my platform is still under development, the updated website already provides my clients with a fresh, professional interface that strengthens our brand and builds trust in our business.",
         author: "LeGance CEO",
-    },
-    {
-        quote: "Elvis's web development services enabled me to operate with an advanced, efficient platform that gives my company a competitive edge and aligns us with industry standards.",
-        author: "LeGance CEO",
-    },
+    }
 ];
 
 const Testimonial = () => {

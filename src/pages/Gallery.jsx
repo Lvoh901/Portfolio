@@ -1,151 +1,138 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import HeaderImg from '/designs/headerImg.webp';
+import { FaPaintBrush, FaTags, FaMobileAlt, FaNewspaper, FaLaptopCode } from 'react-icons/fa';
+
+// Add an 'images' array for each category (replace these with real paths later)
+const serviceTypes = [
+  // {
+  //   number: '01',
+  //   title: 'Logo Folio',
+  //   color: 'from-amber-100 to-yellow-100',
+  //   icon: <FaPaintBrush />,
+  //   content: 'My logofolio highlights custom logos designed with a focus on client vision and interest.',
+  //   images: [
+  //     '/gallery/logo1.webp',
+  //     '/gallery/logo2.webp',
+  //     '/gallery/logo3.webp'
+  //   ]
+  // },
+  // {
+  //   number: '02',
+  //   title: 'Branding Design',
+  //   color: 'from-blue-100 to-blue-200',
+  //   icon: <FaTags />,
+  //   content: 'This section highlights high impact visuals identifying addressing Vision, Mission, and goals of companies.',
+  //   images: [
+  //     '/gallery/brand1.webp',
+  //     '/gallery/brand2.webp'
+  //   ]
+  // },
+  {
+    number: '03',
+    title: 'Social Media',
+    color: 'from-pink-100 to-pink-200',
+    icon: <FaMobileAlt />,
+    content: 'My social media design projects featured in Facebook, Twitter, and LinkedIn in different accounts both public and personal accounts.',
+    images: [
+      '/designs/social_media1.png',
+      '/designs/social_media2.png',
+      '/designs/social_media3.png',
+      '/designs/social_media4.jpg',
+      '/designs/social_media5.jpg',
+      '/designs/social_media6.jpg',
+      '/designs/social_media7.jpg',
+      '/designs/social_media8.jpg',
+      '/designs/social_media9.jpg',
+      '/designs/social_media10.png',
+      '/designs/social_media11.webp',
+      '/designs/social_media12.png',
+    ]
+  },
+  // {
+  //   number: '04',
+  //   title: 'Print Media',
+  //   color: 'from-green-100 to-teal-100',
+  //   icon: <FaNewspaper />,
+  //   content: 'Delve into my print media design work t enhance offline brand presence.',
+  //   images: [
+  //     '/gallery/print1.webp',
+  //     '/gallery/print2.webp'
+  //   ]
+  // },
+  // {
+  //   number: '05',
+  //   title: 'UI/UX Design',
+  //   color: 'from-purple-100 to-indigo-100',
+  //   icon: <FaLaptopCode />,
+  //   content: 'Seamless UI/UX for applications and websites that combines clarity, visual appeal, and usability.',
+  //   images: [
+  //     '/gallery/uiux1.webp',
+  //     '/gallery/uiux2.webp',
+  //     '/gallery/uiux3.webp'
+  //   ]
+  // },
+];
 
 const Gallery = () => {
-  // Get the list of image filenames from the public/designs directory
-  const imagePaths = Object.keys(import.meta.glob('/public/designs/*.{jpg,jpeg,png,webp}', { eager: true })).map(
-    (path) => path.replace('/public', '')
-  );
+  const [activeTab, setActiveTab] = useState(serviceTypes[0].number);
 
-  // State for modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Open modal with specific image
-  const openModal = (index) => {
-    setCurrentImageIndex(index);
-    setIsModalOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-  };
-
-  // Close modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
-  };
-
-  // Navigate to next image
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === imagePaths.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  // Navigate to previous image
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? imagePaths.length - 1 : prevIndex - 1
-    );
-  };
-
-  // Close modal when clicking outside image
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      closeModal();
-    }
-  };
+  const activeService = serviceTypes.find(service => service.number === activeTab);
 
   return (
-    <div className='bg-gray-200'>
-      <div className="min-h-screen mx-auto max-w-7xl py-20 p-8">
-        <div className="flex flex-col my-5">
-          <div className='flex gap-1'>
-            <motion.h3
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="font-bold tracking-tight text-gray-900 underline underline-offset-4 decoration-[#FCBA04] decoration-wavy">
-              Design
-            </motion.h3>
+    <div className="py-16 bg-gradient-to-b from-white via-gray-50 to-gray-100 min-h-screen">
+      <section className="flex flex-col items-center mb-8">
+        <img
+          src={HeaderImg}
+          alt="Gallery Header"
+          className="w-full object-cover rounded-b-xl shadow-lg mb-6 mt-2"
+        />
+      </section>
 
-            <motion.h3
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="font-bold text-[#FCBA04]">
-              Gallery
-            </motion.h3>
-          </div>
-
-          <p className="dark:text-gray-300 pb-5">
-            A curated collection of personal and professional design work, including projects for the Land Surveyor's Board.
-          </p>
-        </div>
-
-        {/* Redesigned grid gallery */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {imagePaths.map((path, index) => (
-            <div
-              key={index}
-              className="relative group rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-800 hover:shadow-2xl transition-shadow duration-300"
+      {/* Responsive Tabs for Service Types */}
+      <section className="container mx-auto px-8 mb-4">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-4">
+          {serviceTypes.map((service) => (
+            <button
+              key={service.number}
+              onClick={() => setActiveTab(service.number)}
+              className={`
+                px-5 py-2 rounded-md transition-all duration-300 cursor-pointer flex gap-2.5 items-center
+                ${activeTab === service.number
+                  ? 'bg-[#FCBA04] text-white shadow-md font-bold uppercase'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900 font-semibold'
+                }
+              `}
             >
-              <img
-                src={path}
-                alt={`Gallery image ${index + 1}`}
-                className="w-full h-72 object-cover object-center transition-transform duration-300 group-hover:scale-105 cursor-pointer"
-                loading="lazy"
-                onClick={() => openModal(index)}
-              />
-              <div
-                className="absolute inset-0 bg-black/20 group-hover:bg-opacity-40 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                onClick={() => openModal(index)}
-              >
-                <span className="opacity-0 group-hover:opacity-100 text-white text-lg font-semibold tracking-wide transition-opacity duration-300 bg-black px-4 py-1 rounded-md border border-white">
-                  View
-                </span>
-              </div>
-            </div>
+              {service.icon} {service.title}
+            </button>
           ))}
         </div>
 
-        {/* Modal */}
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-            onClick={handleBackdropClick}
-          >
-            <div className="relative w-full max-w-3xl max-h-[90vh] flex flex-col items-center">
-              {/* Close button */}
-              <button
-                onClick={closeModal}
-                className="absolute -top-10 right-0 text-white text-4xl hover:text-[#fcba04] transition-colors z-10 cursor-pointer"
-                aria-label="Close"
-              >
-                &times;
-              </button>
+        {/* Tab Content */}
+        <div className="pt-2.5">
+          <h3 className="font-bold text-gray-800 mb-4 flex flex-col">
+            {activeService.title}
+          </h3>
+          <p className="text-gray-600 leading-relaxed text-center md:text-left mb-6">
+            {activeService.content}
+          </p>
 
-              {/* Main image */}
-              <img
-                src={imagePaths[currentImageIndex]}
-                alt={`Gallery image ${currentImageIndex + 1}`}
-                className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-lg"
-              />
-
-              {/* Navigation buttons */}
-              <button
-                onClick={(e) => { e.stopPropagation(); prevImage(); }}
-                className="absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-[#fcba04] hover:text-black transition-all z-10 cursor-pointer"
-                aria-label="Previous image"
-              >
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
-              </button>
-
-              <button
-                onClick={(e) => { e.stopPropagation(); nextImage(); }}
-                className="absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-[#fcba04] hover:text-black transition-all z-10 cursor-pointer"
-                aria-label="Next image"
-              >
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-              </button>
-
-              {/* Image counter */}
-              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 bg-black bg-opacity-60 text-[#fcba04] px-4 py-1 rounded-full text-base font-medium tracking-wide italic">
-                {currentImageIndex + 1} / {imagePaths.length}
-              </div>
+          {/* Display images for the active category */}
+          {activeService.images && activeService.images.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-8 justify-center">
+              {activeService.images.map((img, idx) => (
+                <div key={idx} className="overflow-hidden rounded-lg shadow border border-gray-50 bg-white flex items-center justify-center hover:shadow-md hover:shadow-[#fcba04] cursor-pointer">
+                  <img
+                    src={img}
+                    alt={`${activeService.title} ${idx + 1}`}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              ))}
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };

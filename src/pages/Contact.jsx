@@ -6,7 +6,7 @@ import { MdOutlineLocalPhone } from 'react-icons/md';
 import { motion } from 'framer-motion';
 import { Tooltip } from 'react-tippy';
 import 'react-tippy/dist/tippy.css';
-import { supabase } from '../supabaseClient';
+
 // Lucide React icons
 import {
   Globe,
@@ -78,16 +78,15 @@ const Contact = () => {
     e.preventDefault();
     setStatus('Sending...');
 
-    const { error } = await supabase
-      .from('contacts')
-      .insert([formData]);
-
-    if (error) {
-      console.error('Error submitting form:', error);
-      setStatus('Failed to send message. Please try again.');
-    } else {
+    // Simulate API call
+    try {
+      // For demonstration, let's assume it always succeeds after a delay
+      await new Promise(resolve => setTimeout(resolve, 1000)); 
       setStatus('Message sent successfully!');
       setFormData({ name: '', email: '', subject: '', message: '', service: '' });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('Failed to send message. Please try again.');
     }
   };
 

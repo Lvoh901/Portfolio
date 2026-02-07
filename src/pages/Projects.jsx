@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const projectDetails = [
@@ -8,6 +8,7 @@ const projectDetails = [
     title: 'LSB',
     description: 'A project focused on digital transformation of the land surveying practice in Kenya.',
     linkUrl: 'https://lsb.go.ke/',
+    stage: 'completed',
   },
   {
     id: 2,
@@ -15,13 +16,15 @@ const projectDetails = [
     title: 'Citikom',
     description: 'A telecommunications company making significant strides in both connectivity and network coverage.',
     linkUrl: 'https://citikom.co.ke/',
+    stage: 'completed',
   },
   {
     id: 3,
     image: '/work/SoK.webp',
     title: 'Survey of Kenya (SoK)',
     description: 'State department of lands and Physical Planning mandated with the regulation and setting standards for all survey and mapping activities in Kenya.',
-    linkUrl: 'https://survey-kenya.vercel.app/'
+    linkUrl: 'https://survey-kenya.vercel.app/',
+    stage: 'development',
   },
   {
     id: 4,
@@ -29,6 +32,7 @@ const projectDetails = [
     title: 'ThriftMall',
     description: 'A technology integration project for a research institution.',
     linkUrl: 'https://thrifmall.vercel.app/',
+    stage: 'development',
   },
   {
     id: 5,
@@ -36,6 +40,7 @@ const projectDetails = [
     title: 'Intelliworks',
     description: 'An expert in GeoICT with a flare for modern technologies in software development and data-driven systems.',
     linkUrl: 'https://roy-nine.vercel.app/',
+    stage: 'development',
   },
   {
     id: 6,
@@ -43,21 +48,32 @@ const projectDetails = [
     title: 'LeGance',
     description: 'Discover unique curios and handcrafted treasures to elevate your home into an amazing living space.',
     linkUrl: 'https://curioshop.vercel.app/',
+    stage: 'development',
   },
   {
     id: 7,
     image: '/work/mindmaze.webp',
     title: 'MindMaze',
     description: 'A random knowledge quiz using opensource API for questions with a twist in playing the game.',
-    linkUrl: 'https://mindmaze-riskreward.vercel.app/'
+    linkUrl: 'https://mindmaze-riskreward.vercel.app/',
+    stage: 'development',
   },
   {
     id: 8,
     image: '/work/opendata.webp',
     title: 'OpenData Insights',
     description: 'A dashboard using open source WorldBank data to depict trends and patterns in Kenya.',
-    linkUrl: 'https://open-lens-insights.vercel.app/?dataset=economy_inflation_kenya'
-  }
+    linkUrl: 'https://open-lens-insights.vercel.app/?dataset=economy_inflation_kenya',
+    stage: 'development',
+  },
+  {
+    id: 9,
+    image: '/work/agency.webp',
+    title: 'Agency Website',
+    description: 'A modern agency website showcasing services and portfolio.',
+    linkUrl: '#',
+    stage: 'development',
+  },
 ];
 
 const fadeUpVariant = {
@@ -74,6 +90,22 @@ const fadeUpVariant = {
 };
 
 const Projects = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const filteredProjects = projectDetails.filter(project => {
+    if (activeCategory === 'all') {
+      return true;
+    }
+    return project.stage === activeCategory;
+  });
+
+  const categoryButtonClass = (category) =>
+    `px-4 py-2 rounded-md font-medium hover:font-bold transition-colors duration-300 cursor-pointer ${
+      activeCategory === category
+        ? 'bg-[#FCBA04] text-black'
+        : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
+    }`;
+
   return (
     <div className="min-h-screen mx-auto max-w-7xl pt-4 px-8">
       <motion.section
@@ -86,8 +118,6 @@ const Projects = () => {
       >
         <motion.h3
           className="font-bold tracking-tight text-gray-900 dark:text-white underline underline-offset-4 decoration-[#FCBA04] decoration-wavy"
-          // variants={fadeUpVariant}
-          // custom={0}
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
@@ -104,9 +134,31 @@ const Projects = () => {
         </motion.p>
       </motion.section>
 
+      {/* Category Filter Buttons */}
+      <div className="flex justify-center gap-4 py-6">
+        <button
+          className={categoryButtonClass('all')}
+          onClick={() => setActiveCategory('all')}
+        >
+          All
+        </button>
+        <button
+          className={categoryButtonClass('completed')}
+          onClick={() => setActiveCategory('completed')}
+        >
+          Completed/Launched
+        </button>
+        <button
+          className={categoryButtonClass('development')}
+          onClick={() => setActiveCategory('development')}
+        >
+          In Development
+        </button>
+      </div>
+
       {/* projects grid */}
       <section className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-6">
-        {projectDetails.map((project, index) => (
+        {filteredProjects.map((project, index) => (
           <motion.a
             href={project.linkUrl || '#'}
             target={project.linkUrl ? '_blank' : '_self'}

@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
-import { FiDownload } from 'react-icons/fi';
+import { ArrowDown } from 'lucide-react';
 
 const Hero = () => {
   // const getYear = new Date().getFullYear();
 
   return (
     <div className="relative flex items-center justify-center overflow-hidden py-24 transition-colors duration-300">
-      <div className="flex flex-col items-center justify-center text-center max-w-5xl mx-auto px-8 transition-colors duration-300">
+      <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto px-8 transition-colors duration-300">
         {/* Main Heading Section */}
         <motion.section
           id="heading"
@@ -18,8 +18,8 @@ const Hero = () => {
           <motion.img
             src="/profile0.png"
             alt="Profile picture"
-            className="rounded-full object-cover border-2 border-[#FCBA04] shadow-lg transition-all duration-300 hover:border-4 cursor-pointer"
-            style={{ width: "calc(8em + 1vw)", height: "auto" }}
+            className="rounded-full object-cover shadow-lg transition-all duration-300 hover:border-2 cursor-pointer"
+            style={{ width: "calc(8em + 3vw)", height: "auto" }}
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
@@ -46,7 +46,7 @@ const Hero = () => {
 
             {/* highlight text */}
             <motion.p
-              className="px-5 mt-2"
+              className="px-5 mt-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
@@ -61,19 +61,28 @@ const Hero = () => {
               className="inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full font-semibold uppercase border hover:bg-[#FCBA04] hover:text-black transition-all duration-300 my-3 text-sm"
               whileHover={{ scale: 1.05 }}
             >
-              <FiDownload />
-              Resume
+              Download CV
             </motion.a>
-          </div>
 
-          {/* <motion.span
-            className="pt-2 font-medium"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.6, ease: 'easeOut' }}
-          >
-            @ {getYear}
-          </motion.span> */}
+            {/* scroll down animation */}
+            <div className='pt-8 flex flex-col justify-center items-center'>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, 12, 0],  // Animate down and back up (bounce effect)
+                }}
+                transition={{
+                  duration: 1.2,
+                  repeat: Infinity,
+                  repeatType: 'loop',
+                  ease: "easeInOut",
+                }}
+              >
+                <ArrowDown className='w-8 h-8 text-[#fcba04]' />
+              </motion.div>
+            </div>
+          </div>
         </motion.section>
       </div>
     </div>

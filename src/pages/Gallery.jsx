@@ -46,6 +46,10 @@ const serviceTypes = [
       '/designs/social_media10.png',
       '/designs/social_media11.webp',
       '/designs/social_media12.png',
+      '/designs/social_media13.png',
+      '/designs/social_media14.png',
+      '/designs/social_media15.png',
+      '/designs/social_media16.png',
     ]
   },
   // {
@@ -119,7 +123,7 @@ const Gallery = () => {
 
           {/* Display images for the active category */}
           {activeService.images && activeService.images.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:gap-8 justify-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 lg:gap-4 justify-center">
               {activeService.images.map((img, idx) => (
                 <div key={idx} className="overflow-hidden rounded-lg shadow border border-gray-50 bg-white flex items-center justify-center hover:shadow-md hover:shadow-[#fcba04] cursor-pointer">
                   <img

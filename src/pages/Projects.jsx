@@ -1,189 +1,199 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 
-const projectDetails = [
+const projects = [
   {
     id: 1,
     image: '/work/lsb.webp',
-    title: 'LSB',
-    description: 'A project focused on digital transformation of the land surveying practice in Kenya.',
+    title: 'Land Surveyors\u2019 Board',
+    category: 'Public sector',
+    description:
+      'Digital transformation of Kenya\u2019s land surveying practice \u2014 a public-facing platform for a national regulatory board.',
     linkUrl: 'https://lsb.go.ke/',
-    stage: 'completed',
+    stage: 'launched',
   },
   {
     id: 2,
     image: '/work/citikom.webp',
     title: 'Citikom',
-    description: 'A telecommunications company making significant strides in both connectivity and network coverage.',
+    category: 'Telecommunications',
+    description:
+      'A modern web presence for a connectivity and network coverage provider, replacing an outdated legacy site.',
     linkUrl: 'https://citikom.co.ke/',
-    stage: 'completed',
+    stage: 'launched',
   },
   {
     id: 3,
     image: '/work/SoK.webp',
-    title: 'Survey of Kenya (SoK)',
-    description: 'State department of lands and Physical Planning mandated with the regulation and setting standards for all survey and mapping activities in Kenya.',
+    title: 'Survey of Kenya',
+    category: 'Public sector',
+    description:
+      'Platform work for the state department responsible for regulating survey and mapping activity in Kenya.',
     linkUrl: 'https://survey-kenya.vercel.app/',
-    stage: 'development',
+    stage: 'in-progress',
   },
   {
     id: 4,
     image: '/work/thriftmall.webp',
     title: 'ThriftMall',
-    description: 'A technology integration project for a research institution.',
+    category: 'Commerce',
+    description:
+      'A buying and selling platform for pre-owned goods, built around simple listing and discovery flows.',
     linkUrl: 'https://thrifmall.vercel.app/',
-    stage: 'development',
+    stage: 'in-progress',
   },
   {
     id: 5,
     image: '/work/intelliworks.webp',
     title: 'Intelliworks',
-    description: 'An expert in GeoICT with a flare for modern technologies in software development and data-driven systems.',
+    category: 'GeoICT',
+    description:
+      'Website and product story for a GeoICT firm specialising in data-driven systems and modern software.',
     linkUrl: 'https://roy-nine.vercel.app/',
-    stage: 'development',
+    stage: 'in-progress',
   },
   {
     id: 6,
     image: '/work/curioshop.webp',
     title: 'LeGance',
-    description: 'Discover unique curios and handcrafted treasures to elevate your home into an amazing living space.',
+    category: 'Retail',
+    description:
+      'A storefront for handcrafted curios and home pieces, with a catalogue and brand identity that feel considered.',
     linkUrl: 'https://curioshop.vercel.app/',
-    stage: 'development',
+    stage: 'in-progress',
   },
   {
     id: 7,
     image: '/work/mindmaze.webp',
     title: 'MindMaze',
-    description: 'A random knowledge quiz using opensource API for questions with a twist in playing the game.',
+    category: 'Product',
+    description:
+      'A knowledge quiz game with a risk-and-reward twist, powered by an open question API.',
     linkUrl: 'https://mindmaze-riskreward.vercel.app/',
-    stage: 'development',
+    stage: 'in-progress',
   },
   {
     id: 8,
     image: '/work/opendata.webp',
     title: 'OpenData Insights',
-    description: 'A dashboard using open source WorldBank data to depict trends and patterns in Kenya.',
+    category: 'Data',
+    description:
+      'A dashboard turning open World Bank data into readable trends and patterns for Kenya.',
     linkUrl: 'https://open-lens-insights.vercel.app/?dataset=economy_inflation_kenya',
-    stage: 'development',
+    stage: 'in-progress',
   },
   {
     id: 9,
     image: '/work/agency.webp',
-    title: 'Agency Website',
-    description: 'A modern agency website showcasing services and portfolio.',
-    linkUrl: '#',
-    stage: 'development',
+    title: 'Agency Site',
+    category: 'Studio',
+    description:
+      'A layout and identity study for a creative agency \u2014 services, selected work, and contact in one clean flow.',
+    linkUrl: '',
+    stage: 'in-progress',
   },
 ];
 
-const fadeUpVariant = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 1) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  }),
-};
+const filters = [
+  { id: 'all', label: 'All work' },
+  { id: 'launched', label: 'Live' },
+  { id: 'in-progress', label: 'In progress' },
+];
 
 const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('all');
 
-  const filteredProjects = projectDetails.filter(project => {
-    if (activeCategory === 'all') {
-      return true;
-    }
-    return project.stage === activeCategory;
-  });
-
-  const categoryButtonClass = (category) =>
-    `px-4 py-2 rounded-md font-medium hover:font-bold transition-colors duration-300 cursor-pointer ${
-      activeCategory === category
-        ? 'bg-[#FCBA04] text-black'
-        : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
-    }`;
+  const visible =
+    activeFilter === 'all'
+      ? projects
+      : projects.filter((project) => project.stage === activeFilter);
 
   return (
-    <div className="min-h-screen mx-auto max-w-7xl pt-4 px-8">
-      <motion.section
-        className="border-b dark:border-gray-600 my-5"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeUpVariant}
-        custom={0}
-      >
-        <motion.h3
-          className="font-bold tracking-tight text-gray-900 dark:text-white underline underline-offset-4 decoration-[#FCBA04] decoration-wavy"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Projects
-        </motion.h3>
+    <section id="work" className="border-b border-line py-20 lg:py-28">
+      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="flex flex-col justify-between gap-8 border-b border-line pb-10 lg:flex-row lg:items-end">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+              Selected work
+            </p>
+            <h2 className="mt-4 max-w-xl font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
+              Projects shipped for real people and real deadlines.
+            </h2>
+          </div>
 
-        <motion.p
-          className="py-2 dark:text-gray-300"
-          variants={fadeUpVariant}
-          custom={1}
-        >
-          I have had the privilege of collaborating with both private and public organizations to transform their ideas into impactful digital solutions. Some of the projects I have had the privilege of being involved in include:
-        </motion.p>
-      </motion.section>
-
-      {/* Category Filter Buttons */}
-      <div className="flex justify-center gap-4 py-6">
-        <button
-          className={categoryButtonClass('all')}
-          onClick={() => setActiveCategory('all')}
-        >
-          All
-        </button>
-        <button
-          className={categoryButtonClass('completed')}
-          onClick={() => setActiveCategory('completed')}
-        >
-          Completed/Launched
-        </button>
-        <button
-          className={categoryButtonClass('development')}
-          onClick={() => setActiveCategory('development')}
-        >
-          In Development
-        </button>
-      </div>
-
-      {/* projects grid */}
-      <section className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-6">
-        {filteredProjects.map((project, index) => (
-          <motion.a
-            href={project.linkUrl || '#'}
-            target={project.linkUrl ? '_blank' : '_self'}
-            key={project.id}
-            className="cursor-pointer relative border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden group"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
-            whileHover={{ scale: 1.03 }}
-            viewport={{ once: true }}
-          >
-            <img src={project.image} alt={project.title} className="w-full object-cover" />
-
-            <div className='absolute top-0 left-0 bg-black/80 w-full h-full flex flex-col justify-center items-center text-white opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-300'>
-              <h4 className='font-bold'>{project.title}</h4>
-              <small className='text-center px-12 font-light'>{project.description}</small>
-
-              <button className='mt-4 px-4 py-2 bg-white text-black rounded-full font-medium cursor-pointer'>
-                <small>View Project</small>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            {filters.map((filter) => (
+              <button
+                key={filter.id}
+                type="button"
+                onClick={() => setActiveFilter(filter.id)}
+                className={`relative pb-1 text-[12px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                  activeFilter === filter.id ? 'text-ink' : 'text-muted hover:text-ink'
+                }`}
+              >
+                {filter.label}
+                {activeFilter === filter.id && (
+                  <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-accent" />
+                )}
               </button>
-            </div>
-          </motion.a>
-        ))}
-      </section>
-    </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2">
+          {visible.map((project, index) => {
+            const Card = project.linkUrl ? motion.a : motion.div;
+            const linkProps = project.linkUrl
+              ? { href: project.linkUrl, target: '_blank', rel: 'noreferrer' }
+              : {};
+
+            return (
+              <Card
+                key={project.id}
+                {...linkProps}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.6, delay: (index % 2) * 0.08 }}
+                className="group block cursor-pointer"
+              >
+                <div className="relative overflow-hidden border border-line bg-paper-2">
+                  <img
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                  <span className="absolute left-0 top-0 bg-paper px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink">
+                    {project.stage === 'launched' ? 'Live' : 'In development'}
+                  </span>
+                </div>
+
+                <div className="mt-4 flex items-start justify-between gap-6">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+                      {project.category}
+                    </p>
+                    <h3 className="mt-1.5 font-serif text-2xl">{project.title}</h3>
+                    <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
+                      {project.description}
+                    </p>
+                  </div>
+                  {project.linkUrl ? (
+                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink" />
+                  ) : (
+                    <span className="mt-1 shrink-0 text-[10px] uppercase tracking-[0.14em] text-muted">
+                      On request
+                    </span>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 };
 

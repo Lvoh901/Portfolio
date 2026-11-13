@@ -1,217 +1,225 @@
-import React, { useState } from 'react';
-import { FaLinkedinIn } from 'react-icons/fa';
-import { FaEnvelope, FaXTwitter } from 'react-icons/fa6';
-import { IoLogoGithub } from 'react-icons/io';
-import { MdOutlineLocalPhone } from 'react-icons/md';
-import { motion } from 'framer-motion';
-import { Tooltip } from 'react-tippy';
-import 'react-tippy/dist/tippy.css';
+import { useState } from 'react';
+import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 
-// Lucide React icons
-import {
-  Globe,
-  Smartphone,
-  BadgePercent,
-  PenTool,
-  MonitorSmartphone,
-  Lightbulb,
-  Users,
-} from 'lucide-react';
+const EMAIL = 'info@odhiambolvis.tech';
+const PHONE = '+254 718 505 642';
 
-const SERVICE_OPTIONS = [
-  {
-    value: 'custom-web-applications',
-    label: 'Custom Web Applications',
-    icon: <Globe className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
-  {
-    value: 'custom-mobile-applications',
-    label: 'Custom Mobile Applications',
-    icon: <Smartphone className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
-  {
-    value: 'brand-identity',
-    label: 'Brand Identity',
-    icon: <BadgePercent className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
-  {
-    value: 'logo-design',
-    label: 'Logo Design',
-    icon: <PenTool className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
-  {
-    value: 'ui-ux-consulting',
-    label: 'UI/UX Consulting',
-    icon: <MonitorSmartphone className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
-  {
-    value: 'digital-product-strategy',
-    label: 'Digital Product Strategy',
-    icon: <Lightbulb className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
-  {
-    value: 'general-consulting',
-    label: 'General Consulting',
-    icon: <Users className="inline w-4 h-4 mr-2 text-[#fcba04]" />,
-  },
+const projectTypes = [
+  'Website or web application',
+  'Mobile application',
+  'UI/UX design',
+  'Brand identity',
+  'Product strategy',
+  'Something else',
 ];
 
+const initialForm = { name: '', email: '', project: '', message: '' };
+
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    service: '',
-  });
+  const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleServiceChange = (e) => {
-    setFormData({ ...formData, service: e.target.value });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const subject = `${form.project || 'New project'} \u2014 ${form.name}`;
+    const body = [
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Project type: ${form.project}`,
+      '',
+      form.message,
+    ].join('\n');
+
+    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    setStatus(
+      `Your email client is opening with the message ready to send. If nothing happens, email me directly at ${EMAIL}.`
+    );
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('Sending...');
-
-    // Simulate API call
-    try {
-      // For demonstration, let's assume it always succeeds after a delay
-      await new Promise(resolve => setTimeout(resolve, 1000)); 
-      setStatus('Message sent successfully!');
-      setFormData({ name: '', email: '', subject: '', message: '', service: '' });
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setStatus('Failed to send message. Please try again.');
-    }
-  };
-
-  // For showing icon in select
-  const selectedServiceObj = SERVICE_OPTIONS.find(
-    (opt) => opt.value === formData.service
-  );
 
   return (
-    <section className='min-h-screen mx-auto max-w-6xl  py-20 px-8 lg:px-0 flex flex-col justify-center items-center'>
-      <h3
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        className='font-black capitalize animate-fade-up text-center underline underline-offset-4 decoration-[#FCBA04] decoration-wavy'>
-        get in touch
-      </h3>
+    <section id="contact" className="py-20 lg:py-28">
+      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em]">
+              Contact
+            </p>
+            <h2 className="mt-4 font-serif text-[clamp(2.2rem,4vw,3.4rem)] leading-[1.05]">
+              Tell me what you&apos;re building.
+            </h2>
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed">
+              A short description is enough to start. I&apos;ll come back with questions, an honest
+              opinion, and a clear next step &mdash; usually within one business day.
+            </p>
 
-      <p className='w-full lg:w-[600px] text-center'>I am excited to hear from you and get to create something amazing together. Reach out for any inquiry.</p>
+            <div className="mt-9 space-y-px overflow-hidden border border-line bg-line">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="group flex items-center justify-between gap-4 bg-paper px-5 py-4 transition-colors hover:bg-paper-2"
+              >
+                <span className="flex items-center gap-3">
+                  <Mail className="h-6 w-6 text-black bg-accent p-1 rounded-full" />
+                  <span className="text-[14px] text-ink font-medium">{EMAIL}</span>
+                </span>
+                <ArrowUpRight className="h-4 w-4 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href={`tel:${PHONE.replace(/[^+\d]/g, '')}`}
+                className="group flex items-center justify-between gap-4 bg-paper px-5 py-4 transition-colors hover:bg-paper-2"
+              >
+                <span className="flex items-center gap-3">
+                  <Phone className="h-6 w-6 text-black bg-accent p-1 rounded-full" />
+                  <span className="text-[14px] text-ink font-medium">{PHONE}</span>
+                </span>
+                <span className="text-[10px] uppercase tracking-[0.14em] text-muted">
+                  Mon&ndash;Fri, 8am&ndash;5pm EAT
+                </span>
+              </a>
+              <div className="flex items-center gap-3 bg-paper px-5 py-4">
+                <MapPin className="h-6 w-6 text-black bg-accent p-1 rounded-full" />
+                <span className="text-[14px] text-ink font-medium">Nairobi, Kenya</span>
+              </div>
+            </div>
 
-      <h4 className='pt-5 font-black text-center'>Reach out directly:</h4>
-
-      <p className='flex items-center gap-1.5 text-center'><FaEnvelope className='text-[#fcba04]' />: info@odhiambolvis.tech </p>
-
-      <p className='flex items-center gap-1.5 text-center'><MdOutlineLocalPhone className='text-[#fcba04]' />: (254) 718-505-642</p>
-
-      <p className='uppercase pt-3 text-center text-[#fcba04] font-bold'>(mon - fri: 8am - 5pm eat)</p>
-
-      <div className='pt-6 flex gap-3'>
-        <Tooltip title="Lvoh901" position="top">
-          <a href='https://github.com/Lvoh901' target='_blank' rel='noreferrer'><IoLogoGithub className='w-8 h-8 hover:text-[#fcba04] dark:hover:text-[#fcba04]' /></a>
-        </Tooltip>
-
-        <Tooltip title="odhiambolvis" position="top">
-          <a href='https://www.linkedin.com/in/odhiamboelvis/' target='_blank' rel='noreferrer'><FaLinkedinIn className='w-8 h-8 hover:text-[#fcba04] dark:hover:text-[#fcba04]' /></a>
-        </Tooltip>
-
-        <Tooltip title="LvohOdhis" position="top">
-          <a href='https://x.com/LvohOdhis' target='_blank' rel='noreferrer'><FaXTwitter className='w-8 h-8 hover:text-[#fcba04] dark:hover:text-[#fcba04]' /></a>
-        </Tooltip>
-      </div>
-
-      <div className="w-full lg:w-[600px] mt-10">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="p-3 border-b border-t-0 border-l-0 border-r-0 focus:border-b-2 focus:border-[#fcba04] focus:ring-0 transition-colors duration-200 outline-none"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="p-3 border-b border-t-0 border-l-0 border-r-0 focus:border-b-2 focus:border-[#fcba04] focus:ring-0 transition-colors duration-200 outline-none"
-          />
-
-          <input
-            type="text"
-            name="subject"
-            placeholder="Subject"
-            value={formData.subject}
-            onChange={handleChange}
-            required
-            className="p-3 border-b border-t-0 border-l-0 border-r-0 focus:border-b-2 focus:border-[#fcba04] focus:ring-0 transition-colors duration-200 outline-none"
-          />
-
-          {/* Custom select with lucide-react icons for services */}
-          <div className="relative">
-            <select
-              name="service"
-              value={formData.service}
-              onChange={handleServiceChange}
-              required
-              className="p-3 pr-10 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#fcba04] appearance-none w-full"
-            >
-              <option value="" disabled>Select a service</option>
-              {SERVICE_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {/* Icon Preview: show left of select when chosen */}
-            {selectedServiceObj && (
-              <span className="absolute left-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                {selectedServiceObj.icon}
+            <div className="mt-8 flex items-center gap-4">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+                Find me
               </span>
-            )}
-            <span className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-[#fcba04]">
-              {/* Chevron Down from Lucide */}
-              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="4" viewBox="0 0 24 24">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </span>
+              <div className="flex items-center gap-2">
+                {[
+                  {
+                    href: 'https://github.com/Lvoh901',
+                    label: 'GitHub',
+                    icon: <FaGithub className="h-4 w-4" />,
+                  },
+                  {
+                    href: 'https://www.linkedin.com/in/odhiamboelvis/',
+                    label: 'LinkedIn',
+                    icon: <FaLinkedinIn className="h-4 w-4" />,
+                  },
+                  {
+                    href: 'https://x.com/LvohOdhis',
+                    label: 'X',
+                    icon: <FaXTwitter className="h-4 w-4" />,
+                  },
+                ].map(({ href, label, icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center border border-line text-ink transition-colors hover:border-ink hover:bg-ink hover:text-paper"
+                  >
+                    {icon}
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            rows="5"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            className="p-3 border-b border-t-0 border-l-0 border-r-0 focus:border-b-2 focus:border-[#fcba04] focus:ring-0 transition-colors duration-200 outline-none"
-          ></textarea>
+          <div className="border border-line bg-paper-2/40 p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="flex flex-col gap-2">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                    Name
+                  </span>
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    autoComplete="name"
+                    placeholder="Jane Doe"
+                    className="border border-line bg-paper px-4 py-3 text-[14px] text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none focus:ring-0"
+                  />
+                </label>
 
-          <button
-            type="submit"
-            className="bg-[#000000] text-white font-bold py-3 px-6 uppercase rounded-md hover:bg-[#e0a800] hover:text-[#000000] transition duration-300 cursor-pointer"
-          >
-            Send Message
-          </button>
-        </form>
-        {status && <p className="mt-4 text-center text-lg">{status}</p>}
+                <label className="flex flex-col gap-2">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                    Email
+                  </span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                    autoComplete="email"
+                    placeholder="jane@company.com"
+                    className="border border-line bg-paper px-4 py-3 text-[14px] text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none focus:ring-0"
+                  />
+                </label>
+              </div>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                  What do you need?
+                </span>
+                <select
+                  name="project"
+                  value={form.project}
+                  onChange={handleChange}
+                  required
+                  className="appearance-none border border-line bg-paper px-4 py-3 text-[14px] text-ink focus:border-ink focus:outline-none focus:ring-0"
+                >
+                  <option value="" disabled>
+                    Select a service
+                  </option>
+                  {projectTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="flex flex-col gap-2">
+                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                  Project details
+                </span>
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows="5"
+                  placeholder="What are you building, who is it for, and when would you like it live?"
+                  className="resize-none border border-line bg-paper px-4 py-3 text-[14px] leading-relaxed text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none focus:ring-0"
+                />
+              </label>
+
+              <button
+                type="submit"
+                className="mt-1 inline-flex items-center justify-center gap-2 bg-ink px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink"
+              >
+                Send enquiry
+                <ArrowUpRight className="h-4 w-4" />
+              </button>
+
+              <p className="text-[11px] leading-relaxed text-muted text-center font-medium">
+                {status ||
+                  'This opens your email app with the details filled in, so nothing gets lost and you keep a copy in your sent folder.'}
+              </p>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default Contact;

@@ -1,36 +1,26 @@
-import React from 'react'
-import { BiHomeSmile } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
-const NotFound = () => {
-    return (
-        <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-gray-50 via-white to-[#fcba04]/10 p-8" id="heading">
-            <div className="flex flex-col items-center gap-4 w-full">
-                <img
-                    src="/deadpool.webp"
-                    alt="Deadpool lost"
-                    className="rounded-2xl shadow-lg border-4 border-[#fcba04]/30 mb-2 animate-bounce-slow"
-                    style={{ width: 'clamp(18em, 30vw, 32em)' }}
-                />
-                <div className="font-black text-6xl md:text-7xl lg:text-8xl text-[#fcba04] drop-shadow-lg tracking-widest select-none">
-                    404
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white text-center mt-2">
-                    Page Not Found
-                </h2>
-                <p className="mx-auto max-w-2xl text-center text-gray-600 dark:text-gray-300 text-lg md:text-xl mt-2">
-                    Oops! It looks like you've taken a wrong turn somewhere... <br />
-                    But don't worry, Deadpool will help you get back on track!
-                </p>
-                <a
-                    href="/"
-                    className="mt-8 flex items-center gap-2 px-6 py-3 bg-[#fcba04] text-black font-bold rounded-full shadow-md hover:bg-black hover:text-[#fcba04] transition-colors duration-300 text-lg group"
-                >
-                    <BiHomeSmile className="w-8 h-8 group-hover:scale-110 transition-transform duration-200" />
-                    <span>Back to Home</span>
-                </a>
-            </div>
-        </div>
-    )
-}
+const NotFound = () => (
+  <div className="flex min-h-[70vh] items-center">
+    <div className="mx-auto w-full max-w-6xl px-6 py-28 lg:px-8">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Error 404</p>
+      <h1 className="mt-5 max-w-2xl font-serif text-[clamp(2.6rem,6vw,4.5rem)] leading-[1.02]">
+        This page walked off the map.
+      </h1>
+      <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+        The link may be outdated or the page may have moved. The work, services, and contact details
+        are all still on the home page.
+      </p>
+      <Link
+        to="/"
+        className="group mt-9 inline-flex items-center gap-2 bg-ink px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink"
+      >
+        <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+        Back to home
+      </Link>
+    </div>
+  </div>
+);
 
 export default NotFound;

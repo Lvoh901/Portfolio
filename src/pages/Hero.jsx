@@ -1,92 +1,111 @@
-import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDownRight, Download } from 'lucide-react';
 
-const Hero = () => {
-  // const getYear = new Date().getFullYear();
+const clients = [
+  'Land Surveyors\u2019 Board',
+  'Citikom',
+  'Survey of Kenya',
+  'Intelliworks',
+  'LeGance',
+];
 
-  return (
-    <div className="relative flex items-center justify-center overflow-hidden py-24 transition-colors duration-300">
-      <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto px-8 transition-colors duration-300">
-        {/* Main Heading Section */}
-        <motion.section
-          id="heading"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, staggerChildren: 0.2 }}
-          className="flex flex-col items-center justify-center space-y-4"
-        >
-          <motion.img
-            src="/profile0.png"
-            alt="Profile picture"
-            className="rounded-full object-cover shadow-lg transition-all duration-300 hover:border-2 cursor-pointer"
-            style={{ width: "calc(8em + 3vw)", height: "auto" }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-          />
+const Hero = () => (
+  <section className="relative overflow-hidden border-b border-line">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full border border-line/80"
+    />
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -right-24 -top-24 h-[360px] w-[360px] rounded-full border border-line/80"
+    />
 
-          <div className="flex flex-col justify-center items-center">
-            <motion.span
-              className=""
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: 'easeOut' }}
-            >
-              Hi, I am
-            </motion.span>
-
-            <motion.h1
-              className="font-black leading-10"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 0.6, ease: 'easeOut' }}
-            >
-              Elvis Odhiambo
-            </motion.h1>
-
-            {/* highlight text */}
-            <motion.p
-              className="px-5 mt-3"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6, ease: 'easeOut' }}
-              id="body"
-            >
-              a <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>Full-Stack Developer</b> with a passion for creating <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>beautiful, functional, and user-centered digital experiences</b>. I have a strong background in both <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>front-end</b> and <b className='underline underline-offset-2 decoration-[#FCBA04] decoration-wavy italic'>back-end</b> development, and I'm always eager to learn new technologies and take on new challenges. When I'm not coding, you can find me exploring the latest design trends, working on personal projects, or enjoying a good cup of coffee.
-            </motion.p>
-
-            <motion.a
-              href="/Elvis Odhiambo_Fullstac Developer.pdf"
-              target="_blank"
-              className="inline-flex items-center gap-2 bg-black text-white px-6 py-2 rounded-full font-semibold uppercase border hover:bg-[#FCBA04] hover:text-black transition-all duration-300 my-3 text-sm"
-              whileHover={{ scale: 1.05 }}
-            >
-              Download CV
-            </motion.a>
-
-            {/* scroll down animation */}
-            <div className='pt-8 flex flex-col justify-center items-center'>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{
-                  opacity: 1,
-                  y: [0, 12, 0],  // Animate down and back up (bounce effect)
-                }}
-                transition={{
-                  duration: 1.2,
-                  repeat: Infinity,
-                  repeatType: 'loop',
-                  ease: "easeInOut",
-                }}
-              >
-                <ArrowDown className='w-8 h-8 text-[#fcba04]' />
-              </motion.div>
-            </div>
+    <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-28 lg:px-8 lg:pb-24 lg:pt-36">
+      <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+        <div>
+          <div className="reveal flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+              Available for new projects
+            </span>
+            <span className="hidden h-3 w-px bg-line sm:block" />
+            <span className="hidden text-[11px] font-semibold uppercase tracking-[0.22em] text-muted sm:block">
+              Nairobi, Kenya
+            </span>
           </div>
-        </motion.section>
+
+          <h1
+            className="reveal mt-7 font-serif text-[clamp(2.6rem,5.6vw,4.35rem)] leading-[1.03] tracking-[-0.02em]"
+            style={{ animationDelay: '0.08s' }}
+          >
+            Beautiful software, built to do
+            <span className="italic text-ink-soft"> real work.</span>
+          </h1>
+
+          <p
+            className="reveal mt-7 max-w-xl text-[1.0625rem] leading-relaxed"
+            style={{ animationDelay: '0.16s' }}
+          >
+            I&apos;m Elvis Odhiambo, a full-stack developer and product designer. I take ideas from
+            first sketch to a live, reliable product &mdash; for government agencies, telecoms, and
+            businesses that need software to carry their work.
+          </p>
+
+          <div
+            className="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
+            style={{ animationDelay: '0.24s' }}
+          >
+            <a
+              href="#work"
+              className="group inline-flex items-center justify-center gap-2 bg-ink px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink"
+            >
+              View selected work
+              <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+            </a>
+            <a
+              href="/Elvis Odhiambo_Fullstack Developer.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center justify-center gap-2 border border-line px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-ink transition-colors hover:border-ink"
+            >
+              <Download className="h-4 w-4" />
+              Download CV
+            </a>
+          </div>
+
+          <div
+            className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-6 lg:mt-14"
+            style={{ animationDelay: '0.32s' }}
+          >
+            <span className="text-[11px] font-bold uppercase tracking-[0.18em] underline underline-offset-4">
+              Worked with:
+            </span>
+            {clients.map((client) => (
+              <span key={client} className="text-[15px] text-ink-soft">
+                {client},
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-[380px] lg:max-w-[420px]">
+          <div className="absolute -inset-3 rounded-full border border-line animate-bounce" />
+          <div className="absolute -inset-6 rounded-full border border-line/60" />
+          <img
+            src="/profile0.png"
+            alt="Portrait of Elvis Odhiambo"
+            className="relative aspect-square w-full rounded-full object-cover"
+          />
+          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap border border-line bg-paper px-4 py-2 text-[11px] uppercase tracking-[0.16em] font-medium shadow-sm">
+            Developer <span className="text-accent">·</span> Designer{' '}
+            <span className="text-accent">·</span> Builder
+          </div>
+        </div>
       </div>
     </div>
-  );
-};
+  </section>
+);
 
 export default Hero;

@@ -91,8 +91,8 @@ const Navigation = () => {
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
-            <span className="hidden items-center gap-2 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] text-muted xl:flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            <span className="hidden items-center gap-2 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold xl:flex">
+              <span className="h-2 w-2 rounded-full bg-accent animate-ping [animation-duration:2s]" />
               Available
             </span>
             <Link

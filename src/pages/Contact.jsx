@@ -1,50 +1,63 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
+import { useContent } from '../contexts/ContentContext';
+import { publicFetch } from '../lib/adminApi';
 
-const EMAIL = 'info@odhiambolvis.tech';
-const PHONE = '+254 718 505 642';
-
-const projectTypes = [
-  'Website or web application',
-  'Mobile application',
-  'UI/UX design',
-  'Brand identity',
-  'Product strategy',
-  'Something else',
-];
-
-const initialForm = { name: '', email: '', project: '', message: '' };
+const initialForm = { name: '', email: '', company: '', project: '', message: '' };
 
 const Contact = () => {
+  const { content, projects } = useContent();
+  const { contact, services } = content;
+  const [searchParams] = useSearchParams();
   const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState({ state: 'idle', message: '' });
+
+  const projectId = searchParams.get('project');
+  const selectedProject = useMemo(
+    () => projects.find((project) => project.id === projectId || project.slug === projectId),
+    [projects, projectId],
+  );
+
+  const projectTypes = [
+    ...(services?.items || []).map((item) => item.title),
+    'Something else',
+  ];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setStatus({ state: 'sending', message: '' });
 
-    const subject = `${form.project || 'New project'} \u2014 ${form.name}`;
-    const body = [
-      `Name: ${form.name}`,
-      `Email: ${form.email}`,
-      `Project type: ${form.project}`,
-      '',
-      form.message,
-    ].join('\n');
+    try {
+      await publicFetch('/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company,
+          projectType: form.project,
+          message: form.message,
+          projectId: selectedProject?.id || null,
+          source: selectedProject ? 'project' : 'contact',
+        }),
+      });
 
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-
-    setStatus(
-      `Your email client is opening with the message ready to send. If nothing happens, email me directly at ${EMAIL}.`
-    );
+      setForm(initialForm);
+      setStatus({
+        state: 'sent',
+        message: 'Message received. I read every enquiry personally and usually reply within one business day.',
+      });
+    } catch (error) {
+      setStatus({ state: 'error', message: error.message });
+    }
   };
 
   return (
@@ -52,43 +65,42 @@ const Contact = () => {
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
               Contact
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.2rem,4vw,3.4rem)] leading-[1.05]">
               Tell me what you&apos;re building.
             </h2>
-            <p className="mt-5 max-w-md text-[15px] leading-relaxed">
-              A short description is enough to start. I&apos;ll come back with questions, an honest
-              opinion, and a clear next step &mdash; usually within one business day.
+            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+              {contact.responseNote}
             </p>
 
             <div className="mt-9 space-y-px overflow-hidden border border-line bg-line">
               <a
-                href={`mailto:${EMAIL}`}
+                href={`mailto:${contact.email}`}
                 className="group flex items-center justify-between gap-4 bg-paper px-5 py-4 transition-colors hover:bg-paper-2"
               >
                 <span className="flex items-center gap-3">
-                  <Mail className="h-6 w-6 text-black bg-accent p-1 rounded-full" />
-                  <span className="text-[14px] text-ink font-medium">{EMAIL}</span>
+                  <Mail className="h-4 w-4 text-accent" />
+                  <span className="text-[14px] text-ink">{contact.email}</span>
                 </span>
                 <ArrowUpRight className="h-4 w-4 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
               <a
-                href={`tel:${PHONE.replace(/[^+\d]/g, '')}`}
+                href={`tel:${String(contact.phone).replace(/[^+\d]/g, '')}`}
                 className="group flex items-center justify-between gap-4 bg-paper px-5 py-4 transition-colors hover:bg-paper-2"
               >
                 <span className="flex items-center gap-3">
-                  <Phone className="h-6 w-6 text-black bg-accent p-1 rounded-full" />
-                  <span className="text-[14px] text-ink font-medium">{PHONE}</span>
+                  <Phone className="h-4 w-4 text-accent" />
+                  <span className="text-[14px] text-ink">{contact.phone}</span>
                 </span>
                 <span className="text-[10px] uppercase tracking-[0.14em] text-muted">
-                  Mon&ndash;Fri, 8am&ndash;5pm EAT
+                  {contact.hours}
                 </span>
               </a>
               <div className="flex items-center gap-3 bg-paper px-5 py-4">
-                <MapPin className="h-6 w-6 text-black bg-accent p-1 rounded-full" />
-                <span className="text-[14px] text-ink font-medium">Nairobi, Kenya</span>
+                <MapPin className="h-4 w-4 text-accent" />
+                <span className="text-[14px] text-ink">{contact.location}</span>
               </div>
             </div>
 
@@ -130,10 +142,18 @@ const Contact = () => {
           </div>
 
           <div className="border border-line bg-paper-2/40 p-6 sm:p-8">
+            {selectedProject && (
+              <p className="mb-5 border-l-2 border-accent bg-paper px-4 py-3 text-[12px] text-muted">
+                Enquiry about{' '}
+                <span className="font-semibold text-ink">{selectedProject.title}</span> — it will be
+                filed with that project.
+              </p>
+            )}
+
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="flex flex-col gap-2">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
                     Name
                   </span>
                   <input
@@ -149,7 +169,7 @@ const Contact = () => {
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
                     Email
                   </span>
                   <input
@@ -165,30 +185,47 @@ const Contact = () => {
                 </label>
               </div>
 
-              <label className="flex flex-col gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
-                  What do you need?
-                </span>
-                <select
-                  name="project"
-                  value={form.project}
-                  onChange={handleChange}
-                  required
-                  className="appearance-none border border-line bg-paper px-4 py-3 text-[14px] text-ink focus:border-ink focus:outline-none focus:ring-0"
-                >
-                  <option value="" disabled>
-                    Select a service
-                  </option>
-                  {projectTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="flex flex-col gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    Company
+                  </span>
+                  <input
+                    type="text"
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    autoComplete="organization"
+                    placeholder="Optional"
+                    className="border border-line bg-paper px-4 py-3 text-[14px] text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none focus:ring-0"
+                  />
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    What do you need?
+                  </span>
+                  <select
+                    name="project"
+                    value={form.project}
+                    onChange={handleChange}
+                    required
+                    className="appearance-none border border-line bg-paper px-4 py-3 text-[14px] text-ink focus:border-ink focus:outline-none focus:ring-0"
+                  >
+                    <option value="" disabled>
+                      Select a service
                     </option>
-                  ))}
-                </select>
-              </label>
+                    {projectTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
 
               <label className="flex flex-col gap-2">
-                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
                   Project details
                 </span>
                 <textarea
@@ -204,15 +241,21 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className="mt-1 inline-flex items-center justify-center gap-2 bg-ink px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink"
+                disabled={status.state === 'sending'}
+                className="mt-1 inline-flex items-center justify-center gap-2 bg-ink px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink disabled:cursor-wait disabled:opacity-60"
               >
-                Send enquiry
+                {status.state === 'sending' ? 'Sending…' : 'Send enquiry'}
                 <ArrowUpRight className="h-4 w-4" />
               </button>
 
-              <p className="text-[11px] leading-relaxed text-muted text-center font-medium">
-                {status ||
-                  'This opens your email app with the details filled in, so nothing gets lost and you keep a copy in your sent folder.'}
+              <p
+                className={`text-[11px] leading-relaxed ${
+                  status.state === 'error' ? 'text-red-700' : 'text-muted'
+                }`}
+                role={status.state === 'error' ? 'alert' : undefined}
+              >
+                {status.message ||
+                  'Your message is stored in the dashboard inbox, so nothing gets lost and every enquiry is tracked.'}
               </p>
             </form>
           </div>

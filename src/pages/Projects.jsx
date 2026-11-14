@@ -1,99 +1,10 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, MessageSquare } from 'lucide-react';
+import { useContent } from '../contexts/ContentContext';
 
-const projects = [
-  {
-    id: 1,
-    image: '/work/lsb.webp',
-    title: 'Land Surveyors\u2019 Board',
-    category: 'Public sector',
-    description:
-      'Digital transformation of Kenya\u2019s land surveying practice \u2014 a public-facing platform for a national regulatory board.',
-    linkUrl: 'https://lsb.go.ke/',
-    stage: 'launched',
-  },
-  {
-    id: 2,
-    image: '/work/citikom.webp',
-    title: 'Citikom',
-    category: 'Telecommunications',
-    description:
-      'A modern web presence for a connectivity and network coverage provider, replacing an outdated legacy site.',
-    linkUrl: 'https://citikom.co.ke/',
-    stage: 'launched',
-  },
-  {
-    id: 3,
-    image: '/work/SoK.webp',
-    title: 'Survey of Kenya',
-    category: 'Public sector',
-    description:
-      'Platform work for the state department responsible for regulating survey and mapping activity in Kenya.',
-    linkUrl: 'https://survey-kenya.vercel.app/',
-    stage: 'in-progress',
-  },
-  {
-    id: 4,
-    image: '/work/thriftmall.webp',
-    title: 'ThriftMall',
-    category: 'Commerce',
-    description:
-      'A buying and selling platform for pre-owned goods, built around simple listing and discovery flows.',
-    linkUrl: 'https://thrifmall.vercel.app/',
-    stage: 'in-progress',
-  },
-  {
-    id: 5,
-    image: '/work/intelliworks.webp',
-    title: 'Intelliworks',
-    category: 'GeoICT',
-    description:
-      'Website and product story for a GeoICT firm specialising in data-driven systems and modern software.',
-    linkUrl: 'https://roy-nine.vercel.app/',
-    stage: 'in-progress',
-  },
-  {
-    id: 6,
-    image: '/work/curioshop.webp',
-    title: 'LeGance',
-    category: 'Retail',
-    description:
-      'A storefront for handcrafted curios and home pieces, with a catalogue and brand identity that feel considered.',
-    linkUrl: 'https://curioshop.vercel.app/',
-    stage: 'in-progress',
-  },
-  {
-    id: 7,
-    image: '/work/mindmaze.webp',
-    title: 'MindMaze',
-    category: 'Product',
-    description:
-      'A knowledge quiz game with a risk-and-reward twist, powered by an open question API.',
-    linkUrl: 'https://mindmaze-riskreward.vercel.app/',
-    stage: 'in-progress',
-  },
-  {
-    id: 8,
-    image: '/work/opendata.webp',
-    title: 'OpenData Insights',
-    category: 'Data',
-    description:
-      'A dashboard turning open World Bank data into readable trends and patterns for Kenya.',
-    linkUrl: 'https://open-lens-insights.vercel.app/?dataset=economy_inflation_kenya',
-    stage: 'in-progress',
-  },
-  {
-    id: 9,
-    image: '/work/agency.webp',
-    title: 'Agency Site',
-    category: 'Studio',
-    description:
-      'A layout and identity study for a creative agency \u2014 services, selected work, and contact in one clean flow.',
-    linkUrl: '',
-    stage: 'in-progress',
-  },
-];
+const MotionArticle = motion.article;
 
 const filters = [
   { id: 'all', label: 'All work' },
@@ -102,12 +13,11 @@ const filters = [
 ];
 
 const Projects = () => {
+  const { projects } = useContent();
   const [activeFilter, setActiveFilter] = useState('all');
 
   const visible =
-    activeFilter === 'all'
-      ? projects
-      : projects.filter((project) => project.stage === activeFilter);
+    activeFilter === 'all' ? projects : projects.filter((project) => project.stage === activeFilter);
 
   return (
     <section id="work" className="border-b border-line py-20 lg:py-28">
@@ -142,29 +52,34 @@ const Projects = () => {
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2">
-          {visible.map((project, index) => {
-            const Card = project.linkUrl ? motion.a : motion.div;
-            const linkProps = project.linkUrl
-              ? { href: project.linkUrl, target: '_blank', rel: 'noreferrer' }
-              : {};
-
-            return (
-              <Card
-                key={project.id}
-                {...linkProps}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.6, delay: (index % 2) * 0.08 }}
-                className="group block cursor-pointer"
+          {visible.map((project, index) => (
+            <MotionArticle
+              key={project.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.6, delay: (index % 2) * 0.08 }}
+              className="group block"
+            >
+              <a
+                href={project.linkUrl || undefined}
+                target={project.linkUrl ? '_blank' : undefined}
+                rel={project.linkUrl ? 'noreferrer' : undefined}
+                className={`block ${project.linkUrl ? 'cursor-pointer' : 'cursor-default'}`}
               >
                 <div className="relative overflow-hidden border border-line bg-paper-2">
-                  <img
-                    src={project.image}
-                    alt={`${project.title} preview`}
-                    loading="lazy"
-                    className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
+                  {project.imageUrl ? (
+                    <img
+                      src={project.imageUrl}
+                      alt={`${project.title} preview`}
+                      loading="lazy"
+                      className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <div className="flex aspect-[4/3] w-full items-center justify-center bg-paper-2 font-serif text-2xl text-muted">
+                      {project.title}
+                    </div>
+                  )}
                   <span className="absolute left-0 top-0 bg-paper px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink">
                     {project.stage === 'launched' ? 'Live' : 'In development'}
                   </span>
@@ -188,9 +103,17 @@ const Projects = () => {
                     </span>
                   )}
                 </div>
-              </Card>
-            );
-          })}
+              </a>
+
+              <Link
+                to={`/contact?project=${project.id}`}
+                className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
+              >
+                <MessageSquare className="h-3.5 w-3.5" />
+                Discuss a project like this
+              </Link>
+            </MotionArticle>
+          ))}
         </div>
       </div>
     </section>

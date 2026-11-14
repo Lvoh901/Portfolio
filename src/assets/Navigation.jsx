@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Sling as Hamburger } from 'hamburger-react';
-import { ArrowUpRight } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Sling as Hamburger } from "hamburger-react";
+import { ArrowUpRight } from "lucide-react";
 
 const links = [
-  { label: 'Work', to: '/#work' },
-  { label: 'Services', to: '/#services' },
-  { label: 'About', to: '/#about' },
-  { label: 'Process', to: '/#process' },
-  { label: 'Design', to: '/design' },
+  { label: "Work", to: "/#work" },
+  { label: "Services", to: "/#services" },
+  { label: "About", to: "/#about" },
+  { label: "Process", to: "/#process" },
+  { label: "Design", to: "/design" },
 ];
 
 const Navigation = () => {
@@ -24,35 +24,35 @@ const Navigation = () => {
 
   // lock background scrolling while the mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
 
   // desktop resize should dismiss the mobile panel so scrolling is never left locked
   useEffect(() => {
-    const query = window.matchMedia('(min-width: 1024px)');
+    const query = window.matchMedia("(min-width: 1024px)");
     const onChange = (event) => {
       if (event.matches) setIsMenuOpen(false);
     };
-    query.addEventListener('change', onChange);
-    return () => query.removeEventListener('change', onChange);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
   }, []);
 
   // escape closes the menu
   useEffect(() => {
     if (!isMenuOpen) return undefined;
     const onKeyDown = (event) => {
-      if (event.key === 'Escape') setIsMenuOpen(false);
+      if (event.key === "Escape") setIsMenuOpen(false);
     };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [isMenuOpen]);
 
   const isActive = (to) => {
-    if (to === '/design') return pathname === '/design';
-    return pathname === '/' && hash === to.replace('/', '');
+    if (to === "/design") return pathname === "/design";
+    return pathname === "/" && hash === to.replace("/", "");
   };
 
   return (
@@ -69,7 +69,9 @@ const Navigation = () => {
               EO
             </span>
             <span className="hidden min-w-0 flex-col leading-tight sm:flex">
-              <span className="truncate text-sm font-semibold tracking-tight">Elvis Odhiambo</span>
+              <span className="truncate text-sm font-semibold tracking-tight">
+                Elvis Odhiambo
+              </span>
               <span className="hidden text-[11px] uppercase tracking-[0.16em] text-muted md:block">
                 Developer &amp; Designer
               </span>
@@ -82,7 +84,7 @@ const Navigation = () => {
                 key={link.label}
                 to={link.to}
                 className={`whitespace-nowrap text-[12px] font-medium uppercase tracking-[0.14em] transition-colors hover:text-ink ${
-                  isActive(link.to) ? 'text-ink' : 'text-muted'
+                  isActive(link.to) ? "text-ink" : "text-muted"
                 }`}
               >
                 {link.label}
@@ -92,7 +94,7 @@ const Navigation = () => {
 
           <div className="hidden items-center gap-6 lg:flex">
             <span className="hidden items-center gap-2 whitespace-nowrap text-[11px] uppercase tracking-[0.14em] font-bold xl:flex">
-              <span className="h-2 w-2 rounded-full bg-accent animate-ping [animation-duration:2s]" />
+              <span className="h-2 w-2 rounded-full bg-accent animate-ping [animation-duration:2s] border" />
               Available
             </span>
             <Link
@@ -112,7 +114,7 @@ const Navigation = () => {
               distance="sm"
               duration={0.45}
               hideOutline={false}
-              label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              label={isMenuOpen ? "Close menu" : "Open menu"}
             />
           </div>
         </div>
@@ -124,7 +126,10 @@ const Navigation = () => {
           className="menu-in fixed inset-0 z-40 overflow-y-auto bg-paper lg:hidden"
         >
           <div className="flex min-h-full flex-col px-5 pb-10 pt-[88px] sm:px-6">
-            <nav aria-label="Mobile" className="flex flex-col border-t border-line">
+            <nav
+              aria-label="Mobile"
+              className="flex flex-col border-t border-line"
+            >
               {links.map((link, index) => (
                 <Link
                   key={link.label}

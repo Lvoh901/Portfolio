@@ -33,7 +33,7 @@ const Gallery = () => (
 
       <div className="mt-8 flex flex-col justify-between gap-6 border-b border-line pb-10 lg:flex-row lg:items-end">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em]">
             Design portfolio
           </p>
           <h1 className="mt-4 max-w-2xl font-serif text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.05]">
@@ -68,7 +68,7 @@ const Gallery = () => (
               loading="lazy"
               className="aspect-square w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
-            <span className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center bg-paper/90 opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center bg-accent opacity-0 transition-opacity group-hover:opacity-100">
               <ArrowUpRight className="h-3.5 w-3.5" />
             </span>
           </a>

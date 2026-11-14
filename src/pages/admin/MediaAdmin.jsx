@@ -1,0 +1,101 @@
+import { useEffect, useState } from 'react';
+import { FileUp, ExternalLink } from 'lucide-react';
+import { adminFetch } from '../../lib/adminApi';
+import { useContent } from '../../contexts/ContentContext';
+
+const MediaAdmin = () => {
+  const [cv, setCv] = useState(null);
+  const [status, setStatus] = useState({ state: 'idle', message: '' });
+  const [busy, setBusy] = useState(false);
+  const { reload } = useContent();
+
+  useEffect(() => {
+    adminFetch('/admin/content')
+      .then((result) => setCv(result.content.cv))
+      .catch((error) => setStatus({ state: 'error', message: error.message }));
+  }, []);
+
+  const uploadCv = async (file) => {
+    if (!file) return;
+    setBusy(true);
+    setStatus({ state: 'saving', message: '' });
+    try {
+      const body = new FormData();
+      body.append('file', file);
+      const result = await adminFetch('/admin/cv', { method: 'POST', body });
+      setCv(result.cv);
+      await reload();
+      setStatus({ state: 'saved', message: 'CV replaced. The site links now point to the new file.' });
+    } catch (error) {
+      setStatus({ state: 'error', message: error.message });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Files</p>
+      <h1 className="mt-2 font-serif text-3xl">CV &amp; uploads</h1>
+      <p className="mt-2 max-w-xl text-[13px] text-muted">
+        The CV is stored in the Neon `uploads` bucket and linked from the hero and about sections.
+        Uploading a new PDF replaces it everywhere.
+      </p>
+
+      {status.message && (
+        <p
+          role={status.state === 'error' ? 'alert' : undefined}
+          className={`mt-4 border-l-2 px-4 py-2 text-[12px] ${
+            status.state === 'error'
+              ? 'border-red-500 bg-paper text-red-700'
+              : 'border-accent bg-paper text-muted'
+          }`}
+        >
+          {status.message}
+        </p>
+      )}
+
+      <div className="mt-6 max-w-xl border border-line bg-paper p-5">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+          Current CV
+        </p>
+        <p className="mt-2 break-words text-[14px]">{cv?.filename || 'Loading…'}</p>
+        {cv?.updatedAt && (
+          <p className="mt-1 text-[11px] text-muted">
+            Updated {new Date(cv.updatedAt).toLocaleString()}
+          </p>
+        )}
+        {cv?.url && (
+          <a
+            href={cv.url}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            Open current file
+          </a>
+        )}
+
+        <label className="mt-6 inline-flex cursor-pointer items-center gap-2 bg-ink px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink">
+          <FileUp className="h-3.5 w-3.5" />
+          {busy ? 'Uploading…' : 'Upload new CV (PDF)'}
+          <input
+            type="file"
+            accept="application/pdf"
+            className="hidden"
+            disabled={busy}
+            onChange={(event) => uploadCv(event.target.files?.[0])}
+          />
+        </label>
+
+        <p className="mt-4 text-[11px] leading-relaxed text-muted">
+          Files are served through short-lived presigned URLs, so the bucket stays private. Project
+          images are uploaded from the Projects tab.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default MediaAdmin;

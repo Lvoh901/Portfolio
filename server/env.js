@@ -5,34 +5,39 @@ import dotenv from 'dotenv';
 if (fs.existsSync('.env.local')) dotenv.config({ path: '.env.local' });
 if (fs.existsSync('.env')) dotenv.config({ path: '.env' });
 
+// Hosts and docker --env-file pass values verbatim, so a value pasted as
+// "postgres://…" would keep its quotes. Strip a matching pair of quotes.
+const read = (name) => {
+  const value = (process.env[name] || '').trim();
+  return /^(["'])[\s\S]*\1$/.test(value) ? value.slice(1, -1) : value;
+};
+
 const required = (name) => {
-  const value = process.env[name];
+  const value = read(name);
   if (!value) throw new Error(`Missing required environment variable: ${name}`);
   return value;
 };
 
-const authBaseUrl = (process.env.NEON_AUTH_BASE_URL || '').replace(/\/$/, '');
+const authBaseUrl = read('NEON_AUTH_BASE_URL').replace(/\/$/, '');
 const databaseUrl = required('DATABASE_URL');
 
 export const env = {
   databaseUrl,
-  databaseUrlDirect: process.env.DATABASE_URL_UNPOOLED || databaseUrl,
+  databaseUrlDirect: read('DATABASE_URL_UNPOOLED') || databaseUrl,
   authBaseUrl,
   // Managed Auth sets iss/aud to the origin of the auth URL
   authOrigin: authBaseUrl ? new URL(authBaseUrl).origin : '',
-  authJwksUrl:
-    process.env.NEON_AUTH_JWKS_URL ||
-    (authBaseUrl ? `${authBaseUrl}/.well-known/jwks.json` : ''),
-  realtimeUrl: process.env.NEON_REALTIME_URL || '',
-  realtimeSecret: process.env.NEON_REALTIME_SECRET || '',
+  authJwksUrl: read('NEON_AUTH_JWKS_URL') || (authBaseUrl ? `${authBaseUrl}/.well-known/jwks.json` : ''),
+  realtimeUrl: read('NEON_REALTIME_URL'),
+  realtimeSecret: read('NEON_REALTIME_SECRET'),
   storage: {
-    endpoint: process.env.AWS_ENDPOINT_URL_S3 || '',
-    region: process.env.AWS_REGION || 'us-east-2',
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+    endpoint: read('AWS_ENDPOINT_URL_S3'),
+    region: read('AWS_REGION') || 'us-east-2',
+    accessKeyId: read('AWS_ACCESS_KEY_ID'),
+    secretAccessKey: read('AWS_SECRET_ACCESS_KEY'),
   },
-  bucket: process.env.UPLOADS_BUCKET || 'uploads',
-  adminEmails: (process.env.ADMIN_EMAILS || '')
+  bucket: read('UPLOADS_BUCKET') || 'uploads',
+  adminEmails: read('ADMIN_EMAILS')
     .split(',')
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean),

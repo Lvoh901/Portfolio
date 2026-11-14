@@ -21,8 +21,8 @@ export const verifyNeonToken = async (token) => {
   return payload;
 };
 
-const bearerFrom = (req) => {
-  const header = req.headers.authorization || '';
+export const bearerFrom = (request) => {
+  const header = request.headers.get('authorization') || '';
   return header.startsWith('Bearer ') ? header.slice(7).trim() : '';
 };
 
@@ -42,35 +42,45 @@ export const listAdmins = async () => {
   return rows;
 };
 
+const json = (body, status) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+  });
+
 /**
  * Verifies the Managed Better Auth JWT and requires the account to be a
- * database-backed administrator. Every admin route is gated by this.
+ * database-backed administrator. Returns `{ admin }` or `{ response }`.
  */
-export const requireAdmin = async (req, res, next) => {
-  const token = bearerFrom(req);
-  if (!token) return res.status(401).json({ error: 'Sign in to continue.' });
+export const requireAdmin = async (request) => {
+  const token = bearerFrom(request);
+  if (!token) return { response: json({ error: 'Sign in to continue.' }, 401) };
 
   let payload;
   try {
     payload = await verifyNeonToken(token);
   } catch (error) {
     const expired = error?.code === 'ERR_JWT_EXPIRED';
-    return res.status(401).json({
-      error: expired ? 'Your session expired. Please sign in again.' : 'Invalid session.',
-    });
+    return {
+      response: json(
+        { error: expired ? 'Your session expired. Please sign in again.' : 'Invalid session.' },
+        401,
+      ),
+    };
   }
 
   const email = String(payload.email || '').toLowerCase();
   try {
     if (!email || !(await isAdminEmail(email))) {
-      return res.status(403).json({
-        error: `This account (${email || 'unknown'}) is not an administrator.`,
-      });
+      return {
+        response: json({ error: `This account (${email || 'unknown'}) is not an administrator.` }, 403),
+      };
     }
   } catch {
-    return res.status(500).json({ error: 'Could not check administrator access.' });
+    return { response: json({ error: 'Could not check administrator access.' }, 500) };
   }
 
-  req.admin = { id: payload.sub, email };
-  return next();
+  return { admin: { id: payload.sub, email } };
 };
+
+export const adminJson = json;

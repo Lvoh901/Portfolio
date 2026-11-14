@@ -1,26 +1,26 @@
-# Build the SPA, then run the Express server that serves dist + /api.
-FROM node:22-bookworm-slim AS build
+# Build the Next.js app, then run its standalone server.
+FROM node:22-bookworm-slim AS deps
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm ci
 
-# Auth and realtime URLs are injected at runtime by /runtime-config.js,
-# so the image carries no environment-specific values.
+FROM node:22-bookworm-slim AS build
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
 FROM node:22-bookworm-slim AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
 
-COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+# standalone output carries only the traced server dependencies
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
 
-COPY --from=build /app/dist ./dist
-COPY server ./server
-# server/api.js and server/migrate.js import the shared defaults from src/data
-COPY src/data ./src/data
-
-EXPOSE 3001
-CMD ["node", "server/index.js"]
+EXPOSE 3000
+CMD ["node", "server.js"]

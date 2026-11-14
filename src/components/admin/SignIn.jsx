@@ -72,8 +72,8 @@ const SignIn = ({ onSignedIn, notice }) => {
 
           {!isAuthConfigured && (
             <p className="mt-4 border-l-2 border-red-500 bg-paper px-3 py-2 text-[12px] text-red-700">
-              VITE_NEON_AUTH_URL is not set. Run `neon deploy` to pull the auth URL into .env.local,
-              then restart the dev server.
+              NEXT_PUBLIC_NEON_AUTH_URL is not set. Run `neon deploy` to pull the auth URL into
+              .env.local, then restart the dev server.
             </p>
           )}
 

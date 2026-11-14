@@ -17,14 +17,12 @@ const authBaseUrl = read('NEON_AUTH_BASE_URL').replace(/\/$/, '');
 
 export const env = {
   databaseUrl: read('DATABASE_URL'),
-  databaseUrlDirect: read('DATABASE_URL_UNPOOLED') || read('DATABASE_URL'),
   authBaseUrl,
   // Managed Auth sets iss/aud to the origin of the auth URL
   authOrigin: authBaseUrl ? new URL(authBaseUrl).origin : '',
   authJwksUrl: read('NEON_AUTH_JWKS_URL') || (authBaseUrl ? `${authBaseUrl}/.well-known/jwks.json` : ''),
   realtimeUrl: read('NEON_REALTIME_URL'),
   realtimeSecret: read('NEON_REALTIME_SECRET'),
-  uploadthingToken: read('UPLOADTHING_TOKEN'),
   adminEmails: read('ADMIN_EMAILS')
     .split(',')
     .map((email) => email.trim().toLowerCase())

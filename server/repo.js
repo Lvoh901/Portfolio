@@ -7,8 +7,7 @@ export const readStoredContent = async () => {
 };
 
 /**
- * The CV now lives in UploadThing, so the stored object carries the public URL
- * directly instead of an S3 key that needs presigning.
+ * The CV lives in UploadThing, so the stored object carries its public URL.
  */
 export const presentCv = (cv) => {
   const value = cv && typeof cv === 'object' ? cv : defaultContent.cv;

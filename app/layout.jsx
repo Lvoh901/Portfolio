@@ -53,12 +53,12 @@ export const metadata = {
     images: ['/portfolio_card.webp'],
   },
   icons: { icon: '/profile0.png' },
-  themeColor: '#fbfaf7',
 };
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
+  themeColor: '#fbfaf7',
 };
 
 const RootLayout = ({ children }) => (

@@ -16,6 +16,7 @@ const links = [
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hash, setHash] = useState('');
   const pathname = usePathname();
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -24,6 +25,20 @@ const Navigation = () => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
+
+  // Next does not re-render on a hash-only change, so track it for the active link
+  useEffect(() => {
+    const syncHash = () => setHash(window.location.hash);
+    syncHash();
+    window.addEventListener('hashchange', syncHash);
+    window.addEventListener('popstate', syncHash);
+    return () => {
+      window.removeEventListener('hashchange', syncHash);
+      window.removeEventListener('popstate', syncHash);
+    };
+  }, [pathname]);
+
+  const followHash = (to) => setHash(to.startsWith('/#') ? to.slice(1) : '');
 
   // lock background scrolling while the mobile menu is open
   useEffect(() => {
@@ -55,7 +70,7 @@ const Navigation = () => {
 
   const isActive = (to) => {
     if (to === "/design") return pathname === "/design";
-    return pathname === "/";
+    return pathname === "/" && hash === to.replace("/", "");
   };
 
   return (
@@ -86,6 +101,7 @@ const Navigation = () => {
               <Link
                 key={link.label}
                 href={link.to}
+                onClick={() => followHash(link.to)}
                 className={`whitespace-nowrap text-[12px] font-medium uppercase tracking-[0.14em] transition-colors hover:text-ink ${
                   isActive(link.to) ? "text-ink" : "text-muted"
                 }`}
@@ -102,6 +118,7 @@ const Navigation = () => {
             </span>
             <Link
               href="/#contact"
+              onClick={() => followHash("/#contact")}
               className="group inline-flex items-center gap-2 whitespace-nowrap bg-ink px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-paper transition-colors hover:bg-accent hover:text-ink"
             >
               Start a project
@@ -137,7 +154,10 @@ const Navigation = () => {
                 <Link
                   key={link.label}
                   href={link.to}
-                  onClick={closeMenu}
+                  onClick={() => {
+                    followHash(link.to);
+                    closeMenu();
+                  }}
                   className="menu-item flex items-center justify-between border-b border-line py-4 font-serif text-[1.75rem] leading-tight text-ink sm:py-5 sm:text-3xl"
                   style={{ animationDelay: `${0.04 + index * 0.04}s` }}
                 >
@@ -150,7 +170,10 @@ const Navigation = () => {
             <div className="mt-auto space-y-4 pt-10">
               <Link
                 href="/#contact"
-                onClick={closeMenu}
+                onClick={() => {
+                  followHash("/#contact");
+                  closeMenu();
+                }}
                 className="flex w-full items-center justify-center gap-2 bg-ink px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper"
               >
                 Start a project

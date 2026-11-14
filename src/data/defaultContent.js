@@ -17,7 +17,13 @@ export const defaultContent = {
     accentLine: 'built to do real work.',
     subheadline:
       "I'm Elvis Odhiambo, a full-stack developer and product designer. I take ideas from first sketch to a live, reliable product — for government agencies, telecoms, and businesses that need software to carry their work.",
-    clients: ['Land Surveyors’ Board', 'Citikom', 'Survey of Kenya', 'Intelliworks', 'LeGance'],
+    clients: [
+      { name: 'Land Surveyors’ Board', logoUrl: null, url: 'https://lsb.go.ke/' },
+      { name: 'Citikom', logoUrl: null, url: 'https://citikom.co.ke/' },
+      { name: 'Survey of Kenya', logoUrl: null, url: 'https://survey-kenya.vercel.app/' },
+      { name: 'Intelliworks', logoUrl: null, url: 'https://roy-nine.vercel.app/' },
+      { name: 'LeGance', logoUrl: null, url: 'https://curioshop.vercel.app/' },
+    ],
   },
   about: {
     heading: 'A developer who designs, and a designer who ships.',
@@ -128,6 +134,31 @@ export const defaultContent = {
     description:
       'Nairobi-based full-stack developer and product designer building web applications and brand experiences for government agencies, telecoms, and growing businesses.',
   },
+  faq: {
+    heading: 'Questions before we start?',
+    items: [
+      {
+        q: 'Do you work with clients outside Nairobi?',
+        a: 'Yes. Most of my client work is remote — calls, previews, and handover all happen online. I’m based in Nairobi and available for on-site work when needed.',
+      },
+      {
+        q: 'Do you handle both design and development?',
+        a: 'Yes. I design the interface and build the product, so nothing gets lost between mockup and code. You get one point of contact for the whole project.',
+      },
+      {
+        q: 'What’s your typical timeline?',
+        a: 'It depends on scope. A simple site or brand identity can ship in 2–4 weeks; a custom web application usually runs 6–12 weeks. I’ll give you a realistic timeline after the discovery call.',
+      },
+      {
+        q: 'What happens after launch?',
+        a: 'You get documentation and a handover session. I stay reachable for fixes and improvements, and I offer ongoing maintenance if you’d prefer not to manage it in-house.',
+      },
+      {
+        q: 'Do you work with corporate and government clients?',
+        a: 'Yes. I’ve built platforms for public institutions and telecoms in Kenya. I’m comfortable with procurement processes, SLAs, and formal handover documentation.',
+      },
+    ],
+  },
 };
 
 export const defaultProjects = [
@@ -140,6 +171,9 @@ export const defaultProjects = [
     imageUrl: '/work/lsb.webp',
     linkUrl: 'https://lsb.go.ke/',
     stage: 'launched',
+    role: 'Product design & full-stack development',
+    outcome:
+      'Replaced paper-based survey records with a searchable digital platform, cutting application processing time for surveyors nationwide.',
   },
   {
     id: 'citikom',
@@ -150,6 +184,9 @@ export const defaultProjects = [
     imageUrl: '/work/citikom.webp',
     linkUrl: 'https://citikom.co.ke/',
     stage: 'launched',
+    role: 'Product design & front-end development',
+    outcome:
+      'Migrated from a legacy site to a modern web presence, improving online visibility and customer accessibility for a national connectivity provider.',
   },
   {
     id: 'sok',
@@ -160,6 +197,8 @@ export const defaultProjects = [
     imageUrl: '/work/SoK.webp',
     linkUrl: 'https://survey-kenya.vercel.app/',
     stage: 'in-progress',
+    role: 'Full-stack development',
+    outcome: 'In development — mapping and survey regulation platform for the state department.',
   },
   {
     id: 'thriftmall',
@@ -170,6 +209,8 @@ export const defaultProjects = [
     imageUrl: '/work/thriftmall.webp',
     linkUrl: 'https://thrifmall.vercel.app/',
     stage: 'in-progress',
+    role: 'Product design & full-stack development',
+    outcome: 'In development — peer-to-peer marketplace for pre-owned goods.',
   },
   {
     id: 'intelliworks',
@@ -180,6 +221,8 @@ export const defaultProjects = [
     imageUrl: '/work/intelliworks.webp',
     linkUrl: 'https://roy-nine.vercel.app/',
     stage: 'in-progress',
+    role: 'Brand identity & front-end development',
+    outcome: 'In development — website and product story for a data-driven GeoICT firm.',
   },
   {
     id: 'legance',
@@ -190,6 +233,8 @@ export const defaultProjects = [
     imageUrl: '/work/curioshop.webp',
     linkUrl: 'https://curioshop.vercel.app/',
     stage: 'in-progress',
+    role: 'Product design & full-stack development',
+    outcome: 'In development — online storefront with catalogue and brand identity for handcrafted home pieces.',
   },
   {
     id: 'mindmaze',
@@ -200,6 +245,8 @@ export const defaultProjects = [
     imageUrl: '/work/mindmaze.webp',
     linkUrl: 'https://mindmaze-riskreward.vercel.app/',
     stage: 'in-progress',
+    role: 'Full-stack development',
+    outcome: 'In development — knowledge quiz game with risk-and-reward mechanics.',
   },
   {
     id: 'opendata',
@@ -210,6 +257,8 @@ export const defaultProjects = [
     imageUrl: '/work/opendata.webp',
     linkUrl: 'https://open-lens-insights.vercel.app/?dataset=economy_inflation_kenya',
     stage: 'in-progress',
+    role: 'Full-stack development & data visualization',
+    outcome: 'In development — dashboard for exploring World Bank economic data by sector and region.',
   },
   {
     id: 'agency',
@@ -220,6 +269,8 @@ export const defaultProjects = [
     imageUrl: '/work/agency.webp',
     linkUrl: '',
     stage: 'in-progress',
+    role: 'Brand identity & layout study',
+    outcome: 'Concept study — available as a case study on request.',
   },
 ];
 
@@ -230,6 +281,7 @@ export const defaultTestimonials = [
       'With Elvis’s expertise in web development and automation, our organisation now runs on a highly efficient digital platform. His commitment got us to operational excellence in record time.',
     author: 'Land Surveyors’ Board Secretariat',
     role: 'Public sector client',
+    metric: 'Paper records → digital platform',
   },
   {
     id: 'citikom',
@@ -237,6 +289,7 @@ export const defaultTestimonials = [
       'Elvis transformed our outdated legacy system into a powerful, modern platform. Our business is far more visible and accessible online — and it finally looks like the company we are.',
     author: 'Citikom',
     role: 'Chief Executive Officer',
+    metric: 'Legacy system → modern web presence',
   },
   {
     id: 'legance',
@@ -244,5 +297,6 @@ export const defaultTestimonials = [
       'The new site gives our clients a fresh, professional interface that strengthens our brand and builds trust. It has changed how people see the business.',
     author: 'LeGance',
     role: 'Founder',
+    metric: 'Brand identity & storefront',
   },
 ];

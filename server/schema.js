@@ -36,6 +36,8 @@ create table if not exists inquiries (
   email text not null,
   company text not null default '',
   project_type text not null default '',
+  budget text not null default '',
+  timeline text not null default '',
   message text not null,
   status text not null default 'new',
   source text not null default 'contact',

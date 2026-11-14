@@ -68,6 +68,44 @@ const RootLayout = ({ children }) => (
         <ScrollManager />
         {children}
       </ContentProvider>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: 'Elvis Odhiambo',
+            jobTitle: 'Full-Stack Developer & Product Designer',
+            url: 'https://odhiambolvis.tech',
+            image: 'https://odhiambolvis.tech/profile0.png',
+            telephone: '+254718505642',
+            email: 'info@odhiambolvis.tech',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: 'Nairobi',
+              addressCountry: 'KE',
+            },
+            knowsAbout: [
+              'Full-stack web development',
+              'Product design',
+              'UI/UX design',
+              'Brand identity',
+              'React',
+              'Next.js',
+              'Node.js',
+              'Laravel',
+              'Tailwind CSS',
+              'SQL',
+            ],
+            sameAs: [
+              'https://github.com/Lvoh901',
+              'https://www.linkedin.com/in/odhiamboelvis/',
+              'https://x.com/LvohOdhis',
+            ],
+          }),
+        }}
+      />
     </body>
   </html>
 );

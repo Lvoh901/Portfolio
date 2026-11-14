@@ -5,6 +5,7 @@ import ServicePack from '../../src/components/ServicePack';
 import About from '../../src/components/About';
 import Process from '../../src/components/Process';
 import Testimonial from '../../src/components/Testimonial';
+import FAQ from '../../src/components/FAQ';
 import Contact from '../../src/components/Contact';
 
 const HomePage = () => (
@@ -15,6 +16,7 @@ const HomePage = () => (
     <About />
     <Process />
     <Testimonial />
+    <FAQ />
     <Suspense fallback={null}>
       <Contact />
     </Suspense>

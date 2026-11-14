@@ -1,9 +1,11 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Plus, Save, Trash2 } from 'lucide-react';
-import { adminFetch } from '../../lib/adminApi';
+import { ImagePlus, Plus, Save, Trash2, Upload } from 'lucide-react';
+import { adminFetch, adminToken } from '../../lib/adminApi';
 import { useContent } from '../../contexts/ContentContext';
+import { useUploadThing } from '../../lib/uploadthing';
 
 const Field = ({ label, value, onChange, textarea = false, rows = 3, placeholder = '', hint }) => (
   <label className="flex flex-col gap-1.5">
@@ -44,8 +46,14 @@ const toList = (value) => (value || '').split(',').map((item) => item.trim()).fi
 const ContentEditor = () => {
   const [draft, setDraft] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
+  const [logoBusy, setLogoBusy] = useState({});
   const [status, setStatus] = useState({ state: 'idle', message: '' });
   const { reload } = useContent();
+
+  // UploadThing calls /api/uploadthing with the admin JWT attached.
+  const { startUpload: uploadClientLogo } = useUploadThing('clientLogo', {
+    headers: async () => ({ Authorization: `Bearer ${await adminToken()}` }),
+  });
 
   useEffect(() => {
     adminFetch('/admin/content')
@@ -58,6 +66,27 @@ const ContentEditor = () => {
 
   const patch = (section, values) =>
     setDraft((previous) => ({ ...previous, [section]: { ...previous[section], ...values } }));
+
+  const uploadClientLogoFor = async (clientIndex, file) => {
+    if (!file) return;
+    setLogoBusy((previous) => ({ ...previous, [clientIndex]: true }));
+    try {
+      const uploaded = await uploadClientLogo([file]);
+      const result = uploaded?.[0];
+      if (!result) throw new Error('Upload failed. Please try again.');
+
+      const logoUrl = result.ufsUrl || result.url;
+      patch('hero', {
+        clients: (draft.hero.clients || []).map((client, i) =>
+          i === clientIndex ? { ...client, logoUrl } : client,
+        ),
+      });
+    } catch (error) {
+      setStatus({ state: 'error', message: error.message });
+    } finally {
+      setLogoBusy((previous) => ({ ...previous, [clientIndex]: false }));
+    }
+  };
 
   const save = async () => {
     setStatus({ state: 'saving', message: '' });
@@ -159,12 +188,135 @@ const ContentEditor = () => {
             value={draft.hero.subheadline}
             onChange={(value) => patch('hero', { subheadline: value })}
           />
-          <Field
-            label="Clients shown under the hero"
-            value={(draft.hero.clients || []).join(', ')}
-            onChange={(value) => patch('hero', { clients: toList(value) })}
-            hint="Comma separated"
-          />
+          <div className="space-y-3">
+            <label className="flex flex-col gap-1.5">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                Clients shown under the hero
+              </span>
+              <span className="text-[10px] text-muted">
+                Upload a logo for each client (or leave blank for initials), and optionally link to
+                their site.
+              </span>
+            </label>
+            <div className="border border-line bg-paper rounded-lg p-3 space-y-3">
+              {(draft.hero.clients || []).map((client, index) => {
+                // Normalize: stored content may have clients as strings (old format)
+                const cName = typeof client === "string" ? client : client?.name;
+                const cLogoUrl =
+                  typeof client === "string" ? null : client?.logoUrl ?? null;
+                const cUrl =
+                  typeof client === "string" ? null : client?.url ?? null;
+                return (
+                  <div
+                    key={cName || index}
+                    className="flex flex-wrap items-center justify-between gap-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 shrink-0 overflow-hidden border border-line rounded-lg bg-paper-2/50 relative">
+                        {cLogoUrl ? (
+                          <Image
+                            src={cLogoUrl}
+                            alt={cName}
+                            className="h-full w-full object-contain"
+                            width={40}
+                            height={40}
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-serif font-semibold uppercase tracking-[0.18em] text-muted">
+                            {cName
+                              ?.split(' ')
+                              .map((word) => word.charAt(0))
+                              .join('')
+                              .toUpperCase()}
+                          </div>
+                        )}
+                        {logoBusy[index] && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-paper/90 backdrop-blur-sm">
+                            <p className="text-[10px] text-muted">Uploading…</p>
+                          </div>
+                        )}
+                      </div>
+                      <label className="inline-flex cursor-pointer items-center gap-1.5 border border-line px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed">
+                        <Upload className="h-3 w-3" />
+                        Logo
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={logoBusy[index]}
+                          onChange={(event) =>
+                            uploadClientLogoFor(index, event.target.files?.[0])
+                          }
+                        />
+                      </label>
+                    </div>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <label className="flex flex-col gap-1 w-full">
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                          Name
+                        </span>
+                        <input
+                          value={cName}
+                          onChange={(event) =>
+                            patch('hero', {
+                              clients: (draft.hero.clients || []).map((c, i) =>
+                                i === index ? { ...c, name: event.target.value } : c,
+                              ),
+                            })
+                          }
+                          className="border border-line bg-paper px-3 py-2 text-[13px] w-full focus:border-ink focus:outline-none"
+                        />
+                      </label>
+                      <label className="flex flex-col gap-1 w-full">
+                        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                          Link (optional)
+                        </span>
+                        <input
+                          value={cUrl || ''}
+                          placeholder="https://client.com"
+                          onChange={(event) =>
+                            patch('hero', {
+                              clients: (draft.hero.clients || []).map((c, i) =>
+                                i === index ? { ...c, url: event.target.value || null } : c,
+                              ),
+                            })
+                          }
+                          className="border border-line bg-paper px-3 py-2 text-[13px] w-full focus:border-ink focus:outline-none"
+                        />
+                      </label>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        patch('hero', {
+                          clients: (draft.hero.clients || []).filter((_, i) => i !== index),
+                        })
+                      }
+                      aria-label="Remove client"
+                      className="text-muted transition-colors hover:text-red-700 disabled:opacity-50"
+                      disabled={logoBusy[index]}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                );
+              })}
+              <button
+                type="button"
+                onClick={() =>
+                  patch('hero', {
+                    clients: [
+                      ...(draft.hero.clients || []),
+                      { name: '', logoUrl: null, url: null },
+                    ],
+                  })
+                }
+                className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
+              >
+                <Plus className="h-3 w-3" /> Add client
+              </button>
+            </div>
+          </div>
         </Card>
 
         <Card title="Contact details" description="Used in the contact section and footer.">

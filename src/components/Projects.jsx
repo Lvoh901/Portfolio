@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, MessageSquare } from 'lucide-react';
 import { useContent } from '../contexts/ContentContext';
@@ -71,11 +72,12 @@ const Projects = () => {
               >
                 <div className="relative overflow-hidden border border-line bg-paper-2">
                   {project.imageUrl ? (
-                    <img
+                    <Image
                       src={project.imageUrl}
                       alt={`${project.title} preview`}
-                      loading="lazy"
-                      className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      fill
+                      className="aspect-[4/3] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (
                     <div className="flex aspect-[4/3] w-full items-center justify-center bg-paper-2 font-serif text-2xl text-muted">
@@ -93,9 +95,22 @@ const Projects = () => {
                       {project.category}
                     </p>
                     <h3 className="mt-1.5 font-serif text-2xl">{project.title}</h3>
+                    {project.role && (
+                      <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted">
+                        {project.role}
+                      </p>
+                    )}
                     <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
                       {project.description}
                     </p>
+                    {project.outcome && (
+                      <p className="mt-3 text-[12px] leading-relaxed text-ink-soft font-medium">
+                        <span className="font-serif uppercase tracking-[0.12em] text-[10px] text-muted mr-1">
+                          Outcome
+                        </span>
+                        {project.outcome}
+                      </p>
+                    )}
                   </div>
                   {project.linkUrl ? (
                     <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-muted transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink" />

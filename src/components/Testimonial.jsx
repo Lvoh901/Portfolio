@@ -48,6 +48,11 @@ const Testimonial = () => {
                 <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-white/40">
                   {item.role}
                 </p>
+                {item.metric && (
+                  <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-accent font-semibold">
+                    {item.metric}
+                  </p>
+                )}
               </figcaption>
             </figure>
           ))}

@@ -37,4 +37,7 @@ export const ourFileRouter = {
   cvUpload: f({ pdf: { maxFileSize: '8MB', maxFileCount: 1 } })
     .middleware(adminOnly)
     .onUploadComplete(done),
+  clientLogo: f({ image: { maxFileSize: '2MB', maxFileCount: 1 } })
+    .middleware(adminOnly)
+    .onUploadComplete(done),
 };

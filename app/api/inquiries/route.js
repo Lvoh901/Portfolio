@@ -37,6 +37,8 @@ export async function POST(request) {
   const message = text(body.message, 5000);
   const company = text(body.company, 160);
   const projectType = text(body.projectType || body.project_type, 160);
+  const budget = text(body.budget, 80);
+  const timeline = text(body.timeline, 80);
   const projectId = trimToNull(body.projectId || body.project_id);
   const source = text(body.source, 40) || 'contact';
 
@@ -49,10 +51,10 @@ export async function POST(request) {
 
   try {
     const { rows } = await query(
-      `insert into inquiries (name, email, company, project_type, message, source, project_id)
-       values ($1, $2, $3, $4, $5, $6, $7)
+      `insert into inquiries (name, email, company, project_type, budget, timeline, message, source, project_id)
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        returning id, created_at, pg_current_xact_id()::text as txid`,
-      [name, email, company, projectType, message, source, projectId],
+      [name, email, company, projectType, budget, timeline, message, source, projectId],
     );
 
     return json({ ok: true, id: rows[0].id, createdAt: rows[0].created_at, txid: rows[0].txid }, 201);

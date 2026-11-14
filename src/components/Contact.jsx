@@ -8,7 +8,7 @@ import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useContent } from '../contexts/ContentContext';
 import { publicFetch } from '../lib/adminApi';
 
-const initialForm = { name: '', email: '', company: '', project: '', message: '' };
+const initialForm = { name: '', email: '', company: '', project: '', budget: '', timeline: '', message: '' };
 
 const Contact = () => {
   const { content, projects } = useContent();
@@ -46,6 +46,8 @@ const Contact = () => {
           email: form.email,
           company: form.company,
           projectType: form.project,
+          budget: form.budget,
+          timeline: form.timeline,
           message: form.message,
           projectId: selectedProject?.id || null,
           source: selectedProject ? 'project' : 'contact',
@@ -222,6 +224,44 @@ const Contact = () => {
                         {type}
                       </option>
                     ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="flex flex-col gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    Budget range
+                  </span>
+                  <select
+                    name="budget"
+                    value={form.budget}
+                    onChange={handleChange}
+                    className="appearance-none border border-line bg-paper px-4 py-3 text-[14px] text-ink focus:border-ink focus:outline-none focus:ring-0"
+                  >
+                    <option value="">Not specified</option>
+                    <option value="under-5000">Under $5,000 / KES 650k</option>
+                    <option value="5000-15000">$5,000–$15,000 / KES 650k–2M</option>
+                    <option value="15000-50000">$15,000–$50,000 / KES 2M–6.5M</option>
+                    <option value="over-50000">Over $50,000 / KES 6.5M</option>
+                  </select>
+                </label>
+
+                <label className="flex flex-col gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    Ideal timeline
+                  </span>
+                  <select
+                    name="timeline"
+                    value={form.timeline}
+                    onChange={handleChange}
+                    className="appearance-none border border-line bg-paper px-4 py-3 text-[14px] text-ink focus:border-ink focus:outline-none focus:ring-0"
+                  >
+                    <option value="">Not specified</option>
+                    <option value="asap">As soon as possible</option>
+                    <option value="1-3months">1–3 months</option>
+                    <option value="3-6months">3–6 months</option>
+                    <option value="6months-plus">6+ months</option>
                   </select>
                 </label>
               </div>

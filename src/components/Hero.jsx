@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowDownRight, Download } from "lucide-react";
 import { useContent } from "../contexts/ContentContext";
 
@@ -72,31 +73,93 @@ const Hero = () => {
               </a>
             </div>
 
-            <div
-              className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-6 lg:mt-14"
+            {/*
+              TODO: Replace these text badges with real client logo SVGs/images.
+              For now, stylised initials act as placeholder logo marks.
+            */}
+            <section
+              id="trusted"
+              className="reveal mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-t border-line pt-8 lg:pt-14 lg:flex-nowrap lg:justify-start lg:gap-x-12"
               style={{ animationDelay: "0.32s" }}
             >
-              <span className="text-[15px] font-serif font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2">
-                Worked with
+              <span className="text-[15px] font-serif font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2 whitespace-nowrap">
+                Trusted by
               </span>
-              {(hero.clients || []).map((client) => (
-                <span
-                  key={client}
-                  className="text-[15px] text-ink-soft font-medium"
-                >
-                  {client}
-                </span>
-              ))}
-            </div>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-4 lg:flex-nowrap lg:gap-x-10">
+                {(hero.clients || []).map((client, index) => {
+                  // Normalize: stored content may have clients as strings (old format)
+                  const clientName = typeof client === "string" ? client : client?.name;
+                  const clientLogoUrl =
+                    typeof client === "string" ? null : client?.logoUrl ?? null;
+                  const clientUrl =
+                    typeof client === "string" ? null : client?.url ?? null;
+                  const initials = clientName
+                    ?.split(" ")
+                    .map((word) => word.charAt(0))
+                    .join("")
+                    .toUpperCase();
+                  const clientLink = clientUrl ? (
+                    <a
+                      href={clientUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block"
+                    >
+                      {clientLogoUrl ? (
+                        <Image
+                          src={clientLogoUrl}
+                          alt={clientName}
+                          className="h-full w-full object-contain"
+                          width={64}
+                          height={64}
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-[11px] font-serif font-semibold uppercase tracking-[0.2em] text-ink-soft">
+                          {initials}
+                        </div>
+                      )}
+                    </a>
+                  ) : (
+                    clientLogoUrl ? (
+                      <Image
+                        src={clientLogoUrl}
+                        alt={clientName}
+                        className="h-full w-full object-contain"
+                        width={64}
+                        height={64}
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[11px] font-serif font-semibold uppercase tracking-[0.2em] text-ink-soft">
+                        {initials}
+                      </div>
+                    )
+                  );
+
+                  return (
+                    <div
+                      key={clientName || index}
+                      className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-line bg-paper p-1 opacity-70 hover:opacity-100 transition-opacity group"
+                      title={clientName}
+                    >
+                      {clientLink}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
           </div>
 
           <div className="relative mx-auto w-full max-w-[380px] lg:max-w-[420px]">
             <div className="absolute -inset-3 rounded-full border border-line" />
             <div className="absolute -inset-6 rounded-full border border-line/60" />
-            <img
+            <Image
               src="/profile0.png"
               alt="Portrait of Elvis Odhiambo"
               className="relative aspect-square w-full rounded-full object-cover"
+              priority
+              width={420}
+              height={420}
+              sizes="(max-width: 768px) 420px, 380px"
             />
             <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap border border-line bg-paper px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-ink shadow-sm flex gap-3 items-center">
               Developer <div className="bg-accent w-2 h-2 rounded-full" />{" "}

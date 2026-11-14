@@ -6,6 +6,7 @@ import { ImagePlus, Plus, Save, Trash2, Upload } from 'lucide-react';
 import { adminFetch, adminToken } from '../../lib/adminApi';
 import { useContent } from '../../contexts/ContentContext';
 import { useUploadThing } from '../../lib/uploadthing';
+import toast from '../../lib/toast';
 
 const Field = ({ label, value, onChange, textarea = false, rows = 3, placeholder = '', hint }) => (
   <label className="flex flex-col gap-1.5">
@@ -47,7 +48,7 @@ const ContentEditor = () => {
   const [draft, setDraft] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [logoBusy, setLogoBusy] = useState({});
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
+  const [saving, setSaving] = useState(false);
   const { reload } = useContent();
 
   // UploadThing calls /api/uploadthing with the admin JWT attached.
@@ -61,7 +62,7 @@ const ContentEditor = () => {
         setDraft(result.content);
         setTestimonials(result.testimonials || []);
       })
-      .catch((error) => setStatus({ state: 'error', message: error.message }));
+      .catch((error) => toast.error('Could not load content', error.message));
   }, []);
 
   const patch = (section, values) =>
@@ -82,14 +83,14 @@ const ContentEditor = () => {
         ),
       });
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Logo upload failed', error.message);
     } finally {
       setLogoBusy((previous) => ({ ...previous, [clientIndex]: false }));
     }
   };
 
   const save = async () => {
-    setStatus({ state: 'saving', message: '' });
+    setSaving(true);
     try {
       await adminFetch('/admin/content', {
         method: 'PUT',
@@ -111,16 +112,18 @@ const ContentEditor = () => {
       });
 
       await reload();
-      setStatus({ state: 'saved', message: 'Saved. The public site now serves this content.' });
+      toast.success('Saved', 'The public site now serves this content.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Save failed', error.message);
+    } finally {
+      setSaving(false);
     }
   };
 
   if (!draft) {
     return (
       <p className="text-[13px] text-muted">
-        {status.message || 'Loading content…'}
+        Loading content…
       </p>
     );
   }
@@ -138,26 +141,13 @@ const ContentEditor = () => {
         <button
           type="button"
           onClick={save}
-          disabled={status.state === 'saving'}
+          disabled={saving}
           className="inline-flex items-center gap-2 bg-ink px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink disabled:cursor-wait disabled:opacity-60"
         >
           <Save className="h-4 w-4" />
-          {status.state === 'saving' ? 'Saving…' : 'Save changes'}
+          {saving ? 'Saving…' : 'Save changes'}
         </button>
       </div>
-
-      {(status.message || status.state === 'saved') && (
-        <p
-          role={status.state === 'error' ? 'alert' : undefined}
-          className={`border-l-2 px-4 py-2 text-[12px] ${
-            status.state === 'error'
-              ? 'border-red-500 bg-paper text-red-700'
-              : 'border-accent bg-paper text-muted'
-          }`}
-        >
-          {status.message}
-        </p>
-      )}
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title="Hero" description="The first thing a client reads.">
@@ -643,11 +633,11 @@ const ContentEditor = () => {
         <button
           type="button"
           onClick={save}
-          disabled={status.state === 'saving'}
+          disabled={saving}
           className="inline-flex items-center gap-2 bg-ink px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink disabled:cursor-wait disabled:opacity-60"
         >
           <Save className="h-4 w-4" />
-          {status.state === 'saving' ? 'Saving…' : 'Save changes'}
+          {saving ? 'Saving…' : 'Save changes'}
         </button>
       </div>
     </div>

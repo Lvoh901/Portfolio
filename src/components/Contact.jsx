@@ -7,6 +7,7 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import { useContent } from '../contexts/ContentContext';
 import { publicFetch } from '../lib/adminApi';
+import toast from '../lib/toast';
 
 const initialForm = { name: '', email: '', company: '', project: '', budget: '', timeline: '', message: '' };
 
@@ -15,7 +16,7 @@ const Contact = () => {
   const { contact, services } = content;
   const searchParams = useSearchParams();
   const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
+  const [sending, setSending] = useState(false);
 
   const projectId = searchParams?.get('project') || null;
   const selectedProject = useMemo(
@@ -35,7 +36,7 @@ const Contact = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setStatus({ state: 'sending', message: '' });
+    setSending(true);
 
     try {
       await publicFetch('/inquiries', {
@@ -55,12 +56,11 @@ const Contact = () => {
       });
 
       setForm(initialForm);
-      setStatus({
-        state: 'sent',
-        message: 'Message received. I read every enquiry personally and usually reply within one business day.',
-      });
+      toast.success('Message sent', 'I read every enquiry personally and usually reply within one business day.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Could not send', error.message || 'Please try again or email instead.');
+    } finally {
+      setSending(false);
     }
   };
 
@@ -283,22 +283,12 @@ const Contact = () => {
 
               <button
                 type="submit"
-                disabled={status.state === 'sending'}
+                disabled={sending}
                 className="mt-1 inline-flex items-center justify-center gap-2 bg-ink px-6 py-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink disabled:cursor-wait disabled:opacity-60"
               >
-                {status.state === 'sending' ? 'Sending…' : 'Send enquiry'}
+                {sending ? 'Sending…' : 'Send enquiry'}
                 <ArrowUpRight className="h-4 w-4" />
               </button>
-
-              <p
-                className={`text-[11px] leading-relaxed ${
-                  status.state === 'error' ? 'text-red-700' : 'text-muted'
-                }`}
-                role={status.state === 'error' ? 'alert' : undefined}
-              >
-                {status.message ||
-                  'Your message is stored in the dashboard inbox, so nothing gets lost and every enquiry is tracked.'}
-              </p>
             </form>
           </div>
         </div>

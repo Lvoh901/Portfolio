@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { ShieldCheck, UserPlus, X } from 'lucide-react';
 import { adminFetch } from '../../lib/adminApi';
+import toast from '../../lib/toast';
 import ChangePassword from './ChangePassword';
 
 const Access = () => {
   const [users, setUsers] = useState([]);
   const [me, setMe] = useState('');
   const [form, setForm] = useState({ email: '', name: '' });
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -18,13 +18,12 @@ const Access = () => {
         setUsers(result.users);
         setMe(result.me);
       })
-      .catch((error) => setStatus({ state: 'error', message: error.message }));
+      .catch((error) => toast.error('Could not load administrators', error.message));
   }, []);
 
   const add = async (event) => {
     event.preventDefault();
     setBusy(true);
-    setStatus({ state: 'saving', message: '' });
     try {
       const result = await adminFetch('/admin/users', {
         method: 'POST',
@@ -32,25 +31,30 @@ const Access = () => {
       });
       setUsers(result.users);
       setForm({ email: '', name: '' });
-      setStatus({ state: 'saved', message: 'Added. This address can sign in to the dashboard.' });
+      toast.success('Administrator added', 'This address can sign in to the dashboard.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Could not add administrator', error.message);
     } finally {
       setBusy(false);
     }
   };
 
   const remove = async (email) => {
+    const confirmed = await toast.confirm(
+      'Remove administrator?',
+      `${email} will no longer be able to open the dashboard.`,
+    );
+    if (!confirmed) return;
+
     setBusy(true);
-    setStatus({ state: 'saving', message: '' });
     try {
       const result = await adminFetch(`/admin/users/${encodeURIComponent(email)}`, {
         method: 'DELETE',
       });
       setUsers(result.users);
-      setStatus({ state: 'saved', message: `${email} can no longer open the dashboard.` });
+      toast.success('Administrator removed', `${email} can no longer open the dashboard.`);
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Could not remove administrator', error.message);
     } finally {
       setBusy(false);
     }
@@ -65,19 +69,6 @@ const Access = () => {
         and can sign in at <code className="bg-paper px-1">/admin</code>. An address must register
         with Managed Auth before it can sign in.
       </p>
-
-      {status.message && (
-        <p
-          role={status.state === 'error' ? 'alert' : undefined}
-          className={`mt-4 border-l-2 px-4 py-2 text-[12px] ${
-            status.state === 'error'
-              ? 'border-red-500 bg-paper text-red-700'
-              : 'border-accent bg-paper text-muted'
-          }`}
-        >
-          {status.message}
-        </p>
-      )}
 
       <ul className="mt-6 max-w-xl divide-y divide-line border border-line bg-paper">
         {users.map((user) => (

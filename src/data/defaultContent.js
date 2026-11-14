@@ -54,7 +54,7 @@ export const defaultContent = {
     design: ['UI/UX design', 'Design systems', 'Brand identity', 'Logo design', 'Social media design'],
   },
   contact: {
-    email: 'info@odhiambolvis.tech',
+    email: 'info@odhislvoh.co.ke',
     phone: '+254 718 505 642',
     location: 'Nairobi, Kenya',
     hours: 'Mon–Fri, 8am–5pm EAT',

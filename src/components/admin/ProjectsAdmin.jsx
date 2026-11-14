@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ImagePlus, Plus, Save, Trash2 } from 'lucide-react';
 import { adminFetch, adminToken } from '../../lib/adminApi';
 import { useUploadThing } from '../../lib/uploadthing';
+import toast from '../../lib/toast';
 
 const emptyProject = {
   title: '',
@@ -19,7 +20,6 @@ const ProjectsAdmin = () => {
   const [drafts, setDrafts] = useState({});
   const [newProject, setNewProject] = useState(emptyProject);
   const [busy, setBusy] = useState('');
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
 
   // UploadThing calls /api/uploadthing with the admin JWT attached.
   const { startUpload } = useUploadThing('projectImage', {
@@ -31,7 +31,7 @@ const ProjectsAdmin = () => {
       const result = await adminFetch('/admin/content');
       setProjects(result.projects || []);
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Could not load projects', error.message);
     }
   };
 
@@ -68,9 +68,9 @@ const ProjectsAdmin = () => {
       });
       setEditing(null);
       await load();
-      setStatus({ state: 'saved', message: 'Project updated.' });
+      toast.success('Project updated.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Update failed', error.message);
     } finally {
       setBusy('');
     }
@@ -92,22 +92,29 @@ const ProjectsAdmin = () => {
         }),
       });
       await load();
-      setStatus({ state: 'saved', message: 'Image uploaded to UploadThing.' });
+      toast.success('Image uploaded.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Upload failed', error.message);
     } finally {
       setBusy('');
     }
   };
 
   const removeProject = async (project) => {
+    const confirmed = await toast.confirm(
+      'Delete project?',
+      `${project.title} will be removed from the portfolio.`,
+      { confirmText: 'Yes, delete', cancelText: 'Cancel' },
+    );
+    if (!confirmed) return;
+
     setBusy(project.id);
     try {
       await adminFetch(`/admin/projects/${project.id}`, { method: 'DELETE' });
       await load();
-      setStatus({ state: 'saved', message: 'Project deleted.' });
+      toast.success('Project deleted.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Delete failed', error.message);
     } finally {
       setBusy('');
     }
@@ -122,9 +129,9 @@ const ProjectsAdmin = () => {
       });
       setNewProject(emptyProject);
       await load();
-      setStatus({ state: 'saved', message: 'Project added.' });
+      toast.success('Project added.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Add failed', error.message);
     } finally {
       setBusy('');
     }
@@ -141,19 +148,6 @@ const ProjectsAdmin = () => {
           </p>
         </div>
       </div>
-
-      {(status.message || status.state === 'saved') && (
-        <p
-          role={status.state === 'error' ? 'alert' : undefined}
-          className={`mt-4 border-l-2 px-4 py-2 text-[12px] ${
-            status.state === 'error'
-              ? 'border-red-500 bg-paper text-red-700'
-              : 'border-accent bg-paper text-muted'
-          }`}
-        >
-          {status.message}
-        </p>
-      )}
 
       <div className="mt-6 space-y-3">
         {projects.map((project) => {

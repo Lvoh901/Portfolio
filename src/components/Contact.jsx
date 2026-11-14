@@ -13,11 +13,11 @@ const initialForm = { name: '', email: '', company: '', project: '', message: ''
 const Contact = () => {
   const { content, projects } = useContent();
   const { contact, services } = content;
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState({ state: 'idle', message: '' });
 
-  const projectId = searchParams.get('project');
+  const projectId = searchParams?.get('project') || null;
   const selectedProject = useMemo(
     () => projects.find((project) => project.id === projectId || project.slug === projectId),
     [projects, projectId],

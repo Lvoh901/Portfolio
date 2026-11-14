@@ -76,13 +76,13 @@ const Hero = () => {
               className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-6 lg:mt-14"
               style={{ animationDelay: "0.32s" }}
             >
-              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+              <span className="text-[15px] font-serif font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2">
                 Worked with
               </span>
               {(hero.clients || []).map((client) => (
                 <span
                   key={client}
-                  className="font-serif text-[15px] text-ink-soft"
+                  className="text-[15px] text-ink-soft font-medium"
                 >
                   {client}
                 </span>

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ArrowDownRight, Download } from 'lucide-react';
-import { useContent } from '../contexts/ContentContext';
+import { ArrowDownRight, Download } from "lucide-react";
+import { useContent } from "../contexts/ContentContext";
 
 const Hero = () => {
   const { content } = useContent();
@@ -37,23 +37,22 @@ const Hero = () => {
 
             <h1
               className="reveal mt-7 font-serif text-[clamp(2.6rem,5.6vw,4.35rem)] leading-[1.03] tracking-[-0.02em]"
-              style={{ animationDelay: '0.08s' }}
+              style={{ animationDelay: "0.08s" }}
             >
               {hero.headline}
-              <br />
               <span className="italic text-ink-soft">{hero.accentLine}</span>
             </h1>
 
             <p
               className="reveal mt-7 max-w-xl text-[1.0625rem] leading-relaxed text-muted"
-              style={{ animationDelay: '0.16s' }}
+              style={{ animationDelay: "0.16s" }}
             >
               {hero.subheadline}
             </p>
 
             <div
               className="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-              style={{ animationDelay: '0.24s' }}
+              style={{ animationDelay: "0.24s" }}
             >
               <a
                 href="#work"
@@ -63,7 +62,7 @@ const Hero = () => {
                 <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
               </a>
               <a
-                href={cv?.url || '#'}
+                href={cv?.url || "#"}
                 target="_blank"
                 rel="noreferrer"
                 className="group inline-flex items-center justify-center gap-2 border border-line px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-ink transition-colors hover:border-ink"
@@ -75,13 +74,16 @@ const Hero = () => {
 
             <div
               className="reveal mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-6 lg:mt-14"
-              style={{ animationDelay: '0.32s' }}
+              style={{ animationDelay: "0.32s" }}
             >
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
                 Worked with
               </span>
               {(hero.clients || []).map((client) => (
-                <span key={client} className="font-serif text-[15px] text-ink-soft">
+                <span
+                  key={client}
+                  className="font-serif text-[15px] text-ink-soft"
+                >
                   {client}
                 </span>
               ))}
@@ -96,9 +98,10 @@ const Hero = () => {
               alt="Portrait of Elvis Odhiambo"
               className="relative aspect-square w-full rounded-full object-cover"
             />
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap border border-line bg-paper px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-ink shadow-sm">
-              Developer <span className="text-accent">·</span> Designer{' '}
-              <span className="text-accent">·</span> Builder
+            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap border border-line bg-paper px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-ink shadow-sm flex gap-3 items-center">
+              Developer <div className="bg-accent w-2 h-2 rounded-full" />{" "}
+              Designer <div className="bg-accent w-2 h-2 rounded-full" />{" "}
+              Builder
             </div>
             {contact?.available === false && (
               <p className="absolute -top-2 left-1/2 -translate-x-1/2 whitespace-nowrap bg-ink px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-paper">

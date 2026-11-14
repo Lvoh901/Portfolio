@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ArrowUpRight } from 'lucide-react';
-import { useContent } from '../contexts/ContentContext';
+import { ArrowUpRight } from "lucide-react";
+import { useContent } from "../contexts/ContentContext";
 
 const ServicePack = () => {
   const { content } = useContent();
@@ -34,14 +34,16 @@ const ServicePack = () => {
             {(services.items || []).map((service, index) => (
               <div
                 key={service.title}
-                className="border-b border-line py-8 transition-colors hover:bg-paper-2/60"
+                className="border-b border-line py-8 transition-colors hover:bg-paper-2/60 px-4 cursor-pointer"
               >
                 <div className="flex gap-5">
-                  <span className="pt-1 font-serif text-sm text-accent">
-                    {service.number || String(index + 1).padStart(2, '0')}
+                  <span className="font-serif text-4xl text-accent italic font-bold">
+                    {service.number || String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="flex-1">
-                    <h3 className="font-serif text-[1.4rem] leading-snug">{service.title}</h3>
+                    <h3 className="font-serif text-[1.4rem] leading-snug">
+                      {service.title}
+                    </h3>
                     <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">
                       {service.description}
                     </p>
@@ -49,7 +51,7 @@ const ServicePack = () => {
                       {(service.deliverables || []).map((item) => (
                         <li
                           key={item}
-                          className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted"
+                          className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted"
                         >
                           {item}
                         </li>

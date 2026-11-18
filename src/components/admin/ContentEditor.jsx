@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ImagePlus, Plus, Save, Trash2, Upload } from 'lucide-react';
 import { adminFetch, adminToken } from '../../lib/adminApi';
 import { useContent } from '../../contexts/ContentContext';
@@ -31,23 +31,23 @@ const Field = ({ label, value, onChange, textarea = false, rows = 3, placeholder
   </label>
 );
 
-const Card = ({ title, description, children }) => (
-  <section className="border border-line bg-paper">
-    <div className="border-b border-line px-5 py-4">
-      <h2 className="font-serif text-xl">{title}</h2>
-      {description && <p className="mt-1 text-[12px] text-muted">{description}</p>}
-    </div>
-    <div className="space-y-4 px-5 py-5">{children}</div>
-  </section>
-);
-
 const toLines = (value) => (value || '').split('\n').map((line) => line.trim()).filter(Boolean);
 const toList = (value) => (value || '').split(',').map((item) => item.trim()).filter(Boolean);
+
+const tabs = [
+  { id: 'hero', label: 'Hero', description: 'First thing a client reads' },
+  { id: 'contact', label: 'Contact', description: 'Contact details and footer' },
+  { id: 'about', label: 'About', description: 'Bio, facts and skills' },
+  { id: 'process', label: 'Process', description: 'How you work with clients' },
+  { id: 'services', label: 'Services', description: 'What you sell' },
+  { id: 'testimonials', label: 'Testimonials', description: 'Client quotes' },
+];
 
 const ContentEditor = () => {
   const [draft, setDraft] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [logoBusy, setLogoBusy] = useState({});
+  const [activeTab, setActiveTab] = useState('hero');
   const [saving, setSaving] = useState(false);
   const { reload } = useContent();
 
@@ -128,6 +128,8 @@ const ContentEditor = () => {
     );
   }
 
+  const tab = tabs.find((t) => t.id === activeTab) || tabs[0];
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -149,496 +151,569 @@ const ContentEditor = () => {
         </button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card title="Hero" description="The first thing a client reads.">
-          <Field
-            label="Availability badge"
-            value={draft.hero.badge}
-            onChange={(value) => patch('hero', { badge: value })}
-          />
-          <Field
-            label="Location"
-            value={draft.hero.location}
-            onChange={(value) => patch('hero', { location: value })}
-          />
-          <Field
-            label="Headline (first line)"
-            value={draft.hero.headline}
-            onChange={(value) => patch('hero', { headline: value })}
-          />
-          <Field
-            label="Headline (italic line)"
-            value={draft.hero.accentLine}
-            onChange={(value) => patch('hero', { accentLine: value })}
-          />
-          <Field
-            label="Sub-headline"
-            textarea
-            rows={4}
-            value={draft.hero.subheadline}
-            onChange={(value) => patch('hero', { subheadline: value })}
-          />
-          <div className="space-y-3">
-            <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Clients shown under the hero
-              </span>
-              <span className="text-[10px] text-muted">
-                Upload a logo for each client (or leave blank for initials), and optionally link to
-                their site.
-              </span>
-            </label>
-            <div className="border border-line bg-paper rounded-lg p-3 space-y-3">
-              {(draft.hero.clients || []).map((client, index) => {
-                // Normalize: stored content may have clients as strings (old format)
-                const cName = typeof client === "string" ? client : client?.name;
-                const cLogoUrl =
-                  typeof client === "string" ? null : client?.logoUrl ?? null;
-                const cUrl =
-                  typeof client === "string" ? null : client?.url ?? null;
-                return (
-                  <div
-                    key={cName || index}
-                    className="flex flex-wrap items-center justify-between gap-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 shrink-0 overflow-hidden border border-line rounded-lg bg-paper-2/50 relative">
-                        {cLogoUrl ? (
-                          <Image
-                            src={cLogoUrl}
-                            alt={cName}
-                            className="h-full w-full object-contain"
-                            width={40}
-                            height={40}
-                          />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-serif font-semibold uppercase tracking-[0.18em] text-muted">
-                            {cName
-                              ?.split(' ')
-                              .map((word) => word.charAt(0))
-                              .join('')
-                              .toUpperCase()}
+      {/* Section tabs */}
+      <div className="border-b border-line">
+        <div className="flex flex-wrap gap-1 -mb-px">
+          {tabs.map((t) => {
+            const isActive = activeTab === t.id;
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setActiveTab(t.id)}
+                className={`inline-flex items-center gap-2 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.14em] border-b-2 mb-[-1px] transition-colors ${
+                  isActive
+                    ? 'border-accent text-ink bg-paper-2/40'
+                    : 'border-transparent text-muted hover:text-ink hover:border-line/50'
+                }`}
+              >
+                {t.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Active tab content */}
+      <div className="space-y-6">
+        {activeTab === 'hero' && (
+          <section className="border border-line bg-paper">
+            <div className="border-b border-line px-5 py-4">
+              <h2 className="font-serif text-xl">{tab.label}</h2>
+              <p className="mt-1 text-[12px] text-muted">{tab.description}</p>
+            </div>
+            <div className="space-y-5 px-5 py-5">
+              <Field
+                label="Availability badge"
+                value={draft.hero.badge}
+                onChange={(value) => patch('hero', { badge: value })}
+              />
+              <Field
+                label="Location"
+                value={draft.hero.location}
+                onChange={(value) => patch('hero', { location: value })}
+              />
+              <Field
+                label="Headline (first line)"
+                value={draft.hero.headline}
+                onChange={(value) => patch('hero', { headline: value })}
+              />
+              <Field
+                label="Headline (italic line)"
+                value={draft.hero.accentLine}
+                onChange={(value) => patch('hero', { accentLine: value })}
+              />
+              <Field
+                label="Sub-headline"
+                textarea
+                rows={4}
+                value={draft.hero.subheadline}
+                onChange={(value) => patch('hero', { subheadline: value })}
+              />
+              <div className="space-y-3">
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    Clients shown under the hero
+                  </span>
+                  <span className="text-[10px] text-muted">
+                    Upload a logo for each client (or leave blank for initials), and optionally link
+                    to their site.
+                  </span>
+                </label>
+                <div className="border border-line bg-paper rounded-lg p-3 space-y-3">
+                  {(draft.hero.clients || []).map((client, index) => {
+                    const cName = typeof client === "string" ? client : client?.name;
+                    const cLogoUrl =
+                      typeof client === "string" ? null : client?.logoUrl ?? null;
+                    const cUrl =
+                      typeof client === "string" ? null : client?.url ?? null;
+                    return (
+                      <div
+                        key={cName || index}
+                        className="flex flex-wrap items-center justify-between gap-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 shrink-0 overflow-hidden border border-line rounded-lg bg-paper-2/50 relative">
+                            {cLogoUrl ? (
+                              <Image
+                                src={cLogoUrl}
+                                alt={cName}
+                                className="h-full w-full object-contain"
+                                width={40}
+                                height={40}
+                              />
+                            ) : (
+                              <div className="absolute inset-0 flex items-center justify-center text-[10px] font-serif font-semibold uppercase tracking-[0.18em] text-muted">
+                                {cName
+                                  ?.split(' ')
+                                  .map((word) => word.charAt(0))
+                                  .join('')
+                                  .toUpperCase()}
+                              </div>
+                            )}
+                            {logoBusy[index] && (
+                              <div className="absolute inset-0 flex items-center justify-center bg-paper/90 backdrop-blur-sm">
+                                <p className="text-[10px] text-muted">Uploading…</p>
+                              </div>
+                            )}
                           </div>
-                        )}
-                        {logoBusy[index] && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-paper/90 backdrop-blur-sm">
-                            <p className="text-[10px] text-muted">Uploading…</p>
-                          </div>
-                        )}
-                      </div>
-                      <label className="inline-flex cursor-pointer items-center gap-1.5 border border-line px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed">
-                        <Upload className="h-3 w-3" />
-                        Logo
-                        <input
-                          type="file"
-                          accept="image/*"
-                          className="hidden"
+                          <label className="inline-flex cursor-pointer items-center gap-1.5 border border-line px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed">
+                            <Upload className="h-3 w-3" />
+                            Logo
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              disabled={logoBusy[index]}
+                              onChange={(event) =>
+                                uploadClientLogoFor(index, event.target.files?.[0])
+                              }
+                            />
+                          </label>
+                        </div>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <label className="flex flex-col gap-1 w-full">
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                              Name
+                            </span>
+                            <input
+                              value={cName}
+                              onChange={(event) =>
+                                patch('hero', {
+                                  clients: (draft.hero.clients || []).map((c, i) =>
+                                    i === index ? { ...c, name: event.target.value } : c,
+                                  ),
+                                })
+                              }
+                              className="border border-line bg-paper px-3 py-2 text-[13px] w-full focus:border-ink focus:outline-none"
+                            />
+                          </label>
+                          <label className="flex flex-col gap-1 w-full">
+                            <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                              Link (optional)
+                            </span>
+                            <input
+                              value={cUrl || ''}
+                              placeholder="https://client.com"
+                              onChange={(event) =>
+                                patch('hero', {
+                                  clients: (draft.hero.clients || []).map((c, i) =>
+                                    i === index ? { ...c, url: event.target.value || null } : c,
+                                  ),
+                                })
+                              }
+                              className="border border-line bg-paper px-3 py-2 text-[13px] w-full focus:border-ink focus:outline-none"
+                            />
+                          </label>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            patch('hero', {
+                              clients: (draft.hero.clients || []).filter((_, i) => i !== index),
+                            })
+                          }
+                          aria-label="Remove client"
+                          className="text-muted transition-colors hover:text-red-700 disabled:opacity-50"
                           disabled={logoBusy[index]}
-                          onChange={(event) =>
-                            uploadClientLogoFor(index, event.target.files?.[0])
-                          }
-                        />
-                      </label>
-                    </div>
-                    <div className="flex items-center gap-2 min-w-0">
-                      <label className="flex flex-col gap-1 w-full">
-                        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                          Name
-                        </span>
-                        <input
-                          value={cName}
-                          onChange={(event) =>
-                            patch('hero', {
-                              clients: (draft.hero.clients || []).map((c, i) =>
-                                i === index ? { ...c, name: event.target.value } : c,
-                              ),
-                            })
-                          }
-                          className="border border-line bg-paper px-3 py-2 text-[13px] w-full focus:border-ink focus:outline-none"
-                        />
-                      </label>
-                      <label className="flex flex-col gap-1 w-full">
-                        <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                          Link (optional)
-                        </span>
-                        <input
-                          value={cUrl || ''}
-                          placeholder="https://client.com"
-                          onChange={(event) =>
-                            patch('hero', {
-                              clients: (draft.hero.clients || []).map((c, i) =>
-                                i === index ? { ...c, url: event.target.value || null } : c,
-                              ),
-                            })
-                          }
-                          className="border border-line bg-paper px-3 py-2 text-[13px] w-full focus:border-ink focus:outline-none"
-                        />
-                      </label>
-                    </div>
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      patch('hero', {
+                        clients: [
+                          ...(draft.hero.clients || []),
+                          { name: '', logoUrl: null, url: null },
+                        ],
+                      })
+                    }
+                    className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
+                  >
+                    <Plus className="h-3 w-3" /> Add client
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'contact' && (
+          <section className="border border-line bg-paper">
+            <div className="border-b border-line px-5 py-4">
+              <h2 className="font-serif text-xl">{tab.label}</h2>
+              <p className="mt-1 text-[12px] text-muted">{tab.description}</p>
+            </div>
+            <div className="space-y-5 px-5 py-5">
+              <Field
+                label="Email"
+                value={draft.contact.email}
+                onChange={(value) => patch('contact', { email: value })}
+              />
+              <Field
+                label="Phone"
+                value={draft.contact.phone}
+                onChange={(value) => patch('contact', { phone: value })}
+              />
+              <Field
+                label="Location"
+                value={draft.contact.location}
+                onChange={(value) => patch('contact', { location: value })}
+              />
+              <Field
+                label="Hours"
+                value={draft.contact.hours}
+                onChange={(value) => patch('contact', { hours: value })}
+              />
+              <Field
+                label="Intro note"
+                textarea
+                rows={3}
+                value={draft.contact.responseNote}
+                onChange={(value) => patch('contact', { responseNote: value })}
+              />
+              <label className="flex items-center gap-2 text-[12px] text-ink">
+                <input
+                  type="checkbox"
+                  checked={draft.contact.available !== false}
+                  onChange={(event) => patch('contact', { available: event.target.checked })}
+                  className="h-4 w-4 border-line"
+                />
+                Available for new work
+              </label>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'about' && (
+          <section className="border border-line bg-paper">
+            <div className="border-b border-line px-5 py-4">
+              <h2 className="font-serif text-xl">{tab.label}</h2>
+              <p className="mt-1 text-[12px] text-muted">{tab.description}</p>
+            </div>
+            <div className="space-y-5 px-5 py-5">
+              <Field
+                label="Heading"
+                value={draft.about.heading}
+                onChange={(value) => patch('about', { heading: value })}
+              />
+              <Field
+                label="Paragraphs"
+                textarea
+                rows={7}
+                value={(draft.about.paragraphs || []).join('\n\n')}
+                onChange={(value) =>
+                  patch('about', {
+                    paragraphs: value.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+                  })
+                }
+                hint="Separate paragraphs with a blank line"
+              />
+              <Field
+                label="Facts"
+                textarea
+                rows={3}
+                value={(draft.about.facts || []).map((fact) => `${fact.label}: ${fact.value}`).join('\n')}
+                onChange={(value) =>
+                  patch('about', {
+                    facts: toLines(value).map((line) => {
+                      const [label, ...rest] = line.split(':');
+                      return { label: label.trim(), value: rest.join(':').trim() };
+                    }),
+                  })
+                }
+                hint="One per line, e.g. “Based in: Nairobi, Kenya”"
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  label="Engineering skills"
+                  value={(draft.about.engineering || []).join(', ')}
+                  onChange={(value) => patch('about', { engineering: toList(value) })}
+                  hint="Comma separated"
+                />
+                <Field
+                  label="Design skills"
+                  value={(draft.about.design || []).join(', ')}
+                  onChange={(value) => patch('about', { design: toList(value) })}
+                  hint="Comma separated"
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
+        {activeTab === 'process' && (
+          <section className="border border-line bg-paper">
+            <div className="border-b border-line px-5 py-4">
+              <h2 className="font-serif text-xl">{tab.label}</h2>
+              <p className="mt-1 text-[12px] text-muted">{tab.description}</p>
+            </div>
+            <div className="space-y-5 px-5 py-5">
+              <Field
+                label="Heading"
+                value={draft.process.heading}
+                onChange={(value) => patch('process', { heading: value })}
+              />
+              <Field
+                label="Intro"
+                textarea
+                rows={2}
+                value={draft.process.intro}
+                onChange={(value) => patch('process', { intro: value })}
+              />
+              {(draft.process.steps || []).map((step, index) => (
+                <div key={index} className="border border-line bg-paper-2/40 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                      Step {index + 1}
+                    </span>
                     <button
                       type="button"
                       onClick={() =>
-                        patch('hero', {
-                          clients: (draft.hero.clients || []).filter((_, i) => i !== index),
+                        patch('process', {
+                          steps: draft.process.steps.filter((_, i) => i !== index),
                         })
                       }
-                      aria-label="Remove client"
-                      className="text-muted transition-colors hover:text-red-700 disabled:opacity-50"
-                      disabled={logoBusy[index]}
+                      aria-label="Remove step"
+                      className="text-muted transition-colors hover:text-red-700"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-3.5 w-3.5" />
                     </button>
                   </div>
-                );
-              })}
+                  <div className="mt-2 space-y-2">
+                    <Field
+                      label="Title"
+                      value={step.title}
+                      onChange={(value) =>
+                        patch('process', {
+                          steps: draft.process.steps.map((item, i) =>
+                            i === index ? { ...item, title: value } : item,
+                          ),
+                        })
+                    }
+                    />
+                    <Field
+                      label="Description"
+                      textarea
+                      rows={3}
+                      value={step.description}
+                      onChange={(value) =>
+                        patch('process', {
+                          steps: draft.process.steps.map((item, i) =>
+                            i === index ? { ...item, description: value } : item,
+                          ),
+                        })
+                    }
+                    />
+                  </div>
+                </div>
+              ))}
               <button
                 type="button"
                 onClick={() =>
-                  patch('hero', {
-                    clients: [
-                      ...(draft.hero.clients || []),
-                      { name: '', logoUrl: null, url: null },
+                  patch('process', {
+                    steps: [
+                      ...(draft.process.steps || []),
+                      {
+                        number: String(
+                          (draft.process.steps || []).length + 1,
+                        ).padStart(2, '0'),
+                        title: '',
+                        description: '',
+                      },
                     ],
                   })
                 }
                 className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
               >
-                <Plus className="h-3 w-3" /> Add client
+                <Plus className="h-3 w-3" /> Add step
               </button>
             </div>
-          </div>
-        </Card>
+          </section>
+        )}
 
-        <Card title="Contact details" description="Used in the contact section and footer.">
-          <Field
-            label="Email"
-            value={draft.contact.email}
-            onChange={(value) => patch('contact', { email: value })}
-          />
-          <Field
-            label="Phone"
-            value={draft.contact.phone}
-            onChange={(value) => patch('contact', { phone: value })}
-          />
-          <Field
-            label="Location"
-            value={draft.contact.location}
-            onChange={(value) => patch('contact', { location: value })}
-          />
-          <Field
-            label="Hours"
-            value={draft.contact.hours}
-            onChange={(value) => patch('contact', { hours: value })}
-          />
-          <Field
-            label="Intro note"
-            textarea
-            rows={3}
-            value={draft.contact.responseNote}
-            onChange={(value) => patch('contact', { responseNote: value })}
-          />
-          <label className="flex items-center gap-2 text-[12px] text-ink">
-            <input
-              type="checkbox"
-              checked={draft.contact.available !== false}
-              onChange={(event) => patch('contact', { available: event.target.checked })}
-              className="h-4 w-4 border-line"
-            />
-            Available for new work
-          </label>
-        </Card>
-
-        <Card title="About" description="Bio, facts and skills.">
-          <Field
-            label="Heading"
-            value={draft.about.heading}
-            onChange={(value) => patch('about', { heading: value })}
-          />
-          <Field
-            label="Paragraphs"
-            textarea
-            rows={7}
-            value={(draft.about.paragraphs || []).join('\n\n')}
-            onChange={(value) =>
-              patch('about', { paragraphs: value.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean) })
-            }
-            hint="Separate paragraphs with a blank line"
-          />
-          <Field
-            label="Facts"
-            textarea
-            rows={3}
-            value={(draft.about.facts || []).map((fact) => `${fact.label}: ${fact.value}`).join('\n')}
-            onChange={(value) =>
-              patch('about', {
-                facts: toLines(value).map((line) => {
-                  const [label, ...rest] = line.split(':');
-                  return { label: label.trim(), value: rest.join(':').trim() };
-                }),
-              })
-            }
-            hint="One per line, e.g. “Based in: Nairobi, Kenya”"
-          />
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field
-              label="Engineering skills"
-              value={(draft.about.engineering || []).join(', ')}
-              onChange={(value) => patch('about', { engineering: toList(value) })}
-              hint="Comma separated"
-            />
-            <Field
-              label="Design skills"
-              value={(draft.about.design || []).join(', ')}
-              onChange={(value) => patch('about', { design: toList(value) })}
-              hint="Comma separated"
-            />
-          </div>
-        </Card>
-
-        <Card title="Process" description="How you work with clients.">
-          <Field
-            label="Heading"
-            value={draft.process.heading}
-            onChange={(value) => patch('process', { heading: value })}
-          />
-          <Field
-            label="Intro"
-            textarea
-            rows={2}
-            value={draft.process.intro}
-            onChange={(value) => patch('process', { intro: value })}
-          />
-          {(draft.process.steps || []).map((step, index) => (
-            <div key={index} className="border border-line bg-paper-2/40 p-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                  Step {index + 1}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    patch('process', {
-                      steps: draft.process.steps.filter((_, i) => i !== index),
-                    })
-                  }
-                  aria-label="Remove step"
-                  className="text-muted transition-colors hover:text-red-700"
-                >
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
-              </div>
-              <div className="mt-2 space-y-2">
-                <Field
-                  label="Title"
-                  value={step.title}
-                  onChange={(value) =>
-                    patch('process', {
-                      steps: draft.process.steps.map((item, i) =>
-                        i === index ? { ...item, title: value } : item,
-                      ),
-                    })
-                  }
-                />
-                <Field
-                  label="Description"
-                  textarea
-                  rows={3}
-                  value={step.description}
-                  onChange={(value) =>
-                    patch('process', {
-                      steps: draft.process.steps.map((item, i) =>
-                        i === index ? { ...item, description: value } : item,
-                      ),
-                    })
-                  }
-                />
-              </div>
+        {activeTab === 'services' && (
+          <section className="border border-line bg-paper">
+            <div className="border-b border-line px-5 py-4">
+              <h2 className="font-serif text-xl">{tab.label}</h2>
+              <p className="mt-1 text-[12px] text-muted">{tab.description}</p>
             </div>
-          ))}
-          <button
-            type="button"
-            onClick={() =>
-              patch('process', {
-                steps: [
-                  ...(draft.process.steps || []),
-                  { number: String((draft.process.steps || []).length + 1).padStart(2, '0'), title: '', description: '' },
-                ],
-              })
-            }
-            className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
-          >
-            <Plus className="h-3 w-3" /> Add step
-          </button>
-        </Card>
-      </div>
+            <div className="space-y-5 px-5 py-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  label="Heading"
+                  value={draft.services.heading}
+                  onChange={(value) => patch('services', { heading: value })}
+                />
+                <Field
+                  label="Intro"
+                  value={draft.services.intro}
+                  onChange={(value) => patch('services', { intro: value })}
+                />
+              </div>
 
-      <Card title="Services" description="What you sell, in the order shown on the site.">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field
-            label="Heading"
-            value={draft.services.heading}
-            onChange={(value) => patch('services', { heading: value })}
-          />
-          <Field
-            label="Intro"
-            value={draft.services.intro}
-            onChange={(value) => patch('services', { intro: value })}
-          />
-        </div>
+              {(draft.services.items || []).map((service, index) => (
+                <div key={index} className="border border-line bg-paper-2/40 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                      Service {index + 1}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        patch('services', {
+                          items: draft.services.items.filter((_, i) => i !== index),
+                        })
+                      }
+                      aria-label="Remove service"
+                      className="text-muted transition-colors hover:text-red-700"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                  <div className="mt-2 space-y-2">
+                    <Field
+                      label="Title"
+                      value={service.title}
+                      onChange={(value) =>
+                        patch('services', {
+                          items: draft.services.items.map((item, i) =>
+                            i === index ? { ...item, title: value } : item,
+                          ),
+                        })
+                    }
+                    />
+                    <Field
+                      label="Description"
+                      textarea
+                      rows={3}
+                      value={service.description}
+                      onChange={(value) =>
+                        patch('services', {
+                          items: draft.services.items.map((item, i) =>
+                            i === index ? { ...item, description: value } : item,
+                          ),
+                        })
+                    }
+                    />
+                    <Field
+                      label="Deliverables"
+                      value={(service.deliverables || []).join(', ')}
+                      onChange={(value) =>
+                        patch('services', {
+                          items: draft.services.items.map((item, i) =>
+                            i === index ? { ...item, deliverables: toList(value) } : item,
+                          ),
+                        })
+                      }
+                      hint="Comma separated"
+                    />
+                  </div>
+                </div>
+              ))}
 
-        {(draft.services.items || []).map((service, index) => (
-          <div key={index} className="border border-line bg-paper-2/40 p-3">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Service {index + 1}
-              </span>
               <button
                 type="button"
                 onClick={() =>
                   patch('services', {
-                    items: draft.services.items.filter((_, i) => i !== index),
+                    items: [
+                      ...(draft.services.items || []),
+                      {
+                        number: String(
+                          (draft.services.items || []).length + 1,
+                        ).padStart(2, '0'),
+                        title: '',
+                        description: '',
+                        deliverables: [],
+                      },
+                    ],
                   })
                 }
-                aria-label="Remove service"
-                className="text-muted transition-colors hover:text-red-700"
+                className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Plus className="h-3 w-3" /> Add service
               </button>
             </div>
-            <div className="mt-2 space-y-2">
-              <Field
-                label="Title"
-                value={service.title}
-                onChange={(value) =>
-                  patch('services', {
-                    items: draft.services.items.map((item, i) =>
-                      i === index ? { ...item, title: value } : item,
-                    ),
-                  })
-                }
-              />
-              <Field
-                label="Description"
-                textarea
-                rows={3}
-                value={service.description}
-                onChange={(value) =>
-                  patch('services', {
-                    items: draft.services.items.map((item, i) =>
-                      i === index ? { ...item, description: value } : item,
-                    ),
-                  })
-                }
-              />
-              <Field
-                label="Deliverables"
-                value={(service.deliverables || []).join(', ')}
-                onChange={(value) =>
-                  patch('services', {
-                    items: draft.services.items.map((item, i) =>
-                      i === index ? { ...item, deliverables: toList(value) } : item,
-                    ),
-                  })
-                }
-                hint="Comma separated"
-              />
+          </section>
+        )}
+
+        {activeTab === 'testimonials' && (
+          <section className="border border-line bg-paper">
+            <div className="border-b border-line px-5 py-4">
+              <h2 className="font-serif text-xl">{tab.label}</h2>
+              <p className="mt-1 text-[12px] text-muted">{tab.description}</p>
             </div>
-          </div>
-        ))}
-
-        <button
-          type="button"
-          onClick={() =>
-            patch('services', {
-              items: [
-                ...(draft.services.items || []),
-                {
-                  number: String((draft.services.items || []).length + 1).padStart(2, '0'),
-                  title: '',
-                  description: '',
-                  deliverables: [],
-                },
-              ],
-            })
-          }
-          className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
-        >
-          <Plus className="h-3 w-3" /> Add service
-        </button>
-      </Card>
-
-      <Card title="Testimonials" description="Client quotes shown on the dark band.">
-        {testimonials.map((item, index) => (
-          <div key={index} className="border border-line bg-paper-2/40 p-3">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Quote {index + 1}
-              </span>
+            <div className="space-y-5 px-5 py-5">
+              {testimonials.map((item, index) => (
+                <div key={index} className="border border-line bg-paper-2/40 p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                      Quote {index + 1}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setTestimonials(testimonials.filter((_, i) => i !== index))}
+                      aria-label="Remove quote"
+                      className="text-muted transition-colors hover:text-red-700"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                  <div className="mt-2 space-y-2">
+                    <Field
+                      label="Quote"
+                      textarea
+                      rows={3}
+                      value={item.quote}
+                      onChange={(value) =>
+                        setTestimonials(
+                          testimonials.map((entry, i) =>
+                            i === index ? { ...entry, quote: value } : entry,
+                          ),
+                        )
+                    }
+                    />
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      <Field
+                        label="Author"
+                        value={item.author}
+                        onChange={(value) =>
+                          setTestimonials(
+                            testimonials.map((entry, i) =>
+                              i === index ? { ...entry, author: value } : entry,
+                            ),
+                          )
+                        }
+                      />
+                      <Field
+                        label="Role"
+                        value={item.role}
+                        onChange={(value) =>
+                          setTestimonials(
+                            testimonials.map((entry, i) =>
+                              i === index ? { ...entry, role: value } : entry,
+                            ),
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
               <button
                 type="button"
-                onClick={() => setTestimonials(testimonials.filter((_, i) => i !== index))}
-                aria-label="Remove quote"
-                className="text-muted transition-colors hover:text-red-700"
+                onClick={() => setTestimonials([...testimonials, { quote: '', author: '', role: '' }])}
+                className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Plus className="h-3 w-3" /> Add testimonial
               </button>
             </div>
-            <div className="mt-2 space-y-2">
-              <Field
-                label="Quote"
-                textarea
-                rows={3}
-                value={item.quote}
-                onChange={(value) =>
-                  setTestimonials(
-                    testimonials.map((entry, i) => (i === index ? { ...entry, quote: value } : entry)),
-                  )
-                }
-              />
-              <div className="grid gap-2 sm:grid-cols-2">
-                <Field
-                  label="Author"
-                  value={item.author}
-                  onChange={(value) =>
-                    setTestimonials(
-                      testimonials.map((entry, i) =>
-                        i === index ? { ...entry, author: value } : entry,
-                      ),
-                    )
-                  }
-                />
-                <Field
-                  label="Role"
-                  value={item.role}
-                  onChange={(value) =>
-                    setTestimonials(
-                      testimonials.map((entry, i) => (i === index ? { ...entry, role: value } : entry)),
-                    )
-                  }
-                />
-              </div>
-            </div>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={() => setTestimonials([...testimonials, { quote: '', author: '', role: '' }])}
-          className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
-        >
-          <Plus className="h-3 w-3" /> Add testimonial
-        </button>
-      </Card>
-
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={save}
-          disabled={saving}
-          className="inline-flex items-center gap-2 bg-ink px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink disabled:cursor-wait disabled:opacity-60"
-        >
-          <Save className="h-4 w-4" />
-          {saving ? 'Saving…' : 'Save changes'}
-        </button>
+          </section>
+        )}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { authClient } from '../../lib/authClient';
 import { adminFetch } from '../../lib/adminApi';
+import toast from '../../lib/toast';
 import SignIn from './SignIn';
 import Inbox from './Inbox';
 import ContentEditor from './ContentEditor';
@@ -58,6 +59,7 @@ const AdminPage = () => {
 
   const signOut = async () => {
     await authClient?.signOut();
+    toast.success('Signed out', 'You have been logged out of the dashboard.');
     setSession({ status: 'signed-out', user: null, message: '' });
   };
 

@@ -9,6 +9,6 @@ export default function robots() {
         disallow: ['/admin', '/api/'],
       },
     ],
-    sitemap: 'https://odhiambolvis.tech/sitemap.xml',
+    sitemap: 'https://odhislvoh.co.ke/sitemap.xml',
   };
 }

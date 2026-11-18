@@ -1,16 +1,23 @@
 'use client';
 
 import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { authClient, isAuthConfigured } from '../../lib/authClient';
+import toast from '../../lib/toast';
 
 const SignIn = ({ onSignedIn, notice }) => {
   const [mode, setMode] = useState('sign-in');
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const update = (event) => {
     setForm((previous) => ({ ...previous, [event.target.name]: event.target.value }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((previous) => !previous);
   };
 
   const handleSubmit = async (event) => {
@@ -36,6 +43,7 @@ const SignIn = ({ onSignedIn, notice }) => {
       await onSignedIn();
     } catch (submitError) {
       setError(submitError?.message || 'Could not reach the auth server.');
+      toast.error('Sign in failed', submitError?.message || 'Could not reach the auth server.');
     } finally {
       setBusy(false);
     }
@@ -112,16 +120,28 @@ const SignIn = ({ onSignedIn, notice }) => {
               <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
                 Password
               </span>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={update}
-                required
-                minLength={8}
-                autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'}
-                className="border border-line bg-paper px-4 py-3 text-[14px] focus:border-ink focus:outline-none"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={form.password}
+                  onChange={update}
+                  required
+                  minLength={8}
+                  autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'}
+                  className="w-full border border-line bg-paper py-3 pl-4 pr-12 text-[14px] focus:border-ink focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                  className="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-muted transition-colors hover:text-ink focus-visible:text-ink focus-visible:outline-none"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </label>
 
             {error && (

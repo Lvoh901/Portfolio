@@ -5,6 +5,7 @@ import { RealtimeProvider, useLiveQuery } from '@neon/realtime-react';
 import { Mail, RefreshCw, Trash2 } from 'lucide-react';
 import { adminFetch } from '../../lib/adminApi';
 import { realtimeClient } from '../../lib/realtimeClient';
+import toast from '../../lib/toast';
 
 const statuses = [
   { id: 'new', label: 'New' },
@@ -109,27 +110,58 @@ const InquiryList = ({ rows, onStatus, onDelete, busyId, emptyLabel }) => (
   </div>
 );
 
-const LiveList = ({ sealed, refreshSealed, onLiveError, onLiveData, filter, onStatus, onDelete, busyId }) => {
+/**
+ * Live list with polling fallback. When the realtime query is still connecting
+ * (data === undefined), it shows the polling rows so the inbox is never blank.
+ * Once live data arrives, it switches to the live feed.
+ */
+const LiveList = ({
+  sealed,
+  refreshSealed,
+  filter,
+  onStatus,
+  onDelete,
+  busyId,
+  pollingRows,
+}) => {
   const { data, status, error } = useLiveQuery(sealed, { refreshQuery: refreshSealed });
 
   useEffect(() => {
-    if (status === 'error') onLiveError(error?.message || 'Live updates stopped.');
-  }, [status, error, onLiveError]);
+    if (status === 'error') toast.error('Live updates stopped', error?.message || '');
+  }, [status, error]);
 
+  // Fall back to polling rows after 6 seconds if live still hasn't connected.
+  const [fallbackToPolling, setFallbackToPolling] = useState(false);
   useEffect(() => {
-    if (data) onLiveData(data);
-  }, [data, onLiveData]);
+    if (data === undefined && !fallbackToPolling) {
+      const timer = setTimeout(() => setFallbackToPolling(true), 6000);
+      return () => clearTimeout(timer);
+    }
+    if (data !== undefined) setFallbackToPolling(false);
+  }, [data, fallbackToPolling]);
+
+  const showPolling = data === undefined && (status === 'loading' || fallbackToPolling);
 
   const rows = useMemo(() => {
-    const list = data ?? [];
+    const list = showPolling ? (pollingRows ?? []) : (data ?? []);
     return filter === 'all' ? list : list.filter((row) => row.status === filter);
-  }, [data, filter]);
+  }, [data, showPolling, pollingRows, filter]);
 
-  if (data === undefined) {
+  if (showPolling) {
     return (
-      <p className="border border-line bg-paper px-5 py-10 text-center text-[13px] text-muted">
-        Connecting to live updates…
-      </p>
+      <div className="border border-line bg-paper">
+        <p className="border-b border-line px-5 py-3 text-[11px] text-muted flex items-center justify-between">
+          <span>Connecting to live updates…</span>
+          <span className="text-[10px] uppercase tracking-[0.12em]">Showing cached messages</span>
+        </p>
+        <InquiryList
+          rows={rows}
+          onStatus={onStatus}
+          onDelete={onDelete}
+          busyId={busyId}
+          emptyLabel="No enquiries in this view yet. New submissions appear here instantly."
+        />
+      </div>
     );
   }
 
@@ -146,20 +178,16 @@ const LiveList = ({ sealed, refreshSealed, onLiveError, onLiveData, filter, onSt
 
 const Inbox = () => {
   const [rows, setRows] = useState([]);
-  const [liveRows, setLiveRows] = useState(null);
   const [sealed, setSealed] = useState(null);
   const [filter, setFilter] = useState('all');
   const [busyId, setBusyId] = useState(null);
-  const [error, setError] = useState('');
-  const [liveError, setLiveError] = useState('');
 
   const loadRows = useCallback(async () => {
     try {
       const result = await adminFetch('/admin/inquiries');
       setRows(result.inquiries || []);
-      setError('');
     } catch (loadError) {
-      setError(loadError.message);
+      toast.error('Could not load enquiries', loadError.message);
     }
   }, []);
 
@@ -172,7 +200,7 @@ const Inbox = () => {
   useEffect(() => {
     loadRows();
     if (realtimeClient) {
-      refreshSealed().catch((sealError) => setLiveError(sealError.message));
+      refreshSealed().catch((sealError) => toast.error('Live updates stopped', sealError.message));
     }
   }, [loadRows, refreshSealed]);
 
@@ -184,35 +212,39 @@ const Inbox = () => {
         body: JSON.stringify({ status }),
       });
       await loadRows();
+      toast.success('Status updated');
     } catch (updateError) {
-      setError(updateError.message);
+      toast.error('Could not update status', updateError.message);
     } finally {
       setBusyId(null);
     }
   };
 
   const remove = async (id) => {
+    const row = rows.find((r) => r.id === id);
+    const confirmed = await toast.confirm(
+      'Delete enquiry?',
+      row ? `"${row.message?.slice(0, 60)}…"` : 'This enquiry will be removed.',
+      { confirmText: 'Yes, delete', cancelText: 'Cancel' },
+    );
+    if (!confirmed) return;
+
     setBusyId(id);
     try {
       await adminFetch(`/admin/inquiries/${id}`, { method: 'DELETE' });
       await loadRows();
+      toast.success('Enquiry deleted');
     } catch (deleteError) {
-      setError(deleteError.message);
+      toast.error('Delete failed', deleteError.message);
     } finally {
       setBusyId(null);
     }
   };
 
-  const handleLiveError = useCallback((message) => {
-    setLiveError(message);
-    setSealed(null);
-  }, []);
-
   const restRows = filter === 'all' ? rows : rows.filter((row) => row.status === filter);
-  const countSource = liveRows ?? rows;
   const counts = {
-    new: countSource.filter((row) => row.status === 'new').length,
-    total: countSource.length,
+    new: rows.filter((row) => row.status === 'new').length,
+    total: rows.length,
   };
 
   return (
@@ -266,14 +298,7 @@ const Inbox = () => {
           <span className={`h-1.5 w-1.5 rounded-full ${sealed ? 'bg-accent' : 'bg-muted'}`} />
           {sealed ? 'Live' : realtimeClient ? 'Polling' : 'Live updates off'}
         </span>
-        {liveError && <span className="text-muted">Live updates stopped: {liveError}</span>}
       </div>
-
-      {error && (
-        <p role="alert" className="mt-4 border-l-2 border-red-500 bg-paper px-4 py-2 text-[12px] text-red-700">
-          {error}
-        </p>
-      )}
 
       <div className="mt-6">
         {sealed && realtimeClient ? (
@@ -281,12 +306,11 @@ const Inbox = () => {
             <LiveList
               sealed={sealed}
               refreshSealed={refreshSealed}
-              onLiveError={handleLiveError}
-              onLiveData={setLiveRows}
               filter={filter}
               onStatus={changeStatus}
               onDelete={remove}
               busyId={busyId}
+              pollingRows={restRows}
             />
           </RealtimeProvider>
         ) : (

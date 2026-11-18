@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://odhiambolvis.tech';
+  const baseUrl = 'https://odhislvoh.co.ke';
 
   return [
     {

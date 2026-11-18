@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { FileUp, ExternalLink } from 'lucide-react';
 import { adminFetch, adminToken } from '../../lib/adminApi';
+import toast from '../../lib/toast';
 import { useUploadThing } from '../../lib/uploadthing';
 import { useContent } from '../../contexts/ContentContext';
 
 const MediaAdmin = () => {
   const [cv, setCv] = useState(null);
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
   const [busy, setBusy] = useState(false);
   const { reload } = useContent();
   const { startUpload } = useUploadThing('cvUpload', {
@@ -18,13 +18,12 @@ const MediaAdmin = () => {
   useEffect(() => {
     adminFetch('/admin/content')
       .then((result) => setCv(result.content.cv))
-      .catch((error) => setStatus({ state: 'error', message: error.message }));
+      .catch((error) => toast.error('Could not load CV', error.message));
   }, []);
 
   const uploadCv = async (file) => {
     if (!file) return;
     setBusy(true);
-    setStatus({ state: 'saving', message: '' });
     try {
       const uploaded = await startUpload([file]);
       const result = uploaded?.[0];
@@ -41,9 +40,9 @@ const MediaAdmin = () => {
 
       setCv(saved.cv);
       await reload();
-      setStatus({ state: 'saved', message: 'CV replaced. The site links now point to the new file.' });
+      toast.success('CV replaced', 'The site links now point to the new file.');
     } catch (error) {
-      setStatus({ state: 'error', message: error.message });
+      toast.error('Upload failed', error.message);
     } finally {
       setBusy(false);
     }
@@ -57,19 +56,6 @@ const MediaAdmin = () => {
         The CV is stored on UploadThing and linked from the hero and about sections. Uploading a
         new PDF replaces it everywhere.
       </p>
-
-      {status.message && (
-        <p
-          role={status.state === 'error' ? 'alert' : undefined}
-          className={`mt-4 border-l-2 px-4 py-2 text-[12px] ${
-            status.state === 'error'
-              ? 'border-red-500 bg-paper text-red-700'
-              : 'border-accent bg-paper text-muted'
-          }`}
-        >
-          {status.message}
-        </p>
-      )}
 
       <div className="mt-6 max-w-xl border border-line bg-paper p-5">
         <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">

@@ -180,10 +180,10 @@ const Navigation = () => {
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
               <a
-                href="mailto:info@odhiambolvis.tech"
+                href="mailto:info@odhislvoh.co.ke"
                 className="block truncate text-center text-[13px] text-muted"
               >
-                info@odhiambolvis.tech
+                info@odhislvoh.co.ke
               </a>
               <p className="text-center text-[11px] uppercase tracking-[0.14em] text-muted">
                 Nairobi, Kenya · Open to remote work

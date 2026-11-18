@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { KeyRound } from 'lucide-react';
 import { authClient } from '../../lib/authClient';
+import toast from '../../lib/toast';
 
 const EMPTY = { current: '', next: '', confirm: '' };
 
 const ChangePassword = () => {
   const [form, setForm] = useState(EMPTY);
-  const [status, setStatus] = useState({ state: 'idle', message: '' });
   const [busy, setBusy] = useState(false);
 
   const update = (field) => (event) => setForm({ ...form, [field]: event.target.value });
@@ -18,20 +18,20 @@ const ChangePassword = () => {
     if (busy) return;
 
     if (form.next.length < 8) {
-      setStatus({ state: 'error', message: 'Use at least 8 characters.' });
+      toast.error('Password too short', 'Use at least 8 characters.');
       return;
     }
     if (form.next !== form.confirm) {
-      setStatus({ state: 'error', message: 'The new passwords do not match.' });
+      toast.error('Passwords do not match', 'The new passwords do not match.');
       return;
     }
     if (form.next === form.current) {
-      setStatus({ state: 'error', message: 'Choose a different password from the current one.' });
+      toast.error('Same password', 'Choose a different password from the current one.');
       return;
     }
 
     setBusy(true);
-    setStatus({ state: 'saving', message: '' });
+    toast.loading('Updating password…');
     try {
       await authClient.changePassword({
         currentPassword: form.current,
@@ -39,15 +39,14 @@ const ChangePassword = () => {
         revokeOtherSessions: true,
       });
       setForm(EMPTY);
-      setStatus({
-        state: 'saved',
-        message: 'Password updated. Any other signed-in devices were signed out.',
-      });
+      toast.close();
+      toast.success('Password updated', 'Any other signed-in devices were signed out.');
     } catch (error) {
+      toast.close();
       const message = /invalid|incorrect/i.test(error?.message || '')
         ? 'That current password is not correct.'
         : error?.message || 'Could not change the password. Please try again.';
-      setStatus({ state: 'error', message });
+      toast.error('Password change failed', message);
     } finally {
       setBusy(false);
     }
@@ -61,19 +60,6 @@ const ChangePassword = () => {
       <p className="mt-2 text-[12px] leading-relaxed text-muted">
         Change the password for the account you are signed in with. Other sessions are signed out.
       </p>
-
-      {status.message && (
-        <p
-          role={status.state === 'error' ? 'alert' : undefined}
-          className={`mt-4 border-l-2 px-3 py-2 text-[12px] ${
-            status.state === 'error'
-              ? 'border-red-500 bg-paper text-red-700'
-              : 'border-accent bg-paper text-muted'
-          }`}
-        >
-          {status.message}
-        </p>
-      )}
 
       <div className="mt-4 grid gap-3">
         <label className="flex flex-col gap-1.5">

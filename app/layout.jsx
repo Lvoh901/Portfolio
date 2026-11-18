@@ -20,7 +20,7 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://odhiambolvis.tech'),
+  metadataBase: new URL('https://odhislvoh.co.ke'),
   title: defaultContent.seo.title,
   description: defaultContent.seo.description,
   keywords: [
@@ -77,10 +77,10 @@ const RootLayout = ({ children }) => (
             '@type': 'Person',
             name: 'Elvis Odhiambo',
             jobTitle: 'Full-Stack Developer & Product Designer',
-            url: 'https://odhiambolvis.tech',
-            image: 'https://odhiambolvis.tech/profile0.png',
+            url: 'https://odhislvoh.co.ke',
+            image: 'https://odhislvoh.co.ke/profile0.png',
             telephone: '+254718505642',
-            email: 'info@odhiambolvis.tech',
+            email: 'info@odhislvoh.co.ke',
             address: {
               '@type': 'PostalAddress',
               addressLocality: 'Nairobi',

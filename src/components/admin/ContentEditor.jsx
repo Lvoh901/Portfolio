@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImagePlus, Plus, Save, Trash2, Upload } from 'lucide-react';
 import { adminFetch, adminToken } from '../../lib/adminApi';
 import { useContent } from '../../contexts/ContentContext';

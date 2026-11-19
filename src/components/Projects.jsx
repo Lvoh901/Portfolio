@@ -70,13 +70,13 @@ const Projects = () => {
                 rel={project.linkUrl ? 'noreferrer' : undefined}
                 className={`block ${project.linkUrl ? 'cursor-pointer' : 'cursor-default'}`}
               >
-                <div className="relative overflow-hidden border border-line bg-paper-2">
+                <div className="relative aspect-[4/3] overflow-hidden border border-line bg-paper-2">
                   {project.imageUrl ? (
                     <Image
                       src={project.imageUrl}
                       alt={`${project.title} preview`}
                       fill
-                      className="aspect-[4/3] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (

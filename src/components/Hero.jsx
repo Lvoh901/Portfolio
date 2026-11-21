@@ -85,7 +85,7 @@ const Hero = () => {
               <span className="text-[15px] font-serif font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2 whitespace-nowrap">
                 Trusted by
               </span>
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-4 lg:flex-nowrap lg:gap-x-10">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 lg:flex-nowrap">
                 {(hero.clients || []).map((client, index) => {
                   // Normalize: stored content may have clients as strings (old format)
                   const clientName =
@@ -112,7 +112,7 @@ const Hero = () => {
                         <Image
                           src={clientLogoUrl}
                           alt={clientName}
-                          className="h-full w-full border border-accent object-contain"
+                          className="h-full w-full object-contain rounded-full"
                           width={64}
                           height={64}
                         />

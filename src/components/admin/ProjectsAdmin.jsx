@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ImagePlus, Plus, Save, Trash2 } from 'lucide-react';
-import { adminFetch, adminToken } from '../../lib/adminApi';
+import { adminFetch } from '../../lib/adminApi';
 import { useUploadThing } from '../../lib/uploadthing';
 import toast from '../../lib/toast';
 
@@ -23,7 +23,7 @@ const ProjectsAdmin = () => {
 
   // UploadThing calls /api/uploadthing with the admin JWT attached.
   const { startUpload } = useUploadThing('projectImage', {
-    headers: async () => ({ Authorization: `Bearer ${await adminToken()}` }),
+    headers: async () => ({ Authorization: `Bearer ${localStorage.getItem('portfolio_token')}` }),
   });
 
   const load = async () => {

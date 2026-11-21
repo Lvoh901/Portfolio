@@ -7,18 +7,20 @@ const Process = () => {
   const process = content.process;
 
   return (
-    <section id="process" className="border-b border-line py-20 lg:py-28">
+    <section id="process" className="border-b border-line py-16">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="">
           <div className="mb-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
               The process
             </p>
-            <h2 className="mt-2 max-w-xl font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
+            <h2 className="max-w-xl font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
               {process.heading}
             </h2>
           </div>
-          <p className="text-[15px] leading-relaxed">{process.intro}</p>
+          <p className="text-[15px] leading-relaxed font-medium">
+            {process.intro}
+          </p>
         </div>
 
         <ol className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4 cursor-pointer">
@@ -36,7 +38,7 @@ const Process = () => {
               <h3 className="mt-8 font-serif text-xl leading-snug">
                 {step.title}
               </h3>
-              <p className="mt-3 text-[13.5px] leading-relaxed text-muted">
+              <p className="mt-3 text-[13.5px] leading-relaxed font-medium">
                 {step.description}
               </p>
             </li>

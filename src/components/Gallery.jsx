@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import Link from "next/link";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 const images = [
-  '/designs/social_media1.png',
-  '/designs/social_media2.png',
-  '/designs/social_media3.png',
-  '/designs/social_media4.jpg',
-  '/designs/social_media5.jpg',
-  '/designs/social_media6.jpg',
-  '/designs/social_media7.jpg',
-  '/designs/social_media8.jpg',
-  '/designs/social_media9.jpg',
-  '/designs/social_media10.png',
-  '/designs/social_media11.webp',
-  '/designs/social_media12.png',
-  '/designs/social_media13.png',
-  '/designs/social_media14.png',
-  '/designs/social_media15.png',
-  '/designs/social_media16.png',
+  "/designs/social_media1.png",
+  "/designs/social_media2.png",
+  "/designs/social_media3.png",
+  "/designs/social_media4.jpg",
+  "/designs/social_media5.jpg",
+  "/designs/social_media6.jpg",
+  "/designs/social_media7.jpg",
+  "/designs/social_media8.jpg",
+  "/designs/social_media9.jpg",
+  "/designs/social_media10.png",
+  "/designs/social_media11.webp",
+  "/designs/social_media12.png",
+  "/designs/social_media13.png",
+  "/designs/social_media14.png",
+  "/designs/social_media15.png",
+  "/designs/social_media16.png",
 ];
 
 const Gallery = () => (
   <div className="border-b border-line">
-    <div className="mx-auto max-w-6xl px-6 pb-16 pt-28 lg:px-8 lg:pb-24 lg:pt-36">
+    <div className="mx-auto max-w-6xl px-6 pb-16 pt-28 lg:px-8 lg:pb-24">
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted transition-colors hover:text-ink"
@@ -33,29 +33,30 @@ const Gallery = () => (
         Back to portfolio
       </Link>
 
-      <div className="mt-8 flex flex-col justify-between gap-6 border-b border-line pb-10 lg:flex-row lg:items-end">
+      <div className="mt-4 flex flex-col justify-between gap-6 border-b border-line pb-10 lg:flex-row lg:items-end">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
             Design portfolio
           </p>
-          <h1 className="mt-4 max-w-2xl font-serif text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.05]">
+          <h1 className="max-w-2xl font-serif text-[clamp(2.2rem,4.4vw,3.6rem)] leading-[1.05]">
             Social media &amp; campaign design.
           </h1>
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted">
-            A selection of posts, campaign visuals, and brand pieces created for public and private
-            accounts &mdash; built to stop the scroll without losing the message.
+          <p className="mt-5 max-w-xl text-[15px] leading-relaxed font-medium">
+            A selection of posts, campaign visuals, and brand pieces created for
+            public and private accounts &mdash; built to stop the scroll without
+            losing the message.
           </p>
         </div>
         <Link
           href="/#contact"
-          className="group inline-flex shrink-0 items-center gap-2 border-b border-ink pb-1 text-[12px] font-semibold uppercase tracking-[0.16em] text-ink transition-colors hover:border-accent"
+          className="group inline-flex shrink-0 items-center gap-2 border-b-2 border-ink text-[12px] font-semibold uppercase tracking-[0.16em] text-ink transition-colors hover:border-accent"
         >
           Commission a design
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </Link>
       </div>
 
-      <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {images.map((image, index) => (
           <a
             key={image}
@@ -79,12 +80,13 @@ const Gallery = () => (
 
       <Link
         href="/#contact"
-        className="mt-14 flex flex-col items-center justify-between gap-4 border border-line bg-paper-2/50 px-6 py-8 text-center sm:flex-row sm:text-left"
+        className="mt-8 flex flex-col items-center justify-between gap-4 border border-line bg-paper-2/50 px-6 py-8 text-center sm:flex-row sm:text-left"
       >
         <div>
           <p className="font-serif text-2xl">Need visuals for your brand?</p>
-          <p className="mt-1 text-[13px] text-muted">
-            Identity, social templates, and campaign design &mdash; delivered as a usable kit.
+          <p className="text-[13px] font-medium">
+            Identity, social templates, and campaign design &mdash; delivered as
+            a usable kit.
           </p>
         </div>
         <span className="inline-flex items-center gap-2 bg-ink px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink">

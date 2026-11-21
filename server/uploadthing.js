@@ -1,22 +1,23 @@
 import { createUploadthing } from 'uploadthing/next';
 import { UploadThingError } from 'uploadthing/server';
-import { bearerFrom, isAdminEmail, verifyNeonToken } from './auth.js';
+import { verifyToken, isAdminEmail } from './auth.js';
 
 const f = createUploadthing();
 
 /**
- * UploadThing calls this with the browser request, so the Managed Auth JWT sent
+ * UploadThing calls this with the browser request, so the custom JWT sent
  * in the Authorization header is verified exactly like the REST routes.
  */
 const adminOnly = async ({ req }) => {
-  const token = bearerFrom(req);
+  const header = req.headers.get('authorization') || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7).trim() : '';
   if (!token) throw new UploadThingError('Sign in to upload.');
 
   let payload;
   try {
-    payload = await verifyNeonToken(token);
+    payload = verifyToken(token);
   } catch (error) {
-    const expired = error?.code === 'ERR_JWT_EXPIRED';
+    const expired = error?.message?.includes('expired');
     throw new UploadThingError(expired ? 'Your session expired. Please sign in again.' : 'Invalid session.');
   }
 

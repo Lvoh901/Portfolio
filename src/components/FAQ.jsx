@@ -19,7 +19,9 @@ const FaqItem = ({ item, index }) => {
         aria-expanded={open}
         aria-controls={`faq-panel-${index}`}
       >
-        <span className="text-[13px] leading-relaxed">{item.q}</span>
+        <span className="text-[15px] font-bold cursor-pointer leading-relaxed">
+          {item.q}
+        </span>
         <ChevronDown
           className={`h-4 w-4 shrink-0 transition-transform duration-200 ${
             open ? "rotate-180" : ""
@@ -34,9 +36,7 @@ const FaqItem = ({ item, index }) => {
           transition: "max-height 0.3s ease-out",
         }}
       >
-        <p className="pb-4 text-[13px] leading-relaxed text-muted">
-          {item.a}
-        </p>
+        <p className="pb-4 text-[14px] leading-relaxed font-medium">{item.a}</p>
       </div>
     </div>
   );
@@ -49,13 +49,13 @@ const FAQ = () => {
   if (!faq?.items?.length) return null;
 
   return (
-    <section id="faq" className="border-b border-line py-20 lg:py-28">
+    <section id="faq" className="border-b border-line py-16">
       <div className="mx-auto max-w-3xl px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+        <div className="text-center mb-4">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
             Frequently asked
           </p>
-          <h2 className="mt-4 font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
+          <h2 className="font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
             {faq.heading}
           </h2>
         </div>

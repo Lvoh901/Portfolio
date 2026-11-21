@@ -1,32 +1,10 @@
-import { authClient } from './authClient';
-
 /**
- * Managed Auth returns the signed JWT on the session (`data.session.token`),
- * refreshed by getSession() before its 15 minute expiry.
- */
-export async function adminToken() {
-  if (!authClient) throw new Error('Auth is not configured (NEXT_PUBLIC_NEON_AUTH_URL is missing).');
-
-  const session = await authClient.getSession();
-  let token = session?.data?.session?.token ?? null;
-
-  if (!token && typeof authClient.getJWTToken === 'function') {
-    token = await authClient.getJWTToken();
-  }
-
-  if (!token || token.split('.').length !== 3) {
-    throw new Error('Your session expired. Please sign in again.');
-  }
-
-  return token;
-}
-
-/**
- * Calls the dashboard API with a short-lived Managed Auth JWT.
- * The server verifies the token against Neon's JWKS and the `admin_users` table.
+ * Calls the dashboard API with a custom JWT stored in localStorage.
+ * The server verifies the token against the `admin_users` table.
  */
 export async function adminFetch(path, options = {}) {
-  const token = await adminToken();
+  const token = localStorage.getItem('portfolio_token');
+  if (!token) throw new Error('Not signed in.');
 
   const headers = new Headers(options.headers || {});
   headers.set('Authorization', `Bearer ${token}`);

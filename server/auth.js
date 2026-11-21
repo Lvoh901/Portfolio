@@ -1,34 +1,21 @@
-import { createRemoteJWKSet, jwtVerify } from 'jose';
-import { env } from './env.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { query } from './db.js';
 
-let jwks = null;
+const JWT_SECRET = process.env.AUTH_JWT_SECRET || 'change-me-in-production';
 
-const getJwks = () => {
-  if (!jwks) {
-    if (!env.authJwksUrl) throw new Error('NEON_AUTH_JWKS_URL is not configured');
-    jwks = createRemoteJWKSet(new URL(env.authJwksUrl));
-  }
-  return jwks;
-};
+export const createToken = (payload) => jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
 
-export const verifyNeonToken = async (token) => {
-  const { payload } = await jwtVerify(token, getJwks(), {
-    algorithms: ['EdDSA'],
-    issuer: env.authOrigin,
-    audience: env.authOrigin,
-  });
-  return payload;
-};
+export const verifyToken = (token) => jwt.verify(token, JWT_SECRET);
 
-export const bearerFrom = (request) => {
-  const header = request.headers.get('authorization') || '';
-  return header.startsWith('Bearer ') ? header.slice(7).trim() : '';
-};
+export const verifyPassword = async (plain, hash) => bcrypt.compare(plain, hash);
+
+export const hashPassword = (plain) => bcrypt.hash(plain, 10);
 
 /**
  * Administrators are rows in `admin_users` — seeded once by `npm run db:migrate`
- * and managed from Dashboard → Access. That table is the only source of truth.
+ * and managed from Dashboard → Access. Passwords are hashed with bcrypt and
+ * stored in `admin_users.password_hash`.
  */
 export const isAdminEmail = async (email) => {
   const { rows } = await query('select 1 from admin_users where email = $1 limit 1', [email]);
@@ -37,7 +24,7 @@ export const isAdminEmail = async (email) => {
 
 export const listAdmins = async () => {
   const { rows } = await query(
-    'select email, name from admin_users order by created_at asc, email asc',
+    'select email, name, role from admin_users order by created_at asc, email asc',
   );
   return rows;
 };
@@ -49,35 +36,25 @@ const json = (body, status) =>
   });
 
 /**
- * Verifies the Managed Better Auth JWT and requires the account to be a
- * database-backed administrator. Returns `{ admin }` or `{ response }`.
+ * Verifies the custom JWT and requires the account to be a database-backed
+ * administrator. Every admin route is gated by this.
  */
 export const requireAdmin = async (request) => {
-  const token = bearerFrom(request);
+  const authHeader = request.headers.get('authorization') || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
   if (!token) return { response: json({ error: 'Sign in to continue.' }, 401) };
 
   let payload;
   try {
-    payload = await verifyNeonToken(token);
-  } catch (error) {
-    const expired = error?.code === 'ERR_JWT_EXPIRED';
-    return {
-      response: json(
-        { error: expired ? 'Your session expired. Please sign in again.' : 'Invalid session.' },
-        401,
-      ),
-    };
+    payload = verifyToken(token);
+  } catch {
+    return { response: json({ error: 'Invalid or expired session.' }, 401) };
   }
 
   const email = String(payload.email || '').toLowerCase();
-  try {
-    if (!email || !(await isAdminEmail(email))) {
-      return {
-        response: json({ error: `This account (${email || 'unknown'}) is not an administrator.` }, 403),
-      };
-    }
-  } catch {
-    return { response: json({ error: 'Could not check administrator access.' }, 500) };
+  const { rows } = await query('select 1 from admin_users where email = $1 limit 1', [email]);
+  if (rows.length === 0) {
+    return { response: json({ error: `This account (${email || 'unknown'}) is not an administrator.` }, 403) };
   }
 
   return { admin: { id: payload.sub, email } };

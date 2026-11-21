@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -16,7 +16,7 @@ const links = [
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hash, setHash] = useState('');
+  const [hash, setHash] = useState("");
   const pathname = usePathname();
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -30,15 +30,15 @@ const Navigation = () => {
   useEffect(() => {
     const syncHash = () => setHash(window.location.hash);
     syncHash();
-    window.addEventListener('hashchange', syncHash);
-    window.addEventListener('popstate', syncHash);
+    window.addEventListener("hashchange", syncHash);
+    window.addEventListener("popstate", syncHash);
     return () => {
-      window.removeEventListener('hashchange', syncHash);
-      window.removeEventListener('popstate', syncHash);
+      window.removeEventListener("hashchange", syncHash);
+      window.removeEventListener("popstate", syncHash);
     };
   }, [pathname]);
 
-  const followHash = (to) => setHash(to.startsWith('/#') ? to.slice(1) : '');
+  const followHash = (to) => setHash(to.startsWith("/#") ? to.slice(1) : "");
 
   // lock background scrolling while the mobile menu is open
   useEffect(() => {
@@ -83,14 +83,14 @@ const Navigation = () => {
             className="flex min-w-0 items-center gap-3"
             aria-label="Elvis Odhiambo — home"
           >
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-accent font-serif text-lg leading-none text-ink">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-accent font-serif text-lg leading-none text-ink hover:rounded-full">
               EO
             </span>
             <span className="hidden min-w-0 flex-col leading-tight sm:flex">
               <span className="truncate text-sm font-semibold tracking-tight">
                 Elvis Odhiambo
               </span>
-              <span className="hidden text-[11px] uppercase tracking-[0.16em] text-muted md:block">
+              <span className="hidden text-[11px] uppercase font-medium tracking-[0.16em] md:block">
                 Developer &amp; Designer
               </span>
             </span>

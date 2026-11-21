@@ -8,14 +8,14 @@ const Testimonial = () => {
   if (!testimonials?.length) return null;
 
   return (
-    <section className="bg-ink py-20 text-paper lg:py-28">
+    <section className="bg-ink py-16 text-paper">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50">
               Client feedback
             </p>
-            <h2 className="mt-2 font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
+            <h2 className="font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
               Trusted with work that matters.
             </h2>
           </div>

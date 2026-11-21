@@ -19,7 +19,7 @@ const Hero = () => {
         className="pointer-events-none absolute -right-24 -top-24 h-[360px] w-[360px] rounded-full border border-line/80"
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-28 lg:px-8 lg:pb-24 lg:pt-36">
+      <div className="relative mx-auto max-w-6xl px-6 pb-24 pt-28 lg:px-8 lg:pt-36">
         <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
           <div>
             <div className="reveal flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -45,7 +45,7 @@ const Hero = () => {
             </h1>
 
             <p
-              className="reveal mt-7 max-w-xl text-[1.0625rem] leading-relaxed text-muted"
+              className="reveal mt-7 max-w-xl text-[1.0625rem] leading-relaxed font-medium"
               style={{ animationDelay: "0.16s" }}
             >
               {hero.subheadline}
@@ -79,7 +79,7 @@ const Hero = () => {
             */}
             <section
               id="trusted"
-              className="reveal mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-t border-line pt-8 lg:pt-14 lg:flex-nowrap lg:justify-start lg:gap-x-12"
+              className="reveal mt-10 flex flex-col gap-x-6 gap-y-4 border-t border-line pt-8 lg:pt-14 lg:flex-nowrap lg:justify-start lg:gap-x-12"
               style={{ animationDelay: "0.32s" }}
             >
               <span className="text-[15px] font-serif font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2 whitespace-nowrap">
@@ -88,11 +88,14 @@ const Hero = () => {
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4 lg:flex-nowrap lg:gap-x-10">
                 {(hero.clients || []).map((client, index) => {
                   // Normalize: stored content may have clients as strings (old format)
-                  const clientName = typeof client === "string" ? client : client?.name;
+                  const clientName =
+                    typeof client === "string" ? client : client?.name;
                   const clientLogoUrl =
-                    typeof client === "string" ? null : client?.logoUrl ?? null;
+                    typeof client === "string"
+                      ? null
+                      : (client?.logoUrl ?? null);
                   const clientUrl =
-                    typeof client === "string" ? null : client?.url ?? null;
+                    typeof client === "string" ? null : (client?.url ?? null);
                   const initials = clientName
                     ?.split(" ")
                     .map((word) => word.charAt(0))
@@ -109,7 +112,7 @@ const Hero = () => {
                         <Image
                           src={clientLogoUrl}
                           alt={clientName}
-                          className="h-full w-full object-contain"
+                          className="h-full w-full border border-accent object-contain"
                           width={64}
                           height={64}
                         />
@@ -119,20 +122,18 @@ const Hero = () => {
                         </div>
                       )}
                     </a>
+                  ) : clientLogoUrl ? (
+                    <Image
+                      src={clientLogoUrl}
+                      alt={clientName}
+                      className="h-full w-full object-contain"
+                      width={64}
+                      height={64}
+                    />
                   ) : (
-                    clientLogoUrl ? (
-                      <Image
-                        src={clientLogoUrl}
-                        alt={clientName}
-                        className="h-full w-full object-contain"
-                        width={64}
-                        height={64}
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-[11px] font-serif font-semibold uppercase tracking-[0.2em] text-ink-soft">
-                        {initials}
-                      </div>
-                    )
+                    <div className="flex h-full w-full items-center justify-center text-[11px] font-serif font-semibold uppercase tracking-[0.2em] text-ink-soft">
+                      {initials}
+                    </div>
                   );
 
                   return (
@@ -161,7 +162,7 @@ const Hero = () => {
               height={420}
               sizes="(max-width: 768px) 420px, 380px"
             />
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap border border-line bg-paper px-4 py-2 text-[11px] uppercase tracking-[0.16em] text-ink shadow-sm flex gap-3 items-center">
+            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap border border-line bg-paper px-4 py-2 text-[11px] uppercase tracking-[0.16em] shadow-sm flex gap-3 items-center font-bold">
               Developer <div className="bg-accent w-2 h-2 rounded-full" />{" "}
               Designer <div className="bg-accent w-2 h-2 rounded-full" />{" "}
               Builder

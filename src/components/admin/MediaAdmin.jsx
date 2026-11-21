@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { FileUp, ExternalLink } from 'lucide-react';
-import { adminFetch, adminToken } from '../../lib/adminApi';
+import { adminFetch } from '../../lib/adminApi';
 import toast from '../../lib/toast';
 import { useUploadThing } from '../../lib/uploadthing';
 import { useContent } from '../../contexts/ContentContext';
@@ -12,7 +12,7 @@ const MediaAdmin = () => {
   const [busy, setBusy] = useState(false);
   const { reload } = useContent();
   const { startUpload } = useUploadThing('cvUpload', {
-    headers: async () => ({ Authorization: `Bearer ${await adminToken()}` }),
+    headers: async () => ({ Authorization: `Bearer ${localStorage.getItem('portfolio_token')}` }),
   });
 
   useEffect(() => {

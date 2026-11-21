@@ -8,10 +8,7 @@ const About = () => {
   const { about, cv } = content;
 
   return (
-    <section
-      id="about"
-      className="border-b border-line bg-paper-2/50 py-20 lg:py-28"
-    >
+    <section id="about" className="border-b border-line bg-paper-2/50 py-16">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div className="relative">
@@ -23,7 +20,7 @@ const About = () => {
                 className="aspect-[4/5] w-full object-cover"
               />
             </div>
-            <div className="mt-4 flex items-center justify-between border border-line bg-paper px-4 py-3">
+            <div className="mt-4 flex items-center justify-between border-2 border-accent bg-paper px-4 py-3">
               <span className="text-[11px] uppercase tracking-[0.16em] text-muted">
                 Currently
               </span>
@@ -36,10 +33,10 @@ const About = () => {
           </div>
 
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-muted">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
               About
             </p>
-            <h2 className="mt-4 font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
+            <h2 className="font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
               {about.heading}
             </h2>
 
@@ -85,7 +82,7 @@ const About = () => {
                   {(about.design || []).map((skill) => (
                     <li
                       key={skill}
-                      className="border-2 border-accent bg-paper px-3 py-1.5 text-[12px] text-ink-soft"
+                      className="border-2 border-accent bg-paper px-3 py-1.5 text-[12px] text-ink-soft font-medium"
                     >
                       {skill}
                     </li>

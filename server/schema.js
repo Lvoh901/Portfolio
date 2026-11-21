@@ -51,6 +51,11 @@ create table if not exists admin_users (
   created_at timestamptz not null default now()
 );
 
+-- Added after the first release; create table if not exists never applies these
+-- to databases created earlier, so they are declared idempotently here.
+alter table inquiries add column if not exists budget text not null default '';
+alter table inquiries add column if not exists timeline text not null default '';
+
 create index if not exists inquiries_created_at_idx on inquiries (created_at desc);
 create index if not exists inquiries_status_idx on inquiries (status);
 create index if not exists projects_sort_order_idx on projects (sort_order);

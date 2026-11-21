@@ -1,36 +1,38 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowUpRight, MessageSquare } from 'lucide-react';
-import { useContent } from '../contexts/ContentContext';
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { ArrowUpRight, MessageSquare } from "lucide-react";
+import { useContent } from "../contexts/ContentContext";
 
 const MotionArticle = motion.article;
 
 const filters = [
-  { id: 'all', label: 'All work' },
-  { id: 'launched', label: 'Live' },
-  { id: 'in-progress', label: 'In progress' },
+  { id: "all", label: "All work" },
+  { id: "launched", label: "Live" },
+  { id: "in-progress", label: "In progress" },
 ];
 
 const Projects = () => {
   const { projects } = useContent();
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
 
   const visible =
-    activeFilter === 'all' ? projects : projects.filter((project) => project.stage === activeFilter);
+    activeFilter === "all"
+      ? projects
+      : projects.filter((project) => project.stage === activeFilter);
 
   return (
-    <section id="work" className="border-b border-line py-20 lg:py-28">
+    <section id="work" className="border-b border-line py-16">
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="flex flex-col justify-between gap-8 border-b border-line pb-10 lg:flex-row lg:items-end">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-accent">
               Selected work
             </p>
-            <h2 className="mt-4 max-w-xl font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
+            <h2 className="max-w-xl font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
               Projects shipped for real people and real deadlines.
             </h2>
           </div>
@@ -41,8 +43,10 @@ const Projects = () => {
                 key={filter.id}
                 type="button"
                 onClick={() => setActiveFilter(filter.id)}
-                className={`relative pb-1 text-[12px] font-semibold uppercase tracking-[0.14em] transition-colors ${
-                  activeFilter === filter.id ? 'text-ink' : 'text-muted hover:text-ink'
+                className={`relative pb-1 text-[12px] uppercase tracking-[0.14em] transition-colors ${
+                  activeFilter === filter.id
+                    ? "font-bold"
+                    : "font-medium text-muted hover:text-ink"
                 }`}
               >
                 {filter.label}
@@ -60,23 +64,23 @@ const Projects = () => {
               key={project.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
+              viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: (index % 2) * 0.08 }}
-              className="group block"
+              className="group block border-b border-[#dedede] border-dashed pb-3"
             >
               <a
                 href={project.linkUrl || undefined}
-                target={project.linkUrl ? '_blank' : undefined}
-                rel={project.linkUrl ? 'noreferrer' : undefined}
-                className={`block ${project.linkUrl ? 'cursor-pointer' : 'cursor-default'}`}
+                target={project.linkUrl ? "_blank" : undefined}
+                rel={project.linkUrl ? "noreferrer" : undefined}
+                className={`block ${project.linkUrl ? "cursor-pointer" : "cursor-default"}`}
               >
-                <div className="relative overflow-hidden border border-line bg-paper-2">
+                <div className="relative aspect-[4/3] overflow-hidden border border-line bg-paper-2">
                   {project.imageUrl ? (
                     <Image
                       src={project.imageUrl}
                       alt={`${project.title} preview`}
                       fill
-                      className="aspect-[4/3] object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (
@@ -84,8 +88,8 @@ const Projects = () => {
                       {project.title}
                     </div>
                   )}
-                  <span className="absolute left-0 top-0 bg-paper px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink">
-                    {project.stage === 'launched' ? 'Live' : 'In development'}
+                  <span className="absolute left-0 top-0 bg-accent px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-ink">
+                    {project.stage === "launched" ? "Live" : "In development"}
                   </span>
                 </div>
 
@@ -94,13 +98,15 @@ const Projects = () => {
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
                       {project.category}
                     </p>
-                    <h3 className="mt-1.5 font-serif text-2xl">{project.title}</h3>
+                    <h3 className="mt-1.5 font-serif text-2xl">
+                      {project.title}
+                    </h3>
                     {project.role && (
                       <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted">
                         {project.role}
                       </p>
                     )}
-                    <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
+                    <p className="mt-2 max-w-md text-sm leading-relaxed">
                       {project.description}
                     </p>
                     {project.outcome && (
@@ -126,7 +132,7 @@ const Projects = () => {
                 href={`/contact?project=${project.id}`}
                 className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
               >
-                <MessageSquare className="h-3.5 w-3.5" />
+                <MessageSquare className="h-3.5 w-3.5 text-accent" />
                 Discuss a project like this
               </Link>
             </MotionArticle>

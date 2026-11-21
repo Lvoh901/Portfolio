@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImagePlus, Plus, Save, Trash2, Upload } from 'lucide-react';
-import { adminFetch, adminToken } from '../../lib/adminApi';
+import { adminFetch } from '../../lib/adminApi';
 import { useContent } from '../../contexts/ContentContext';
 import { useUploadThing } from '../../lib/uploadthing';
 import toast from '../../lib/toast';
@@ -53,7 +53,7 @@ const ContentEditor = () => {
 
   // UploadThing calls /api/uploadthing with the admin JWT attached.
   const { startUpload: uploadClientLogo } = useUploadThing('clientLogo', {
-    headers: async () => ({ Authorization: `Bearer ${await adminToken()}` }),
+    headers: async () => ({ Authorization: `Bearer ${localStorage.getItem('portfolio_token')}` }),
   });
 
   useEffect(() => {

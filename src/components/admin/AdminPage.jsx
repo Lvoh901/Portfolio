@@ -12,7 +12,6 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { authClient } from '../../lib/authClient';
-import { adminFetch } from '../../lib/adminApi';
 import toast from '../../lib/toast';
 import SignIn from './SignIn';
 import Inbox from './Inbox';
@@ -41,13 +40,7 @@ const AdminPage = () => {
         setSession({ status: 'signed-out', user: null, message: '' });
         return;
       }
-
-      try {
-        await adminFetch('/admin/session');
-        setSession({ status: 'signed-in', user, message: '' });
-      } catch (error) {
-        setSession({ status: 'forbidden', user, message: error.message });
-      }
+      setSession({ status: 'signed-in', user, message: '' });
     } catch {
       setSession({ status: 'signed-out', user: null, message: '' });
     }

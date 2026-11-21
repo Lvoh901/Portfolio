@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { KeyRound } from 'lucide-react';
-import { authClient } from '../../lib/authClient';
+import { publicFetch } from '../../lib/adminApi';
 import toast from '../../lib/toast';
 
 const EMPTY = { current: '', next: '', confirm: '' };
@@ -33,10 +33,13 @@ const ChangePassword = () => {
     setBusy(true);
     toast.loading('Updating password…');
     try {
-      await authClient.changePassword({
-        currentPassword: form.current,
-        newPassword: form.next,
-        revokeOtherSessions: true,
+      const res = await publicFetch('/auth/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentPassword: form.current,
+          newPassword: form.next,
+        }),
       });
       setForm(EMPTY);
       toast.close();

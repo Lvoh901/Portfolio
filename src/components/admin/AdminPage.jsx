@@ -156,7 +156,7 @@ const AdminPage = () => {
               key={id}
               type="button"
               onClick={() => setTab(id)}
-              className={`inline-flex items-center gap-2 whitespace-nowrap border-b-2 px-3 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+              className={`inline-flex items-center gap-2 whitespace-nowrap border-b-2 px-3 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] transition-colors cursor-pointer ${
                 tab === id
                   ? "border-accent text-ink"
                   : "border-transparent text-muted hover:text-ink"

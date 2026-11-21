@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { authClient } from "../../lib/authClient";
 import toast from "../../lib/toast";
-import Link from "next/link";
 
 const SignIn = ({ onSignedIn, notice }) => {
   const [mode, setMode] = useState("sign-in");
@@ -63,18 +62,15 @@ const SignIn = ({ onSignedIn, notice }) => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-paper px-5 py-8">
+    <div className="flex min-h-screen items-center justify-center bg-paper px-5 py-16">
       <div className="w-full max-w-md">
         <div className="mb-10 flex items-center gap-3">
-          <Link
-            href="/"
-            className="flex h-10 w-10 items-center justify-center bg-accent font-serif text-xl leading-none text-ink hover:rounded-full"
-          >
+          <span className="flex h-10 w-10 items-center justify-center bg-accent font-serif text-xl leading-none text-ink">
             EO
-          </Link>
+          </span>
           <div>
-            <p className="text-sm font-bold uppercase">Portfolio dashboard</p>
-            <p className="text-[10px] uppercase tracking-[0.18em] font-medium">
+            <p className="text-sm font-semibold">Portfolio dashboard</p>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-muted">
               Admin access
             </p>
           </div>
@@ -82,10 +78,10 @@ const SignIn = ({ onSignedIn, notice }) => {
 
         <div className="rounded-lg border border-line bg-paper-2/40 p-8 shadow-sm sm:p-10">
           <div className="mb-8 text-center">
-            <h1 className="font-serif text-3xl">
+            <h1 className="font-serif text-4xl">
               {mode === "sign-in" ? "Sign in" : "Create your account"}
             </h1>
-            <p className="text-[14px] leading-relaxed">
+            <p className="mt-3 text-[14px] leading-relaxed text-muted">
               {mode === "sign-in"
                 ? "Use an email address with dashboard access."
                 : "Register with your admin email, then sign in."}
@@ -116,7 +112,7 @@ const SignIn = ({ onSignedIn, notice }) => {
             )}
 
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-[0.16em]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
                 Email
               </span>
               <input
@@ -132,7 +128,7 @@ const SignIn = ({ onSignedIn, notice }) => {
             </label>
 
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-bold uppercase tracking-[0.16em]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
                 Password
               </span>
               <div className="relative">
@@ -191,7 +187,7 @@ const SignIn = ({ onSignedIn, notice }) => {
               setError("");
               setShowPassword(false);
             }}
-            className="mt-6 inline-flex items-center gap-1.5 text-[12px] underline underline-offset-4 hover:text-ink"
+            className="mt-6 inline-flex items-center gap-1.5 text-[12px] text-muted underline underline-offset-4 hover:text-ink"
           >
             {mode === "sign-in"
               ? "Need an account? Register"

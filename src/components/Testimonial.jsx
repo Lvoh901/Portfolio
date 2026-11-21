@@ -12,7 +12,7 @@ const Testimonial = () => {
       <div className="mx-auto max-w-6xl px-6 lg:px-8">
         <div className="">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/50">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-accent">
               Client feedback
             </p>
             <h2 className="font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08]">
@@ -45,7 +45,7 @@ const Testimonial = () => {
                 <p className="text-[13px] font-semibold text-white">
                   {item.author}
                 </p>
-                <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-white/40">
+                <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-accent font-bold">
                   {item.role}
                 </p>
                 {item.metric && (

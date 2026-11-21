@@ -18,7 +18,7 @@ const ServicePack = () => {
             <h2 className="font-serif text-[clamp(2rem,3.6vw,2.9rem)] leading-[1.08] text-[#fefefe]">
               {services.heading}
             </h2>
-            <p className="mt-2 max-w-md text-[15px] leading-relaxed text-[#fefefe]">
+            <p className="max-w-md text-[15px] leading-relaxed text-[#fefefe]">
               {services.intro}
             </p>
             <a
@@ -34,7 +34,7 @@ const ServicePack = () => {
             {(services.items || []).map((service, index) => (
               <div
                 key={service.title}
-                className="border-b border-line border-dashed py-8 transition-colors hover:bg-paper-2/60 px-4 cursor-pointer"
+                className="border-b border-line border-dashed py-8 transition-colors px-4 cursor-pointer"
               >
                 <div className="flex gap-5">
                   <span className="font-serif text-4xl text-accent italic font-bold">
@@ -44,7 +44,7 @@ const ServicePack = () => {
                     <h3 className="font-serif text-[1.4rem] leading-snug text-[#fefefe]">
                       {service.title}
                     </h3>
-                    <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-muted">
+                    <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-[#fefefe] font-medium">
                       {service.description}
                     </p>
                     <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5">

@@ -150,14 +150,14 @@ const ProjectsAdmin = () => {
             Work
           </p>
           <h1 className="font-serif text-3xl">Projects</h1>
-          <p className="text-[13px] text-muted">
+          <p className="text-[13px] font-medium">
             Shown on the public site in this order. Images are hosted on
             UploadThing.
           </p>
         </div>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4">
         {projects.map((project) => {
           const draft = draftFor(project);
           const isEditing = editing === project.id;
@@ -165,7 +165,7 @@ const ProjectsAdmin = () => {
           return (
             <div key={project.id} className="border border-line bg-paper">
               <div className="flex flex-wrap items-center gap-4 p-2">
-                <div className="h-20 w-28 shrink-0 overflow-hidden border border-line bg-paper-2">
+                <div className="h-28 w-36 shrink-0 overflow-hidden border border-line bg-paper-2">
                   {project.imageUrl ? (
                     <img
                       src={project.imageUrl}
@@ -316,14 +316,14 @@ const ProjectsAdmin = () => {
         })}
       </div>
 
-      <section className="mt-8 border border-line bg-paper">
+      <section className="mt-8 border border-accent bg-paper">
         <div className="border-b border-line px-5 py-4">
-          <h2 className="font-serif text-xl">Add a project</h2>
+          <p className="font-bold text-xl">Add a project</p>
         </div>
         <div className="space-y-3 px-5 py-5">
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em]">
                 Title
               </span>
               <input
@@ -348,7 +348,7 @@ const ProjectsAdmin = () => {
             </label>
           </div>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+            <span className="text-[10px] font-bold uppercase tracking-[0.16em]">
               Description
             </span>
             <textarea
@@ -365,7 +365,7 @@ const ProjectsAdmin = () => {
           </label>
           <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em]">
                 Live URL
               </span>
               <input
@@ -377,7 +377,7 @@ const ProjectsAdmin = () => {
               />
             </label>
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+              <span className="text-[10px] font-bold uppercase tracking-[0.16em]">
                 Stage
               </span>
               <select

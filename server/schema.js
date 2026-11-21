@@ -27,6 +27,7 @@ create table if not exists testimonials (
   quote text not null,
   author text not null,
   role text not null default '',
+  metric text not null default '',
   sort_order integer not null default 0
 );
 

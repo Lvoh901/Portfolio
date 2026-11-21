@@ -154,7 +154,7 @@ const Hero = () => {
             <div className="absolute -inset-3 rounded-full border border-line" />
             <div className="absolute -inset-6 rounded-full border border-line/60" />
             <Image
-              src="/profile0.png"
+              src={hero.portraitUrl || '/profile0.png'}
               alt="Portrait of Elvis Odhiambo"
               className="relative aspect-square w-full rounded-full object-cover"
               priority

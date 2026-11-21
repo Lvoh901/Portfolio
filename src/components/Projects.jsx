@@ -82,6 +82,8 @@ const Projects = () => {
                       fill
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       sizes="(max-width: 768px) 100vw, 50vw"
+                      width={800}
+                      height={600}
                     />
                   ) : (
                     <div className="flex aspect-[4/3] w-full items-center justify-center bg-paper-2 font-serif text-2xl text-muted">

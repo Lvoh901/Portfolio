@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { ImagePlus, Plus, Save, Trash2 } from 'lucide-react';
-import { adminFetch } from '../../lib/adminApi';
-import { useUploadThing } from '../../lib/uploadthing';
-import toast from '../../lib/toast';
+import { useEffect, useState } from "react";
+import { ImagePlus, Plus, Save, Trash2 } from "lucide-react";
+import { adminFetch } from "../../lib/adminApi";
+import { useUploadThing } from "../../lib/uploadthing";
+import toast from "../../lib/toast";
 
 const emptyProject = {
-  title: '',
-  category: '',
-  description: '',
-  linkUrl: '',
-  stage: 'in-progress',
+  title: "",
+  category: "",
+  description: "",
+  linkUrl: "",
+  stage: "in-progress",
 };
 
 const ProjectsAdmin = () => {
@@ -19,19 +19,21 @@ const ProjectsAdmin = () => {
   const [editing, setEditing] = useState(null);
   const [drafts, setDrafts] = useState({});
   const [newProject, setNewProject] = useState(emptyProject);
-  const [busy, setBusy] = useState('');
+  const [busy, setBusy] = useState("");
 
   // UploadThing calls /api/uploadthing with the admin JWT attached.
-  const { startUpload } = useUploadThing('projectImage', {
-    headers: async () => ({ Authorization: `Bearer ${localStorage.getItem('portfolio_token')}` }),
+  const { startUpload } = useUploadThing("projectImage", {
+    headers: async () => ({
+      Authorization: `Bearer ${localStorage.getItem("portfolio_token")}`,
+    }),
   });
 
   const load = async () => {
     try {
-      const result = await adminFetch('/admin/content');
+      const result = await adminFetch("/admin/content");
       setProjects(result.projects || []);
     } catch (error) {
-      toast.error('Could not load projects', error.message);
+      toast.error("Could not load projects", error.message);
     }
   };
 
@@ -44,7 +46,10 @@ const ProjectsAdmin = () => {
   const updateDraft = (id, values) =>
     setDrafts((previous) => ({
       ...previous,
-      [id]: { ...(previous[id] || projects.find((project) => project.id === id)), ...values },
+      [id]: {
+        ...(previous[id] || projects.find((project) => project.id === id)),
+        ...values,
+      },
     }));
 
   const saveProject = async (project) => {
@@ -52,7 +57,7 @@ const ProjectsAdmin = () => {
     setBusy(project.id);
     try {
       await adminFetch(`/admin/projects/${project.id}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify({
           title: draft.title,
           category: draft.category,
@@ -68,11 +73,11 @@ const ProjectsAdmin = () => {
       });
       setEditing(null);
       await load();
-      toast.success('Project updated.');
+      toast.success("Project updated.");
     } catch (error) {
-      toast.error('Update failed', error.message);
+      toast.error("Update failed", error.message);
     } finally {
-      setBusy('');
+      setBusy("");
     }
   };
 
@@ -82,58 +87,58 @@ const ProjectsAdmin = () => {
     try {
       const uploaded = await startUpload([file]);
       const result = uploaded?.[0];
-      if (!result) throw new Error('Upload failed. Please try again.');
+      if (!result) throw new Error("Upload failed. Please try again.");
 
       await adminFetch(`/admin/projects/${project.id}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify({
           imageKey: result.key,
-          imageUrl: result.ufsUrl || result.url || '',
+          imageUrl: result.ufsUrl || result.url || "",
         }),
       });
       await load();
-      toast.success('Image uploaded.');
+      toast.success("Image uploaded.");
     } catch (error) {
-      toast.error('Upload failed', error.message);
+      toast.error("Upload failed", error.message);
     } finally {
-      setBusy('');
+      setBusy("");
     }
   };
 
   const removeProject = async (project) => {
     const confirmed = await toast.confirm(
-      'Delete project?',
+      "Delete project?",
       `${project.title} will be removed from the portfolio.`,
-      { confirmText: 'Yes, delete', cancelText: 'Cancel' },
+      { confirmText: "Yes, delete", cancelText: "Cancel" },
     );
     if (!confirmed) return;
 
     setBusy(project.id);
     try {
-      await adminFetch(`/admin/projects/${project.id}`, { method: 'DELETE' });
+      await adminFetch(`/admin/projects/${project.id}`, { method: "DELETE" });
       await load();
-      toast.success('Project deleted.');
+      toast.success("Project deleted.");
     } catch (error) {
-      toast.error('Delete failed', error.message);
+      toast.error("Delete failed", error.message);
     } finally {
-      setBusy('');
+      setBusy("");
     }
   };
 
   const addProject = async () => {
-    setBusy('new');
+    setBusy("new");
     try {
-      await adminFetch('/admin/projects', {
-        method: 'POST',
+      await adminFetch("/admin/projects", {
+        method: "POST",
         body: JSON.stringify(newProject),
       });
       setNewProject(emptyProject);
       await load();
-      toast.success('Project added.');
+      toast.success("Project added.");
     } catch (error) {
-      toast.error('Add failed', error.message);
+      toast.error("Add failed", error.message);
     } finally {
-      setBusy('');
+      setBusy("");
     }
   };
 
@@ -141,10 +146,13 @@ const ProjectsAdmin = () => {
     <div>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">Work</p>
-          <h1 className="mt-2 font-serif text-3xl">Projects</h1>
-          <p className="mt-2 text-[13px] text-muted">
-            Shown on the public site in this order. Images are hosted on UploadThing.
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent">
+            Work
+          </p>
+          <h1 className="font-serif text-3xl">Projects</h1>
+          <p className="text-[13px] text-muted">
+            Shown on the public site in this order. Images are hosted on
+            UploadThing.
           </p>
         </div>
       </div>
@@ -156,8 +164,8 @@ const ProjectsAdmin = () => {
 
           return (
             <div key={project.id} className="border border-line bg-paper">
-              <div className="flex flex-wrap items-center gap-4 p-4">
-                <div className="h-14 w-20 shrink-0 overflow-hidden border border-line bg-paper-2">
+              <div className="flex flex-wrap items-center gap-4 p-2">
+                <div className="h-20 w-28 shrink-0 overflow-hidden border border-line bg-paper-2">
                   {project.imageUrl ? (
                     <img
                       src={project.imageUrl}
@@ -173,9 +181,12 @@ const ProjectsAdmin = () => {
 
                 <div className="min-w-0 flex-1">
                   <p className="text-[10px] uppercase tracking-[0.14em] text-muted">
-                    {project.category} · {project.stage === 'launched' ? 'Live' : 'In development'}
+                    {project.category} ·{" "}
+                    {project.stage === "launched" ? "Live" : "In development"}
                   </p>
-                  <p className="truncate text-[14px] font-semibold">{project.title}</p>
+                  <p className="truncate text-[14px] font-semibold">
+                    {project.title}
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -186,7 +197,9 @@ const ProjectsAdmin = () => {
                       type="file"
                       accept="image/*"
                       className="hidden"
-                      onChange={(event) => uploadImage(project, event.target.files?.[0])}
+                      onChange={(event) =>
+                        uploadImage(project, event.target.files?.[0])
+                      }
                     />
                   </label>
                   <button
@@ -194,7 +207,7 @@ const ProjectsAdmin = () => {
                     onClick={() => setEditing(isEditing ? null : project.id)}
                     className="border border-line px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"
                   >
-                    {isEditing ? 'Close' : 'Edit'}
+                    {isEditing ? "Close" : "Edit"}
                   </button>
                   <button
                     type="button"
@@ -217,7 +230,9 @@ const ProjectsAdmin = () => {
                       </span>
                       <input
                         value={draft.title}
-                        onChange={(event) => updateDraft(project.id, { title: event.target.value })}
+                        onChange={(event) =>
+                          updateDraft(project.id, { title: event.target.value })
+                        }
                         className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
                       />
                     </label>
@@ -227,7 +242,11 @@ const ProjectsAdmin = () => {
                       </span>
                       <input
                         value={draft.category}
-                        onChange={(event) => updateDraft(project.id, { category: event.target.value })}
+                        onChange={(event) =>
+                          updateDraft(project.id, {
+                            category: event.target.value,
+                          })
+                        }
                         className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
                       />
                     </label>
@@ -240,7 +259,11 @@ const ProjectsAdmin = () => {
                     <textarea
                       rows={2}
                       value={draft.description}
-                      onChange={(event) => updateDraft(project.id, { description: event.target.value })}
+                      onChange={(event) =>
+                        updateDraft(project.id, {
+                          description: event.target.value,
+                        })
+                      }
                       className="resize-y border border-line bg-paper px-3 py-2 text-[13px] leading-relaxed focus:border-ink focus:outline-none"
                     />
                   </label>
@@ -251,8 +274,12 @@ const ProjectsAdmin = () => {
                         Live URL
                       </span>
                       <input
-                        value={draft.linkUrl || ''}
-                        onChange={(event) => updateDraft(project.id, { linkUrl: event.target.value })}
+                        value={draft.linkUrl || ""}
+                        onChange={(event) =>
+                          updateDraft(project.id, {
+                            linkUrl: event.target.value,
+                          })
+                        }
                         className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
                       />
                     </label>
@@ -262,7 +289,9 @@ const ProjectsAdmin = () => {
                       </span>
                       <select
                         value={draft.stage}
-                        onChange={(event) => updateDraft(project.id, { stage: event.target.value })}
+                        onChange={(event) =>
+                          updateDraft(project.id, { stage: event.target.value })
+                        }
                         className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
                       >
                         <option value="launched">Live</option>
@@ -299,7 +328,9 @@ const ProjectsAdmin = () => {
               </span>
               <input
                 value={newProject.title}
-                onChange={(event) => setNewProject({ ...newProject, title: event.target.value })}
+                onChange={(event) =>
+                  setNewProject({ ...newProject, title: event.target.value })
+                }
                 className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
               />
             </label>
@@ -309,7 +340,9 @@ const ProjectsAdmin = () => {
               </span>
               <input
                 value={newProject.category}
-                onChange={(event) => setNewProject({ ...newProject, category: event.target.value })}
+                onChange={(event) =>
+                  setNewProject({ ...newProject, category: event.target.value })
+                }
                 className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
               />
             </label>
@@ -321,7 +354,12 @@ const ProjectsAdmin = () => {
             <textarea
               rows={2}
               value={newProject.description}
-              onChange={(event) => setNewProject({ ...newProject, description: event.target.value })}
+              onChange={(event) =>
+                setNewProject({
+                  ...newProject,
+                  description: event.target.value,
+                })
+              }
               className="resize-y border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
             />
           </label>
@@ -332,7 +370,9 @@ const ProjectsAdmin = () => {
               </span>
               <input
                 value={newProject.linkUrl}
-                onChange={(event) => setNewProject({ ...newProject, linkUrl: event.target.value })}
+                onChange={(event) =>
+                  setNewProject({ ...newProject, linkUrl: event.target.value })
+                }
                 className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
               />
             </label>
@@ -342,7 +382,9 @@ const ProjectsAdmin = () => {
               </span>
               <select
                 value={newProject.stage}
-                onChange={(event) => setNewProject({ ...newProject, stage: event.target.value })}
+                onChange={(event) =>
+                  setNewProject({ ...newProject, stage: event.target.value })
+                }
                 className="border border-line bg-paper px-3 py-2 text-[13px] focus:border-ink focus:outline-none"
               >
                 <option value="in-progress">In development</option>
@@ -353,7 +395,7 @@ const ProjectsAdmin = () => {
           <button
             type="button"
             onClick={addProject}
-            disabled={busy === 'new' || !newProject.title}
+            disabled={busy === "new" || !newProject.title}
             className="inline-flex items-center gap-2 bg-ink px-4 py-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper transition-colors hover:bg-accent hover:text-ink disabled:opacity-60"
           >
             <Plus className="h-3.5 w-3.5" />

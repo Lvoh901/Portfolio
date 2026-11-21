@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
 const images = [
@@ -65,11 +66,14 @@ const Gallery = () => (
             rel="noreferrer"
             className="gallery-tile group relative block overflow-hidden border border-line bg-paper-2"
           >
-            <img
+            <Image
               src={image}
               alt={`Social media design ${index + 1}`}
               loading="lazy"
               className="aspect-square w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              width={600}
+              height={450}
+              sizes="(max-width: 768px) 100vw, 25vw"
             />
             <span className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center bg-accent opacity-0 transition-opacity group-hover:opacity-100">
               <ArrowUpRight className="h-3.5 w-3.5" />

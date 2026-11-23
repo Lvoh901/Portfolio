@@ -43,7 +43,7 @@ const Projects = () => {
                 key={filter.id}
                 type="button"
                 onClick={() => setActiveFilter(filter.id)}
-                className={`relative pb-1 text-[12px] uppercase tracking-[0.14em] transition-colors ${
+                className={`relative pb-1 text-[12px] uppercase tracking-[0.14em] transition-colors cursor-pointer ${
                   activeFilter === filter.id
                     ? "font-bold"
                     : "font-medium text-muted hover:text-ink"

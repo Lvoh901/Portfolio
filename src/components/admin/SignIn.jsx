@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { authClient } from "../../lib/authClient";
 import toast from "../../lib/toast";
+import Link from "next/link";
 
 const SignIn = ({ onSignedIn, notice }) => {
   const [mode, setMode] = useState("sign-in");
@@ -65,9 +66,12 @@ const SignIn = ({ onSignedIn, notice }) => {
     <div className="flex min-h-screen items-center justify-center bg-paper px-5 py-16">
       <div className="w-full max-w-md">
         <div className="mb-10 flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center bg-accent font-serif text-xl leading-none text-ink">
+          <Link
+            href="/"
+            className="flex h-10 w-10 items-center justify-center bg-accent font-serif text-xl leading-none text-ink"
+          >
             EO
-          </span>
+          </Link>
           <div>
             <p className="text-sm font-semibold">Portfolio dashboard</p>
             <p className="text-[10px] uppercase tracking-[0.18em] text-muted">

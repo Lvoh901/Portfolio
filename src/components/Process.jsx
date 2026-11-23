@@ -35,10 +35,10 @@ const Process = () => {
                 </span>
                 <span className="h-2 w-10 bg-line transition-all duration-300 group-hover:w-16 group-hover:bg-accent" />
               </div>
-              <h3 className="mt-8 font-serif text-xl leading-snug">
+              <h3 className="mt-4 font-serif text-xl leading-snug">
                 {step.title}
               </h3>
-              <p className="mt-3 text-[13.5px] leading-relaxed font-medium">
+              <p className="mt-1 text-[13.5px] leading-relaxed font-medium">
                 {step.description}
               </p>
             </li>

@@ -42,7 +42,7 @@ export const listProjects = async () => {
 export const listTestimonials = async () =>
   (
     await query(
-      `select id, quote, author, role, sort_order from testimonials order by sort_order asc, author asc`,
+      `select id, quote, author, role, metric, sort_order from testimonials order by sort_order asc, author asc`,
     )
   ).rows;
 

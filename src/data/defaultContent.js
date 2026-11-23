@@ -17,6 +17,7 @@ export const defaultContent = {
     accentLine: 'built to do real work.',
     subheadline:
       "I'm Elvis Odhiambo, a full-stack developer and product designer. I take ideas from first sketch to a live, reliable product — for government agencies, telecoms, and businesses that need software to carry their work.",
+    portraitUrl: null,
     clients: [
       { name: 'Land Surveyors’ Board', logoUrl: null, url: 'https://lsb.go.ke/' },
       { name: 'Citikom', logoUrl: null, url: 'https://citikom.co.ke/' },

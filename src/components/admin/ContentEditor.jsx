@@ -69,6 +69,7 @@ const ContentEditor = () => {
   const [draft, setDraft] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [logoBusy, setLogoBusy] = useState({});
+  const [portraitBusy, setPortraitBusy] = useState(false);
   const [activeTab, setActiveTab] = useState("hero");
   const [saving, setSaving] = useState(false);
   const { reload } = useContent();
@@ -113,6 +114,23 @@ const ContentEditor = () => {
       toast.error("Logo upload failed", error.message);
     } finally {
       setLogoBusy((previous) => ({ ...previous, [clientIndex]: false }));
+    }
+  };
+
+  const uploadPortrait = async (file) => {
+    if (!file) return;
+    setPortraitBusy(true);
+    try {
+      const uploaded = await uploadClientLogo([file]);
+      const result = uploaded?.[0];
+      if (!result) throw new Error("Upload failed. Please try again.");
+
+      const logoUrl = result.ufsUrl || result.url;
+      patch("hero", { portraitUrl: logoUrl });
+    } catch (error) {
+      toast.error("Portrait upload failed", error.message);
+    } finally {
+      setPortraitBusy(false);
     }
   };
 
@@ -219,6 +237,58 @@ const ContentEditor = () => {
                 value={draft.hero.location}
                 onChange={(value) => patch("hero", { location: value })}
               />
+              <div className="space-y-3">
+                <label className="flex flex-col gap-1.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    Portrait photo
+                  </span>
+                  <span className="text-[10px] text-muted">
+                    Portrait shown on the home page hero section
+                  </span>
+                </label>
+                <div className="flex items-center gap-4">
+                  <div className="h-20 w-20 shrink-0 overflow-hidden border border-line rounded-full bg-paper-2/50 relative">
+                    {draft.hero.portraitUrl ? (
+                      <Image
+                        src={draft.hero.portraitUrl}
+                        alt="Portrait"
+                        className="h-full w-full object-cover"
+                        width={80}
+                        height={80}
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-[10px] font-serif font-semibold uppercase tracking-[0.18em] text-muted">
+                        EO
+                      </div>
+                    )}
+                    {portraitBusy && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-paper/90 backdrop-blur-sm">
+                        <p className="text-[10px] text-muted">Uploading…</p>
+                      </div>
+                    )}
+                  </div>
+                  <label className="inline-flex cursor-pointer items-center gap-1.5 border border-line px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed">
+                    <Upload className="h-3 w-3" />
+                    Portrait
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      disabled={portraitBusy}
+                      onChange={(event) => uploadPortrait(event.target.files?.[0])}
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => patch("hero", { portraitUrl: null })}
+                    disabled={portraitBusy}
+                    aria-label="Remove portrait"
+                    className="text-muted transition-colors hover:text-red-700 disabled:opacity-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
               <Field
                 label="Headline (first line)"
                 value={draft.hero.headline}
@@ -759,7 +829,7 @@ const ContentEditor = () => {
                         )
                       }
                     />
-                    <div className="grid gap-2 sm:grid-cols-2">
+                    <div className="grid gap-2 sm:grid-cols-3">
                       <Field
                         label="Author"
                         value={item.author}
@@ -782,6 +852,19 @@ const ContentEditor = () => {
                           )
                         }
                       />
+                      <Field
+                        label="Metric"
+                        value={item.metric}
+                        placeholder="e.g. 3× faster approvals"
+                        hint="Short result shown under the role on the site."
+                        onChange={(value) =>
+                          setTestimonials(
+                            testimonials.map((entry, i) =>
+                              i === index ? { ...entry, metric: value } : entry,
+                            ),
+                          )
+                        }
+                      />
                     </div>
                   </div>
                 </div>
@@ -791,7 +874,7 @@ const ContentEditor = () => {
                 onClick={() =>
                   setTestimonials([
                     ...testimonials,
-                    { quote: "", author: "", role: "" },
+                    { quote: "", author: "", role: "", metric: "" },
                   ])
                 }
                 className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"

@@ -7,6 +7,8 @@ import { env } from './env.js';
 
 export const migrate = async () => {
   await query(schemaSql);
+  // Add metric column to existing testimonials tables
+  await query(`alter table testimonials add column if not exists metric text not null default ''`);
 };
 
 export const seed = async () => {
@@ -65,9 +67,9 @@ export const seed = async () => {
       let order = 0;
       for (const testimonial of defaultTestimonials) {
         await client.query(
-          `insert into testimonials (quote, author, role, sort_order)
-           values ($1, $2, $3, $4)`,
-          [testimonial.quote, testimonial.author, testimonial.role, order++],
+          `insert into testimonials (quote, author, role, metric, sort_order)
+           values ($1, $2, $3, $4, $5)`,
+          [testimonial.quote, testimonial.author, testimonial.role, testimonial.metric || '', order++],
         );
       }
     }

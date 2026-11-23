@@ -24,6 +24,7 @@ export async function PUT(request) {
       quote: text(item.quote, 1200),
       author: text(item.author, 160),
       role: text(item.role, 160),
+      metric: text(item.metric, 200),
     }))
     .filter((item) => item.quote && item.author);
 
@@ -31,8 +32,8 @@ export async function PUT(request) {
   let order = 0;
   for (const item of cleaned) {
     await query(
-      'insert into testimonials (quote, author, role, sort_order) values ($1, $2, $3, $4)',
-      [item.quote, item.author, item.role, order++],
+      'insert into testimonials (quote, author, role, metric, sort_order) values ($1, $2, $3, $4, $5)',
+      [item.quote, item.author, item.role, item.metric, order++],
     );
   }
 

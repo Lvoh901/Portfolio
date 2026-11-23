@@ -40,19 +40,20 @@ const Testimonial = () => {
                 <blockquote className="mt-2 text-[15px] leading-relaxed text-white/80">
                   {item.quote}
                 </blockquote>
+
+                {item.metric && (
+                  <p className="my-2 text-[11px] uppercase tracking-[0.14em] text-accent font-semibold">
+                    {item.metric}
+                  </p>
+                )}
               </div>
-              <figcaption className="mt-6 border-t border-white/30 pt-4">
+              <figcaption className="mt-2 border-t border-white/30 pt-4">
                 <p className="text-[13px] font-semibold text-white">
                   {item.author}
                 </p>
                 <p className="mt-0.5 text-[11px] uppercase tracking-[0.14em] text-accent font-bold">
                   {item.role}
                 </p>
-                {item.metric && (
-                  <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-accent font-semibold">
-                    {item.metric}
-                  </p>
-                )}
               </figcaption>
             </figure>
           ))}

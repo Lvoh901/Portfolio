@@ -37,7 +37,7 @@ const ChangePassword = () => {
     setBusy(true);
     toast.loading("Updating password…");
     try {
-      const res = await publicFetch("/auth/change-password", {
+      await publicFetch("/auth/change-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -10,6 +10,7 @@ export const authClient = {
     const data = await res.json();
     if (!res.ok) return { error: { message: data.error || 'Sign in failed' } };
     localStorage.setItem('portfolio_token', data.token);
+    localStorage.setItem('portfolio_last_active', String(Date.now()));
     return { data: { user: data.user } };
   },
 
@@ -22,11 +23,13 @@ export const authClient = {
     const data = await res.json();
     if (!res.ok) return { error: { message: data.error || 'Sign up failed' } };
     localStorage.setItem('portfolio_token', data.token);
+    localStorage.setItem('portfolio_last_active', String(Date.now()));
     return { data: { user: data.user } };
   },
 
   async signOut() {
     localStorage.removeItem('portfolio_token');
+    localStorage.removeItem('portfolio_last_active');
   },
 
   async getSession() {
@@ -47,15 +50,21 @@ export const authClient = {
     }
   },
 
-  async changePassword({ currentPassword, newPassword, revokeOtherSessions }) {
-    // Custom auth doesn't support revokeOtherSessions; just change the password
-    const res = await fetch(`${API_BASE}/signin`, {
+  async changePassword({ currentPassword, newPassword }) {
+    // Custom auth has no revokeOtherSessions support; it only changes the password.
+    const token = localStorage.getItem('portfolio_token');
+    const res = await fetch(`${API_BASE}/change-password`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: currentPassword, password: newPassword }),
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ currentPassword, newPassword }),
     });
-    // This is a placeholder - custom auth doesn't have a dedicated change-password endpoint yet.
-    // For now, return success to not break the UI.
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return { error: { message: data.error || 'Password change failed' } };
+    }
     return { data: {} };
   },
 };

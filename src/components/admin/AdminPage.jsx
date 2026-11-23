@@ -20,6 +20,10 @@ import ProjectsAdmin from "./ProjectsAdmin";
 import MediaAdmin from "./MediaAdmin";
 import Access from "./Access";
 
+const IDLE_LIMIT_MS = 15 * 60 * 1000;
+const LAST_ACTIVE_KEY = "portfolio_last_active";
+const ACTIVITY_EVENTS = ["mousemove", "mousedown", "keydown", "scroll", "touchstart"];
+
 const tabs = [
   { id: "inbox", label: "Inbox", icon: <InboxIcon className="h-4 w-4" /> },
   {
@@ -61,6 +65,58 @@ const AdminPage = () => {
   useEffect(() => {
     checkSession();
   }, [checkSession]);
+
+  // Sign the dashboard out after 15 minutes without any interaction.
+  useEffect(() => {
+    if (session.status !== "signed-in") return undefined;
+
+    const lastActive = () => Number(localStorage.getItem(LAST_ACTIVE_KEY) || 0);
+    let lastWrite = 0;
+
+    const markActive = () => {
+      const now = Date.now();
+      if (now - lastWrite < 5000) return;
+      lastWrite = now;
+      localStorage.setItem(LAST_ACTIVE_KEY, String(now));
+    };
+
+    const expire = async () => {
+      await authClient?.signOut();
+      toast.success(
+        "Session expired",
+        "You were signed out after 15 minutes of inactivity.",
+      );
+      setSession({ status: "signed-out", user: null, message: "" });
+    };
+
+    const isIdle = () => {
+      const last = lastActive();
+      return last > 0 && Date.now() - last >= IDLE_LIMIT_MS;
+    };
+
+    if (isIdle()) {
+      void expire();
+      return undefined;
+    }
+
+    markActive();
+    ACTIVITY_EVENTS.forEach((event) =>
+      window.addEventListener(event, markActive, { passive: true }),
+    );
+    document.addEventListener("visibilitychange", markActive);
+
+    const timer = window.setInterval(() => {
+      if (isIdle()) void expire();
+    }, 30000);
+
+    return () => {
+      ACTIVITY_EVENTS.forEach((event) =>
+        window.removeEventListener(event, markActive),
+      );
+      document.removeEventListener("visibilitychange", markActive);
+      window.clearInterval(timer);
+    };
+  }, [session.status]);
 
   const signOut = async () => {
     await authClient?.signOut();

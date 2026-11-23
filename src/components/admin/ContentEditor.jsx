@@ -852,6 +852,19 @@ const ContentEditor = () => {
                           )
                         }
                       />
+                      <Field
+                        label="Metric"
+                        value={item.metric}
+                        placeholder="e.g. 3× faster approvals"
+                        hint="Short result shown under the role on the site."
+                        onChange={(value) =>
+                          setTestimonials(
+                            testimonials.map((entry, i) =>
+                              i === index ? { ...entry, metric: value } : entry,
+                            ),
+                          )
+                        }
+                      />
                     </div>
                   </div>
                 </div>
@@ -861,7 +874,7 @@ const ContentEditor = () => {
                 onClick={() =>
                   setTestimonials([
                     ...testimonials,
-                    { quote: "", author: "", role: "" },
+                    { quote: "", author: "", role: "", metric: "" },
                   ])
                 }
                 className="inline-flex items-center gap-1.5 border border-line px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:border-ink hover:text-ink"

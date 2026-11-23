@@ -79,13 +79,13 @@ const Hero = () => {
             */}
             <section
               id="trusted"
-              className="reveal mt-10 flex flex-col gap-x-6 gap-y-4 border-t border-line pt-8 lg:pt-14 lg:flex-nowrap lg:justify-start lg:gap-x-12"
+              className="reveal mt-4 flex flex-col gap-x-6 gap-y-4 border-t border-line pt-8 lg:pt-14 lg:flex-nowrap lg:justify-start lg:gap-x-12"
               style={{ animationDelay: "0.32s" }}
             >
-              <span className="text-[15px] font-serif font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2 whitespace-nowrap">
+              <span className="text-[15px] font-semibold uppercase tracking-[0.18em] underline underline-offset-4 decoration-accent decoration-2 whitespace-nowrap">
                 Trusted by
               </span>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 lg:flex-nowrap">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-4 lg:flex-nowrap">
                 {(hero.clients || []).map((client, index) => {
                   // Normalize: stored content may have clients as strings (old format)
                   const clientName =
@@ -113,8 +113,8 @@ const Hero = () => {
                           src={clientLogoUrl}
                           alt={clientName}
                           className="h-full w-full object-contain rounded-full"
-                          width={64}
-                          height={64}
+                          width={72}
+                          height={72}
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-[11px] font-serif font-semibold uppercase tracking-[0.2em] text-ink-soft">
@@ -127,8 +127,8 @@ const Hero = () => {
                       src={clientLogoUrl}
                       alt={clientName}
                       className="h-full w-full object-contain"
-                      width={64}
-                      height={64}
+                      width={72}
+                      height={72}
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center text-[11px] font-serif font-semibold uppercase tracking-[0.2em] text-ink-soft">
@@ -139,9 +139,13 @@ const Hero = () => {
                   return (
                     <div
                       key={clientName || index}
-                      className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-line bg-paper p-1 opacity-70 hover:opacity-100 transition-opacity group"
-                      title={clientName}
+                      className="group relative flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-line bg-paper p-1 opacity-70 hover:opacity-100 focus-within:opacity-100 transition-opacity"
                     >
+                      {clientName && (
+                        <span className="pointer-events-none absolute top-full left-1/2 z-10 mb-2 -translate-x-1/2 translate-y-1 whitespace-nowrap border border-line bg-ink px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-paper opacity-0 transition-[opacity,transform] duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                          {clientName}
+                        </span>
+                      )}
                       {clientLink}
                     </div>
                   );
@@ -154,7 +158,7 @@ const Hero = () => {
             <div className="absolute -inset-3 rounded-full border border-line" />
             <div className="absolute -inset-6 rounded-full border border-line/60" />
             <Image
-              src={hero.portraitUrl || '/profile0.png'}
+              src={hero.portraitUrl || "/profile0.png"}
               alt="Portrait of Elvis Odhiambo"
               className="relative aspect-square w-full rounded-full object-cover"
               priority
